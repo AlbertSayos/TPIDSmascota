@@ -29,16 +29,22 @@ pip install requests
 Si aún no has clonado este repositorio, puedes hacerlo utilizando el siguiente comando:
 
 ```
-git clone <URL-del-repositorio>
+git clone https://github.com/AlbertSayos/TPIDSmascota.git
 ```
 
 Una vez clonado el repositorio, puedes actualizarlo desde una rama con tu nombre utilizando los siguientes comandos:
 
 ```
+#cambiar de rama
 git checkout main   # Cambia a la rama principal
 git pull            # Actualiza el repositorio local con los cambios remotos
 git checkout -b <nombre-de-tu-rama>   # Crea una nueva rama con tu nombre
+#subir cambios
+git add .           # Agrega los cambios realizados
+git commit -m "agrego commit"
+git push origin <nombre-de-tu-rama>   # Sube tus cambios a tu rama en el repositorio remoto
 ```
 
-Recuerda reemplazar `<URL-del-repositorio>` con la URL real de tu repositorio y `<nombre-de-tu-rama>` con el nombre que quieras darle a tu rama.
+
+Recuerda reemplazar `<nombre-de-tu-rama>` con el nombre que quieras darle a tu rama.
 
