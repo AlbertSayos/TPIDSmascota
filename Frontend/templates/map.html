@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+</head>
+<body>
+/* Aca va un 'blockbody' que reutilice la estructura de 'home.html'
+    <title>Mapa</title>
+    <link rel="stylesheet" href="/static/css/mapstyle.css">
+    <h1>Area de la mascota</h1>
+    <div id="mapborder">
+        <div id="map"></div>
+    </div>
+    /* Mapa de prueba, luego se intercambia por el adecuado mapa 
+    <script>
+        function initMap() {
+            var centroMapa = {lat: -34.6037, lng: -58.3816};
+            var mapa = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: centroMapa
+            });
+            var marcador = new google.maps.Marker({
+                position: centroMapa,
+                map: mapa
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"></script>
+/* Aca iria el 'endblock' respectivo
+</body>
+</html>
