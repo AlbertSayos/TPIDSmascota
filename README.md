@@ -42,4 +42,3 @@ git checkout -b <nombre-de-tu-rama>   # Crea una nueva rama con tu nombre
 
 Recuerda reemplazar `<URL-del-repositorio>` con la URL real de tu repositorio y `<nombre-de-tu-rama>` con el nombre que quieras darle a tu rama.
 
-Con estas instrucciones, podrás configurar y ejecutar el proyecto de manera efectiva.
