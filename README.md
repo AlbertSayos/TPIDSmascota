@@ -39,6 +39,8 @@ Una vez clonado el repositorio, puedes actualizarlo desde una rama con tu nombre
 git checkout main   # Cambia a la rama principal
 git pull            # Actualiza el repositorio local con los cambios remotos
 git checkout -b <nombre-de-tu-rama>   # Crea una nueva rama con tu nombre
+git push -u <nombre-de-tu-rama> #esto crea la rama en github
+
 #subir cambios
 git add .           # Agrega los cambios realizados
 git commit -m "agrego commit"
