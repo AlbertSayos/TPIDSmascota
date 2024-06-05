@@ -1,0 +1,40 @@
+body {
+    background-color: #55868C;
+    color: #FAFFFD;
+    font-size: 1.0rem;
+    font-weight: bold;
+}
+
+header {
+    text-align: center;
+}
+
+a {
+    color: #E6F8B2;
+}
+
+li {
+    list-style: none;
+    padding: 1rem;
+}
+
+.listaNavBar {
+    display: flex;
+    justify-content: space-around;
+    background-color: #42213D;
+    padding: 0.1em;
+    border-radius: 0.5em;
+}
+
+.buscar_registrar {
+    background-color: #42213D;
+    font-size: 2rem;
+}
+
+.boton_buscar_registrar {
+    background-color: #42213D;
+}
+
+.info_del_sitio {
+    text-align: center;
+}

@@ -8,10 +8,10 @@
     height: 500px;
     width: 100%;
 }
-h1 {
+#mapah1 {
     text-align: center;
     font-family: 'Arial', sans-serif;
-    font-size: 36px;
+    font-size: 30px;
     color: #4a90e2;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
