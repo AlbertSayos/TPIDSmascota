@@ -40,8 +40,8 @@ def mostrar_tabla_de_mascotas():
 @app.route('/cargarzona/<zona>', methods=["GET"])
 def cargar_zona(zona):
    conexion = engine.connect()
-   query_mascotas = f'SELECT * FROM mascotas WHERE zona = {zona}'
-   query_centros =  f'SELECT * FROM centros WHERE zona = {zona}'
+   query_mascotas = f'SELECT * FROM mascotas WHERE zona = {zona};'
+   query_centros =  f'SELECT * FROM centros WHERE zona = {zona};'
 
    try: 
        resultado_mascotas=conexion.execute(text(query_mascotas))
