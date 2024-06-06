@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
     <head>
         <title>Busca tu mascota</title>
         <meta charset="UTF-8">
@@ -19,14 +18,15 @@
             <h1>Encuentra tu mascota!</h1>
             <ul class="listaNavBar">
                 <li><a href="home.html">Inicio</a></li>
-                <li><a href="map.html">Mapa</a></li>
+                <li><a href="map">Mapa</a></li>
                 <li><a href="buscadas.html">Buscar</a></li>
                 <li><a href="registrar.html">Registrar</a></li>
             </ul>
             <br>
 
         </header>
-
+        {% block map %}
+        {% endblock %}
         <main>
             <section class="buscar_registrar">
                 <p>Busca tu mascota</p>

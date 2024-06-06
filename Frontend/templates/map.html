@@ -1,0 +1,24 @@
+{% extends "home.html" %}
+{% block map %}
+    <title>Mapa</title>
+    <link rel="stylesheet" href="/static/css/mapstyle.css">
+    <h1 id="mapah1">Area de la mascota</h1>
+    <div id="mapborder">
+        <div id="map"></div>
+    </div>
+    /* Mapa de prueba, luego se intercambia por el adecuado mapa 
+    <script>
+        function initMap() {
+            let centroMapa = {lat:-34.61763889, lng:-58.36805556};
+            let mapa = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: centroMapa
+            });
+            let marcador = new google.maps.Marker({
+                position: centroMapa,
+                map: mapa
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"></script>
+{% endblock %}

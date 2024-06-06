@@ -17,15 +17,19 @@ def index():
 
     return jsonify(respuesta.json())  # Devuelve la respuesta JSON de la solicitud realizada
 
+@app.route('/map')
+def map():
+    return render_template('map.html')
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
 @app.route('/cargarMapa')
 def cargarMapa():
     api_key = os.getenv('APIKEY') #api de google cloud
     print("lo pase")
     return render_template('mapDeEjemplo.html', api_key=api_key)
-
-@app.route('/home')
-def home():
-    return render_template('home.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
