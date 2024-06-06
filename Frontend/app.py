@@ -19,7 +19,7 @@ def index():
 
 @app.route('/map')
 def map():
-    return render_template('map.html',api_key=api_key)
+    return render_template('mapDeEjemplo.html',api_key=api_key)
 
 @app.route('/home')
 def home():

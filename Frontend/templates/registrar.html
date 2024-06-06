@@ -2,9 +2,22 @@
 <html lang="es">
 <head>
     <title>Bark Street/Registrar</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/homestyle.css', _external=True) }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/homestyle.css') }}">
 </head>
 <body>
+    <header>
+
+        <h1>Encuentra tu mascota!</h1>
+        <ul class="listaNavBar">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/map">Mapa</a></li>
+            <li><a href="buscadas.html">Buscar</a></li>
+            <li><a href="registrar">Registrar</a></li>
+        </ul>
+        <br>
+
+    </header>
+
     <h2>Registro de Mascotas</h2>
     <form action="registrar-mascota" method="post">
         <label for="tipo">Tipo de Mascotas</label>

@@ -1,63 +1,30 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Mi primer mapa de Google</title>
-    <!--<script src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap&v=weekly&libraries=places,marker"></script>-->
-    <style>
-        /* Da un tamaño al contenedor del mapa */
-        body{
-            background-color: rgb(74, 66, 66);
-        }
-        h3{
-            color: #ffffff;
-        }
-        #map {
-            height: 400px;
-            width: 100%;
-        }
+<html lang="es">
+    <head>
+        <title>Busca tu mascota</title>
+        <meta charset="UTF-8">
+        <meta name="keywords" content="mascotas, mascotas perdidas, mascota encontrada">
+        <meta property="og:title" content="El mejor lugar para hallar a tu mascota perdida">
+        <meta property="og:type" content="website">
+        <meta property="og:locate" content="es_ES">
+        <link rel="stylesheet" href="/static/css/homestyle.css">
+    </head> 
 
-        /* Estilos para el campo de búsqueda */
-        #pac-input {
-            margin-top: 10px;
-            margin-left: 12px;
-            padding: 5px;
-            width: 300px;
-        }
-        .price-tag {
-            background-color: #4285F4;
-            border-radius: 8px;
-            color: #FFFFFF;
-            font-size: 14px;
-            padding: 10px 15px;
-            position: relative;
-            }
-
-            #place-autocomplete-card {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            margin: 10px;
-            padding: 5px;
-            font-family: Roboto, sans-serif;
-            font-size: large;
-            font-weight: bold;
-            }
-
-            #place-autocomplete {
-            width: 250px;
-            }
-
-            #infowindow-content .title {
-            font-weight: bold;
-            }
-
-            #map #infowindow-content {
-            display: inline;
-            }
-    </style>
-</head>
 <body>
-    <h3>Mi primer mapa de Google</h3>
+    <header>
+
+        <h1>Encuentra tu mascota!</h1>
+        <ul class="listaNavBar">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/map">Mapa</a></li>
+            <li><a href="buscadas.html">Buscar</a></li>
+            <li><a href="registrar">Registrar</a></li>
+        </ul>
+        <br>
+
+    </header>
+
+    <h3>Busca tu mascota</h3>
     <div class="place-autocomplete-card" id="place-autocomplete-card">
         <p>Search for a place here:</p>
       </div>
