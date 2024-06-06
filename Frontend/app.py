@@ -15,6 +15,10 @@ def index():
     respuesta = requests.get(f'{BackendLink}')  # Realiza una solicitud GET a la URL almacenada en 'BackendLink'
 
     return jsonify(respuesta.json())  # Devuelve la respuesta JSON de la solicitud realizada
+@app.route('/registrar')
+def registrar():
+    return render_template('registrar.html')
+    
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
