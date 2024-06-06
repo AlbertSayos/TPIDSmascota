@@ -17,7 +17,17 @@ def index():
     return jsonify(respuesta.json())  # Devuelve la respuesta JSON de la solicitud realizada
 @app.route('/registrar')
 def registrar():
-    return render_template('registrar.html')
+    if request.method == "POST":
+        mascota = {
+            'tipo' : request.form.get('ftipo'),
+            'raza' : request.form.get('fraza'),
+            'sexo' : request.form.get('fsexo'),
+            'detalles' : request.form.get('fdetalles') 
+        }
+            
+    else:
+        return render_template('registrar.html')
+    
     
 
 if __name__ == '__main__':
