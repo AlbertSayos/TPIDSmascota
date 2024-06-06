@@ -4,21 +4,19 @@
     <link rel="stylesheet" href="/static/css/mapstyle.css">
     <h1 id="mapah1">Area de la mascota</h1>
     <div id="mapborder">
-        <div id="map"></div>
+        <div class="place-autocomplete-card" id="place-autocomplete-card">
+            <p>Buscar</p>
+          </div>
+          <div id="map"></div>
     </div>
-    /* Mapa de prueba, luego se intercambia por el adecuado mapa 
     <script>
-        function initMap() {
-            let centroMapa = {lat:-34.61763889, lng:-58.36805556};
-            let mapa = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
-                center: centroMapa
-            });
-            let marcador = new google.maps.Marker({
-                position: centroMapa,
-                map: mapa
-            });
-        }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"></script>
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+          key: '{{api_key}}',
+          v: "beta",
+          // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+          // Add other bootstrap parameters as needed, using camel case.
+        });
+      </script>
+    <!--<script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>-->
+    <script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>
 {% endblock %}

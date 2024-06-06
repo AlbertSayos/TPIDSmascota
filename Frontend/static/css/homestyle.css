@@ -46,9 +46,11 @@ body{
 h3{
     color: #ffffff;
 }
+
 #map {
     height: 400px;
     width: 100%;
+    color: black;
 }
 
 /* Estilos para el campo de búsqueda */
@@ -61,7 +63,7 @@ h3{
 .price-tag {
     background-color: #4285F4;
     border-radius: 8px;
-    color: #FFFFFF;
+    color: #af9b9b;
     font-size: 14px;
     padding: 10px 15px;
     position: relative;

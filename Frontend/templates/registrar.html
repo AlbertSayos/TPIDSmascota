@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Bark Street/Registrar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/homestyle.css', _external=True) }}">
+</head>
+<body>
+    <h2>Registro de Mascotas</h2>
+    <form action="registrar-mascota" method="post">
+        <label for="tipo">Tipo de Mascotas</label>
+        <select name="tipo" id="tipo" required>
+            <option value="">Selecciona el tipo</option>
+            <option value="perro">Perro</option>
+            <option value="gato">Gato</option>
+        </select>
+        <label for="raza">Raza</label>
+        <input type="text" name="raza" id="raza" required>
+        <label for="sexo">Sexo</label>
+        <select name="sexo" id="sexo" required>
+            <option value="">Selecciona el sexo</option>
+            <option value="macho">Masculino</option>
+            <option value="hembra">Femenino</option>
+        </select>
+        <label for="detalles">Detalles</label>
+        <textarea name="detalles" id="detalles" placeholder="Describa los detalles de la mascota" required></textarea>
+        <button type="submit">Registrar</button>
+    </form>
+</body>
+</html>
