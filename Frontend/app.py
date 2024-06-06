@@ -13,9 +13,10 @@ BackendLink = os.getenv('backend_link')  # Obtiene el valor de la variable de en
 
 @app.route('/')
 def index():
-    respuesta = requests.get(f'{BackendLink}')  # Realiza una solicitud GET a la URL almacenada en 'BackendLink'
-
-    return jsonify(respuesta.json())  # Devuelve la respuesta JSON de la solicitud realizada
+    #respuesta = requests.get(f'{BackendLink}')  # Realiza una solicitud GET a la URL almacenada en 'BackendLink'
+    api_key = os.getenv('APIKEY') #api de google cloud
+    
+    return render_template('home.html',api_key=api_key)  # Devuelve la respuesta JSON de la solicitud realizada
 
 @app.route('/map')
 def map():
@@ -28,7 +29,7 @@ def home():
 @app.route('/cargarMapa')
 def cargarMapa():
     api_key = os.getenv('APIKEY') #api de google cloud
-    print("lo pase")
+    print("lo pase"+ api_key)
     return render_template('mapDeEjemplo.html', api_key=api_key)
 
 if __name__ == '__main__':
