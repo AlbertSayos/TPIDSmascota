@@ -29,6 +29,10 @@ def home():
 def registrar():
     return render_template('registrar.html')
 
+@app.route('/buscadas')
+def buscadas():
+    return render_template('buscadas.html')
+
 @app.route('/cargarMapa')
 def cargarMapa():
     return render_template('mapDeEjemplo.html', api_key=api_key)
