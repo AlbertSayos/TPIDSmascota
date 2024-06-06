@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, Response,render_template
+from flask import Flask, jsonify, render_template, Response
 import requests  # Se utiliza para hacer consultas a APIs externas
 import os  # Se utiliza para interactuar con variables de entorno
 from dotenv import load_dotenv  # Se utiliza para cargar variables de entorno desde un archivo .env
@@ -22,6 +22,10 @@ def cargarMapa():
     api_key = os.getenv('APIKEY') #api de google cloud
     print("lo pase")
     return render_template('mapDeEjemplo.html', api_key=api_key)
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
