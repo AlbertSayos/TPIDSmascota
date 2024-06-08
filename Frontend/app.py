@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, Response
+from flask import Flask, jsonify, render_template, Response,request
 import requests  # Se utiliza para hacer consultas a APIs externas
 import os  # Se utiliza para interactuar con variables de entorno
 from dotenv import load_dotenv  # Se utiliza para cargar variables de entorno desde un archivo .env
@@ -27,11 +27,94 @@ def home():
 
 @app.route('/registrar')
 def registrar():
+    
     return render_template('registrar.html')
+
+tablademascotas = [
+    {
+        "id": 1,
+        "especie": "perro",
+        "raza": "Labrador Retriever",
+        "zona": "Palermo",
+        "calle": "Av. Santa Fe",
+        "altura": 3000,
+        "sexo": "macho"
+    },
+    {   
+        "id": 2,
+        "especie": "gato",
+        "raza": "Siamés",
+        "zona": "Recoleta",
+        "calle": "Av. Callao",
+        "altura": 1200,
+        "sexo": "hembra"
+    },
+    {
+        "id": 3,
+        "especie": "perro",
+        "raza": "Golden Retriever",
+        "zona": "Belgrano",
+        "calle": "Av. Cabildo",
+        "altura": 2000,
+        "sexo": "macho"
+    },
+    {
+        "id": 4,
+        "especie": "gato",
+        "raza": "Persa",
+        "zona": "San Telmo",
+        "calle": "Av. Independencia",
+        "altura": 1500,
+        "sexo": "hembra"
+    },
+    {
+        "id": 5,
+        "especie": "perro",
+        "raza": "Bulldog Francés",
+        "zona": "Villa Crespo",
+        "calle": "Av. Corrientes",
+        "altura": 5800,
+        "sexo": "macho"
+    }
+]
+tablaDePerros = [
+    {
+        "id": 1,
+        "especie": "perro",
+        "raza": "Labrador Retriever",
+        "zona": "Palermo",
+        "calle": "Av. Santa Fe",
+        "altura": 3000,
+        "sexo": "macho"
+    },
+    {
+        "id": 3,
+        "especie": "perro",
+        "raza": "Golden Retriever",
+        "zona": "Belgrano",
+        "calle": "Av. Cabildo",
+        "altura": 2000,
+        "sexo": "macho"
+    },
+    {
+        "id": 5,
+        "especie": "perro",
+        "raza": "Bulldog Francés",
+        "zona": "Villa Crespo",
+        "calle": "Av. Corrientes",
+        "altura": 5800,
+        "sexo": "macho"
+    }
+]
+
 
 @app.route('/buscadas')
 def buscadas():
-    return render_template('buscadas.html',api_key=api_key)
+    #llamas a la tabla de mascota con requests.get(f'{BackendLink}/buscarMascota') #tabla de perros es lo que espero recibir por ejemplo
+    tabla = tablademascotas #se puede poner tablaDePerros
+    tipo = request.args.get('tipo') #tambien estan raza y sexo
+    #en caso de que no haya ningun filtro llamas a tablademascotas
+    return render_template('buscadas.html',api_key=api_key, tablaDeMascota=tabla)
 
 @app.route('/cargarMapa')
 def cargarMapa():

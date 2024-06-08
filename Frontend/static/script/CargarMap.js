@@ -1,66 +1,38 @@
+
 // Initialize and add the map
 let map;
 const ubicacionDefecto = {lat: -34.61747372535215, lng: -58.367949651070965};
-/*
-const mascotasPerdidas = [
-    {
-        "especie": "perro",
-        "raza": "Labrador Retriever",
-        "zona": "Palermo",
-        "calle": "Av. Santa Fe",
-        "altura": 3000
-    },
-    {
-        "especie": "gato",
-        "raza": "Siamés",
-        "zona": "Recoleta",
-        "calle": "Av. Callao",
-        "altura": 1200
-    },
-    {
-        "especie": "perro",
-        "raza": "Golden Retriever",
-        "zona": "Belgrano",
-        "calle": "Av. Cabildo",
-        "altura": 2000
-    },
-    {
-        "especie": "gato",
-        "raza": "Persa",
-        "zona": "San Telmo",
-        "calle": "Av. Independencia",
-        "altura": 1500
-    },
-    {
-        "especie": "perro",
-        "raza": "Bulldog Francés",
-        "zona": "Villa Crespo",
-        "calle": "Av. Corrientes",
-        "altura": 5800
-    }
-]
-*/
-var MarcasDeMascotasYCasas = []; 
+var geocoder;
 
-function traerDatosDeMarcas(){
-    fetch('/cargarTablas')
-        .then(respuesta => {
-            if (!respuesta.ok){
-                throw new Error('Network response was not ok');
-            }
-            return respuesta.json();
-        })
-        .then(sigRespuesta => {
-            
-            MarcasDeMascotasYCasas = sigRespuesta;
-        })
-        .catch(error => {
-            console.error('Hubo un problema con la petición fetch:', error);
-        });
+
+
+function obtenerCoordenadas(geocoder, calle, callback) {
+    // Definir la función de devolución de llamada
+    function procesarResultados(resultado, estado) {
+        if (estado === 'OK') {
+            // Obtener las coordenadas de la primera coincidencia encontrada
+            var latitud = resultado[0].geometry.location.lat();
+            var longitud = resultado[0].geometry.location.lng();
+            var coordenadas = { 'lat': latitud, 'lng': longitud };
+            // Llamar al callback con las coordenadas obtenidas
+            callback(coordenadas);
+        }
+    }
+
+    // Hacer una solicitud al geocoder y pasar la función de devolución de llamada
+    geocoder.geocode({ 'address': calle }, procesarResultados);
+}
+function  posicionar(coordenadas){
+    map.setCenter(coordenadas);
 }
 
-//var mascotasPerdidas = 
-//var casasRegistradas = 
+
+
+function irADireccion(data){
+    obtenerCoordenadas(geocoder,data, function(coordenadas) {
+        posicionar(coordenadas);
+    });
+}
 
 
 updateInfoWindow
@@ -75,7 +47,7 @@ async function initMap() {
         google.maps.importLibrary("places"),
         google.maps.importLibrary("geocoding"),
       ]);
-    const geocoder = new google.maps.Geocoder();
+    geocoder = new google.maps.Geocoder();
     //*****************************************creo mapa y lo centro en la fiuba****************************************/
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 17,
@@ -128,22 +100,7 @@ async function initMap() {
     });
 
     /***************************************agregar marcas***************************************************************/
-    function obtenerCoordenadas(geocoder, calle, callback) {
-        // Definir la función de devolución de llamada
-        function procesarResultados(resultado, estado) {
-            if (estado === 'OK') {
-                // Obtener las coordenadas de la primera coincidencia encontrada
-                var latitud = resultado[0].geometry.location.lat();
-                var longitud = resultado[0].geometry.location.lng();
-                var coordenadas = { 'lat': latitud, 'lng': longitud };
-                // Llamar al callback con las coordenadas obtenidas
-                callback(coordenadas);
-            }
-        }
     
-        // Hacer una solicitud al geocoder y pasar la función de devolución de llamada
-        geocoder.geocode({ 'address': calle }, procesarResultados);
-    }
     function cargarMascota(titulo,coordenadas){
         const priceTag = document.createElement("div");
 
@@ -158,6 +115,9 @@ async function initMap() {
         }
     
         //console.log(JSON.stringify(MarcasDeMascotasYCasas[0].tablaDeMascota))
+        var MarcasDeMascotasYCasas = await moduloDeTablas();
+        console.log("cargar mapa")
+        console.log(MarcasDeMascotasYCasas);
         tablaDeMascotasStr = JSON.stringify(MarcasDeMascotasYCasas[0].tablaDeMascota);
         tablaDeMascotas = JSON.parse(tablaDeMascotasStr);
         for (let i = 0; i < tablaDeMascotas.length; i++) {
@@ -201,5 +161,10 @@ function updateInfoWindow(content, center) {
     });
   }
 
-traerDatosDeMarcas()
+
+
+
+//**************************************iniciar funciones******************************************************* */
+//traerDatosDeMarcas()
+//MarcasDeMascotasYCasas = moduloDeTablas()
 initMap();
