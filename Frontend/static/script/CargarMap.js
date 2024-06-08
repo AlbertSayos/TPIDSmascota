@@ -1,7 +1,7 @@
 // Initialize and add the map
 let map;
 const ubicacionDefecto = {lat: -34.61747372535215, lng: -58.367949651070965};
-
+/*
 const mascotasPerdidas = [
     {
         "especie": "perro",
@@ -39,7 +39,31 @@ const mascotasPerdidas = [
         "altura": 5800
     }
 ]
-updateInfoWindow 
+*/
+var MarcasDeMascotasYCasas = []; 
+
+function traerDatosDeMarcas(){
+    fetch('/cargarTablas')
+        .then(respuesta => {
+            if (!respuesta.ok){
+                throw new Error('Network response was not ok');
+            }
+            return respuesta.json();
+        })
+        .then(sigRespuesta => {
+            
+            MarcasDeMascotasYCasas = sigRespuesta;
+        })
+        .catch(error => {
+            console.error('Hubo un problema con la petición fetch:', error);
+        });
+}
+
+//var mascotasPerdidas = 
+//var casasRegistradas = 
+
+
+updateInfoWindow
 //let geocoder;
 async function initMap() {
      // The location of Uluru
@@ -133,18 +157,36 @@ async function initMap() {
           });
         }
     
-        
-        for (let i = 0; i < mascotasPerdidas.length; i++) {
+        //console.log(JSON.stringify(MarcasDeMascotasYCasas[0].tablaDeMascota))
+        tablaDeMascotasStr = JSON.stringify(MarcasDeMascotasYCasas[0].tablaDeMascota);
+        tablaDeMascotas = JSON.parse(tablaDeMascotasStr);
+        for (let i = 0; i < tablaDeMascotas.length; i++) {
             (function() {
-                let mascota = mascotasPerdidas[i];
+                let mascota = tablaDeMascotas[i];
+                
                 var titulo = mascota.especie + " " + mascota.raza;
                 var ubicaionMascota = mascota.calle + " " + mascota.altura + "," + mascota.zona ;
+                //console.log(tablaDeMascotas.length);
                 obtenerCoordenadas(geocoder,ubicaionMascota, function(coordenadas) {
                     cargarMascota(titulo,coordenadas);
                 });
             })();
         }
-    
+        
+        casasRegistradasStr = JSON.stringify(MarcasDeMascotasYCasas[1].tablaDeCasas);
+        casasRegistradas = JSON.parse(casasRegistradasStr);
+        for (let i = 0; i < casasRegistradas.length; i++) {
+            (function() {
+                let mascota = casasRegistradas[i];
+                
+                var titulo = mascota.nombre;
+                var ubicaionMascota = mascota.calle + " " + mascota.altura + "," + mascota.zona ;
+                //console.log(tablaDeMascotas.length);
+                obtenerCoordenadas(geocoder,ubicaionMascota, function(coordenadas) {
+                    cargarMascota(titulo,coordenadas);
+                });
+            })();
+        }
     
 }
 
@@ -159,4 +201,5 @@ function updateInfoWindow(content, center) {
     });
   }
 
+traerDatosDeMarcas()
 initMap();

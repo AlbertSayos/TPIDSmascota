@@ -33,5 +33,98 @@ def registrar():
 def cargarMapa():
     return render_template('mapDeEjemplo.html', api_key=api_key)
 
+#EJEMPLO DE COMO DEVOLVER CARGAR TAMBLAS
+resultados = [
+    {
+        "tablaDeMascota": [
+            {
+                "especie": "perro",
+                "raza": "Labrador Retriever",
+                "zona": "Palermo",
+                "calle": "Av. Santa Fe",
+                "altura": 3000
+            },
+            {
+                "especie": "gato",
+                "raza": "Siamés",
+                "zona": "Recoleta",
+                "calle": "Av. Callao",
+                "altura": 1200
+            },
+            {
+                "especie": "perro",
+                "raza": "Golden Retriever",
+                "zona": "Belgrano",
+                "calle": "Av. Cabildo",
+                "altura": 2000
+            },
+            {
+                "especie": "gato",
+                "raza": "Persa",
+                "zona": "San Telmo",
+                "calle": "Av. Independencia",
+                "altura": 1500
+            },
+            {
+                "especie": "perro",
+                "raza": "Bulldog Francés",
+                "zona": "Villa Crespo",
+                "calle": "Av. Corrientes",
+                "altura": 5800
+            }
+        ]
+    },
+    {
+        "tablaDeCasas": [
+            {
+                "nombre": "Casa 1",
+                "descripcion": "Casa grande con jardín",
+                "zona": "Palermo",
+                "calle": "Av. Santa Fe",
+                "altura": 100
+            },
+            {
+                "nombre": "Casa 2",
+                "descripcion": "Departamento moderno",
+                "zona": "Recoleta",
+                "calle": "Av. Callao",
+                "altura": 100
+            },
+            {
+                "nombre": "Casa 3",
+                "descripcion": "Casa antigua con estilo",
+                "zona": "Belgrano",
+                "calle": "Av. Cabildo",
+                "altura": 100
+            },
+            {
+                "nombre": "Casa 4",
+                "descripcion": "Departamento luminoso",
+                "zona": "San Telmo",
+                "calle": "Av. Independencia",
+                "altura": 600
+            },
+            {
+                "nombre": "Casa 5",
+                "descripcion": "Loft amplio",
+                "zona": "Villa Crespo",
+                "calle": "Av. Corrientes",
+                "altura": 900
+            }
+        ]
+    }
+]
+
+
+@app.route('/cargarTablas')
+def cargarTablas():
+    #llamas a dos tablas con requests.get(f'{BackendLink}/tablaDeMascotas') y el de tablas de las casas
+    #las juntas y las devolves
+    #tiene que quedar asi 
+    # mascotasPerdidas = ["tablaDeMascota": {....}
+    #                      "tablaDeCasas": {....}] 
+    return jsonify(resultados)
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
