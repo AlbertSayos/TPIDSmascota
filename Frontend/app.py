@@ -31,7 +31,7 @@ def registrar():
 
 @app.route('/buscadas')
 def buscadas():
-    return render_template('buscadas.html')
+    return render_template('buscadas.html',api_key=api_key)
 
 @app.route('/cargarMapa')
 def cargarMapa():
