@@ -24,7 +24,7 @@ def registrar():
             'sexo' : request.form.get('fsexo'),
             'detalles' : request.form.get('fdetalles') 
         }
-            
+        return render_template('home.html')
     else:
         return render_template('registrar.html')
     
