@@ -15,9 +15,10 @@ def index():
     respuesta = requests.get(f'{BackendLink}')  # Realiza una solicitud GET a la URL almacenada en 'BackendLink'
 
     return jsonify(respuesta.json())  # Devuelve la respuesta JSON de la solicitud realizada
+    
 @app.route('/registrar')
 def registrar():
-    if request.method == "POST":
+    if request.method == "POST": # Si se envía el formulario, prepara el JSON con los datos de la misma, y lo devuelve
         mascota = {
             'tipo' : request.form.get('ftipo'),
             'raza' : request.form.get('fraza'),
@@ -26,7 +27,7 @@ def registrar():
         }
     return jsonify(mascota)
     else:
-        return render_template('registrar.html')
+        return render_template('registrar.html') 
     
     
 
