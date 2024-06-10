@@ -64,4 +64,14 @@
         <!--<script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>-->
         <script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>
         <script src="{{ url_for('static', filename='/script/moduloDeTablas.js') }}"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var token = "{{ token }}";
+                if (token && token !== "") {
+                    localStorage.setItem('token', token);
+                }
+                console.log(localStorage.getItem('token'));
+            });
+
+        </script>
     </body>

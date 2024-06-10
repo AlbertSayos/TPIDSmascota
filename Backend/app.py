@@ -1,12 +1,20 @@
 from flask import Flask, jsonify,request
+import os
 from flask_sqlalchemy import SQLAlchemy 
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+
 
 PORT = 8081
 
 app = Flask(__name__)
-engine = create_engine('mysql+mysqlconnector://user:pass@host/DBname') 
+app.config['JWT_SECRET_KEY'] = os.getenv('contraseña')
+app.config['SECRET_KEY'] = os.getenv('contraseña')
+jwt = JWTManager(app)
+
+engine = create_engine('mysql+mysqlconnector://root:@localhost/mascotas')
+engineUsuarios = create_engine('mysql+mysqlconnector://root:@localhost/usuarios')
 #reemplazar 'user', 'pass', 'host' y 'DBname' con los datos correspondientes
 
 @app.route('/tablademascotas', methods=["GET"])
@@ -120,6 +128,58 @@ def buscar_mascotas():
    })
       
    return jsonify(mascotas)
+
+
+@app.route('/registrarMascota', methods=['POST'])
+def registrarMascota():
+   #Ejemplo URL: http://localhost:8081/registrarMascota?usuarioid=usuarioid&tipo=tipo&raza=raza&sexo=sexo&detalles=detalles
+   pass
+
+#**************************************************endpoind de usuarios*************************************************************#
+@app.route('/login', methods=['GET'])
+def login():
+   #Ejemplo URL: http://localhost:8081/login?usuario=Marcos&contraseña=contraseña123
+   usuario = request.args.get('usuario', default=None, type=str) 
+   contraseña = request.args.get('contraseña', default=None, type=str)
+   conexion = engineUsuarios.connect()
+   querry_usuario = f"SELECT * FROM usuarios WHERE nombre = '{usuario}';"
+   print(usuario)
+   try: 
+      resultado=conexion.execute(text(querry_usuario)).fetchone()
+      if not resultado.nombre:
+         conexion.close() 
+         return jsonify({'error': 'No se encontraron usuarios'}), 404
+      conexion.close()
+      if (contraseña == resultado.contraseña):
+         token = create_access_token(identity={'username': resultado.nombre,'user_id': resultado.usuarioid})
+         try:
+            conexion2 = engineUsuarios.connect()
+            querry_token = f"UPDATE usuarios SET token = '{token}' WHERE nombre = '{resultado.nombre}';"
+            conexion2.execute(text(querry_token))
+            conexion2.commit()
+            conexion2.close()
+         except Exception as e:
+            print("Error:", e)
+         return jsonify(token=token), 200
+      else:
+         return jsonify({"msg": "Credenciales inválidas"}), 401
+   
+   except SQLAlchemyError as error:
+       return jsonify({'error': str(error.__cause__)}), 500
+
+@app.route('/registrarUsuario', methods=['POST'])
+def registrarUsuario():
+   #Ejemplo URL: http://localhost:8081/registrarUsuario?nombre=nombre&contraseña=contraseña&contacto=contacto
+   pass
+
+@app.route('/mascotaDeUsuario', methods=['GET'])
+def mascotaDeUsuario():
+   #Ejemplo URL: http://localhost:8081/mascotaDeUsuario?usuarioid=usuarioid
+   pass
+
+@app.route('/tablaDeCasas', methods=['GET'])
+def tablaDeCasas():
+   pass
 
 if __name__ == '__main__':
   app.run(debug=True, port=PORT)

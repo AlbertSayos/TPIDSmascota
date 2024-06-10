@@ -15,14 +15,24 @@ Asegúrate de que el enlace sea el adecuado para tu entorno de desarrollo.
 ## Instalación de dependencias
 
 Este proyecto utiliza algunas dependencias específicas que necesitas instalar antes de ejecutarlo. Puedes instalarlas utilizando pip, el gestor de paquetes de Python:
-
+en el frontend
 ```
 pip install python-dotenv
 pip install requests
+pip install PyJWT
+pip install Flask-JWT-Extended
 ```
 
 - **python-dotenv**: Esta librería se utiliza para manejar las variables de entorno desde el archivo .env.
 - **requests**: Esta librería se utiliza para realizar solicitudes HTTP a servidores externos y manejar las respuestas.
+esto en el backend
+```
+pip install SQLAlchemy
+pip install Flask-SQLAlchemy
+pip install mysql-connector-python
+pip install PyJWT
+pip install Flask-JWT-Extended
+```
 
 ## Clonar y actualizar el repositorio
 

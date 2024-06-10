@@ -1,21 +1,28 @@
-from flask import Flask, jsonify, render_template, Response,request
+from flask import Flask, jsonify, render_template, Response,request,redirect,url_for
 import requests  # Se utiliza para hacer consultas a APIs externas
 import os  # Se utiliza para interactuar con variables de entorno
 from dotenv import load_dotenv  # Se utiliza para cargar variables de entorno desde un archivo .env
+from flask_jwt_extended import JWTManager, create_access_token, decode_token
+
+
+
+BackendLink = os.getenv('backend_link')  # Obtiene el valor de la variable de entorno 'backend_link'
 api_key = os.getenv('APIKEY') #api de google cloud
 PORT = 8080
 
 load_dotenv()  # Carga las variables de entorno desde el archivo .env si existe
 app = Flask(__name__)
-
-BackendLink = os.getenv('backend_link')  # Obtiene el valor de la variable de entorno 'backend_link'
-
+app.config['JWT_SECRET_KEY'] = os.getenv('contraseña')
+app.config['SECRET_KEY'] = os.getenv('contraseña')
+jwt = JWTManager(app)
+token = ""
 
 @app.route('/')
 def index():
-    #respuesta = requests.get(f'{BackendLink}')  # Realiza una solicitud GET a la URL almacenada en 'BackendLink'
-    
-    return render_template('home.html',api_key=api_key)
+    global token
+    tokenDeUsuario = token
+    token = ""
+    return render_template('home.html',api_key=api_key,token=tokenDeUsuario)
 
 @app.route('/map')
 def map():
@@ -25,9 +32,19 @@ def map():
 def home():
     return render_template('home.html',api_key=api_key)
 
-@app.route('/registrar')
+@app.route('/registrar', methods=['GET','POST'])
 def registrar():
-    
+    if request.method == 'POST':
+        tokenDeUsuario = request.headers.get('autorizacion')
+        if tokenDeUsuario:
+            decoded_token = decode_token(tokenDeUsuario)
+            decode = decoded_token.get('sub')
+            tipo = request.form.get('tipo') 
+            raza = request.form.get('raza')
+            sexo = request.form.get('sexo')
+            detalles = request.form.get('detalles')
+            requests.get(f'{BackendLink}/registrar?usuarioid={decode.user_id}&tipo={tipo}&raza={raza}&sexo={sexo}&detalles={detalles}')
+            return redirect(url_for('login'))
     return render_template('registrar.html')
 
 tablademascotas = [
@@ -212,6 +229,54 @@ def cargarTablas():
     #                      "tablaDeCasas": {....}] 
     return jsonify(resultados)
 
+@app.route('/login', methods=['GET','POST'])
+def login():
+     global token
+     if request.method == 'POST':
+        nombre = request.form.get('nombre') 
+        contraseña = request.form.get('contraseña')
+        respuesta = requests.get(f'{BackendLink}/login?usuario={nombre}&contraseña={contraseña}')
+        if respuesta.status_code == 200:
+            tokenDeUsuario = respuesta.json().get('token')
+            token = tokenDeUsuario
+            return redirect(url_for('index'))
+        else:
+            return redirect(url_for('login'))
+     return render_template ('login.html')
+     
+@app.route('/logout', methods=['GET'])
+def logout():
+    return render_template ('logout.html')
+
+@app.route('/perfil', methods=['GET'])
+def perfil():
+    return render_template('perfil.html') #y aca ponemos un script que pase un token al POST de mi perfil
+
+decode = {}
+@app.route('/decodificar', methods=['GET'])
+def decodificar():
+    global decode
+    tokenDeUsuario = request.headers.get('autorizacion')
+    print(tokenDeUsuario)
+    if tokenDeUsuario:
+        decoded_token = decode_token(tokenDeUsuario)
+        decode = decoded_token.get('sub')
+        return '', 204
+    else:
+        return redirect(url_for('login'))
+    
+@app.route('/miperfil', methods=['GET'])
+def miperfil():
+    global decode
+    if not decode:
+        return  redirect(url_for('perfil'))
+    decodeDeUsuario = decode
+    decode = {}
+    return render_template('miperfil.html', decode=decodeDeUsuario)
+
+@app.route('/registrarUsuario', methods=['POST'])
+def registrarUsuario():
+    pass
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
