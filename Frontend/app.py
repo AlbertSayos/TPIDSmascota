@@ -32,6 +32,7 @@ def map():
 def home():
     return render_template('home.html',api_key=api_key)
 
+    
 @app.route('/registrar', methods=['GET','POST'])
 def registrar():
     if request.method == 'POST':
@@ -49,6 +50,35 @@ def registrar():
             requests.get(f'{BackendLink}/registrar?usuarioid={decode.user_id}&tipo={tipo}&raza={raza}&sexo={sexo}&detalles={detalles}&zona={zona}&calle={calle}&altura={altura}')
             return redirect(url_for('login'))
     return render_template('registrar.html')
+
+@app.route('/PerfilMascota') # Planee una demo con ese estilo de parametros acorde a lo que se recibirá en la base de datos
+def perfil_mascota():
+    mascota = {
+        "id": 1,
+        "especie": "perro",
+        "raza": "Labrador Retriever",
+        "zona": "Palermo",
+        "calle": "Av. Santa Fe",
+        "altura": 3000,
+        "sexo": "macho",
+        "estado": "buscado",
+        "detalles": "Este es mi comentario",
+        "contacto": "Este es mi número"}
+    return render_template("PerfilMascota.html", mascota=mascota)
+
+@app.route("/RegistrarUsuario")
+def registrar_usuario():
+    if request.method == "POST": # Cuando el usuario haya sido ingresado, envia un JSON para la verificacion
+        usuario = {
+            'nombre' : request.form.get('fusuario'),
+            "contraseña" : request.form.get('fcontraseña')
+        }
+        return jsonify(usuario)
+        
+    else:
+        return render_template("registrarusuario.html")
+
+
 
 tablademascotas = [
     {
@@ -310,9 +340,6 @@ def miperfil():
     decode = {}
     return render_template('miperfil.html', decode=decodeDeUsuario)
 
-@app.route('/registrarUsuario', methods=['POST'])
-def registrarUsuario():
-    pass
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
