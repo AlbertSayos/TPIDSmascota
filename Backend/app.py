@@ -280,7 +280,7 @@ def mascotaDeUsuario(id):
             'estado' : fila.estado
          })
       return jsonify(mascotaDeUsuario),200
-   return jsonify ({'mensaje': 'El usuario no existe.'}), 404
+   return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
 
 @app.route('/tablaDeCasas', methods=['GET'])
 def tablaDeCasas():
