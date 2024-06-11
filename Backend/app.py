@@ -19,8 +19,8 @@ engineUsuarios = create_engine('mysql+mysqlconnector://root:@localhost/usuarios'
 
 @app.route('/tablademascotas', methods=["GET"])
 def mostrar_tabla_de_mascotas():
-   conexion = engine.connect() #establezco la conexion con la base de datos
-   query = 'SELECT * FROM mascotas;'
+    conexion = engine.connect() #establezco la conexion con la base de datos
+    query = 'SELECT * FROM mascotas;'
 
     try: 
        resultado=conexion.execute(text(query))
