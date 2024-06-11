@@ -32,6 +32,7 @@ def registrar():
     return jsonify(mascota)
     else:
         return render_template('registrar.html') 
+        
 @app.route('/PerfilMascota')
 def perfil_mascota():
     mascota = {
