@@ -6,7 +6,7 @@
 </head>
 <body>
     <h2>Registro de Mascotas</h2>
-    <form action="registrar-mascota" method="POST">
+    <form method="post" action="/registrar" onsubmit="registrar(); return false;">
         <label for="tipo">Tipo de Mascotas</label>
         <select name="ftipo" id="tipo" required>
             <option value="">Selecciona el tipo</option>
@@ -14,8 +14,9 @@
             <option value="gato">Gato</option>
             <option value="otro">Otro</option>
         </select>
-        <label for="raza">Raza</label>
-        <input type="text" name="fraza" id="raza" required>
+        <select name="fraza" id="razas">
+            <option value="">Selecciona la raza</option>
+        </select>
         <label for="sexo">Sexo</label>
         <select name="fsexo" id="sexo" required>
             <option value="">Selecciona el sexo</option>
@@ -37,25 +38,42 @@
         document.addEventListener("DOMContentLoaded", function() {
             var token = localStorage.getItem('token');
             if (!token) {
-                    window.location.href = "/login";
-                }
-            });
+                window.location.href = "/login";
+            } else {
+                console.log(token);
+            }
+        });
 
         function registrar(){
             var token = localStorage.getItem('token');
             if (!token) {
                 window.location.href = "/login";
             } else {
+                var tipo = document.getElementById('tipo').value;
+                var raza = document.getElementById('razas').value;
+                var sexo = document.getElementById('sexo').value;
+                var detalles = document.getElementById('detalles').value;
+                var zona = document.getElementById('zona').value;
+                var calle = document.getElementById('calle').value;
+                var altura = document.getElementById('altura').value;
+
                 fetch('/registrar', {
                     method: 'POST',
                     headers: {
-                        'autorizacion': token  // Enviar el token en el encabezado
+                        'autorizacion': token,
+                        'ftipo': tipo,
+                        'fraza': raza,
+                        'fsexo': sexo,
+                        'fdetalles': detalles,
+                        'fzona': zona,
+                        'fcalle': calle,
+                        'faltura': altura
                     }
                 })
                 .then(response => {
                     if (response.status === 204) {  // Si la respuesta es exitosa y no requiere redireccionamiento
                         window.location.href = "/index";
-                    } else if (response.status === 401) {  // Si la respuesta es 401, redirigir al perfil
+                    } else if (response.status === 401) {  // Si la respuesta es 401, redirigir al login
                         window.location.href = "/login";
                     }
                 });
@@ -64,3 +82,4 @@
     </script>
 </body>
 </html>
+

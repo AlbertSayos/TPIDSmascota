@@ -28,79 +28,24 @@
         </header>
 
         <main>
-            <form action="{{ url_for('buscadas')}}" method="POST" id="formulario" onsubmit="return validarFormulario()">
-                <label for="especie">Especie:</label>
-                <select id="especie" name="mespecie">
-                    <option value="">Seleccione una opción</option>
-                    <option value="perro">Perro</option>
-                    <option value="gato">Gato</option>
-                </select><br><br>
-                
-                <label for="raza">Raza:</label>
-                <select id="raza" name="mraza">
-                    <option value="">Seleccione una opción</option>
-                </select><br><br>
-                
-                <label for="sexo">Sexo:</label>
-                <select id="sexo" name="msexo">
-                    <option value="">Seleccione una opción</option>
-                    <option value="macho">Macho</option>
-                    <option value="hembra">Hembra</option>
-                </select><br><br>
-                
-                <input type="submit" value="Enviar">
-            </form>
-        
-            <script>
-                const especieSelect = document.getElementById('especie');
-                const razaSelect = document.getElementById('raza');
-                
-                const razasPerro = ['Labrador', 'Poodle', 'Bulldog'];
-                const razasGato = ['Siames', 'Persa', 'Sphynx'];
-                
-                // Función para actualizar las opciones de la lista de razas según la especie seleccionada
-                function actualizarRazas() {
-                    const especieSeleccionada = especieSelect.value;
-                    razaSelect.innerHTML = '';
-                    
-                    if (especieSeleccionada === 'perro') {
-                        razasPerro.forEach(raza => {
-                            const option = document.createElement('option');
-                            option.text = raza;
-                            option.value = raza.toLowerCase();
-                            razaSelect.appendChild(option);
-                        });
-                    } else if (especieSeleccionada === 'gato') {
-                        razasGato.forEach(raza => {
-                            const option = document.createElement('option');
-                            option.text = raza;
-                            option.value = raza.toLowerCase();
-                            razaSelect.appendChild(option);
-                        });
-                    }
-                }
-                especieSelect.addEventListener('change', actualizarRazas);
-            </script>
-            <br>
-            <br>
-        
+            
             <section class="buscador">
 
                 <!--Acá se va a encontrar la tabla de mascotas buscadas con un buscador-->
-                <form method="get" action="/buscadas">
+                <form method="post" action="/buscadas">
 
                     <label for="tipo">Tu mascota es:</label>
-                    <select name="tipo" id="tipo" required>
+                    <select name="mespecie" id="tipo">
                         <option value="">Selecciona el tipo</option>
                         <option value="perro">Perro</option>
                         <option value="gato">Gato</option>
                     </select>
                     <label for="tipo"> de Raza</label>
-                    <select name="raza" id="razas" required>
+                    <select name="mraza" id="razas" >
                         <option value="">Selecciona la raza</option>
                     </select>
                     <label for="sexo"></label>
-                    <select name="sexo" id="sexo" required>
+                    <select name="msexo" id="sexo">
                         <option value=""></option>
                         <option value="macho">macho</option>
                         <option value="hembra">hembra</option>
@@ -118,7 +63,7 @@
                     <p>sexo</p>
                     <p style="visibility: hidden;">Ver</p>
                 </div>
-                {% for mascota in tablaDeMascota %}
+                {% for mascota in tablaDeMascotas %}
                     <div id="{{ mascota.mascotaid }}" class="fila" data="{{ mascota.calle }} {{ mascota.altura }}, {{ mascota.zona }}" onclick="irADireccion(this.getAttribute('data'))" style="display: flex; justify-content: space-between; align-items: center; pointer-events: painted;">
                         <p>{{ mascota.especie }}</p>
                         <p>{{ mascota.raza }}</p>
