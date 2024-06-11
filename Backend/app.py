@@ -78,7 +78,8 @@ def cargar_zona(zona):
 @app.route('/buscarmascotas', methods=['GET'])
 def buscar_mascotas():
    #Uso query parameters. En caso de que el usuario quiera omitir un parametro al buscar una mascota puede hacerlo
-   #Ejemplo URL: http://localhost:8081/buscarmascotas?especie=perro&raza=labrador&sexo=hembra 
+   #Ejemplo URL: http://localhost:8081/buscarmascotas?id=1&especie=perro&raza=labrador&sexo=hembra
+   id_mascota=request.args.get('id', default=None, type=int) 
    especie = request.args.get('especie', default=None, type=str) 
    raza = request.args.get('raza', default=None, type=str)
    sexo = request.args.get('sexo', default=None, type=str)
@@ -86,6 +87,8 @@ def buscar_mascotas():
    conexion = engine.connect()
    parametros=[]
 
+   if not id_mascota is None:
+      parametros.append(f'id = {id_mascota}')
    if not especie is None:
       parametros.append(f'especie = {especie}')
    if not raza is None:
