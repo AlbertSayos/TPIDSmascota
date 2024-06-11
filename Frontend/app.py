@@ -23,7 +23,11 @@ def registrar():
             'tipo' : request.form.get('ftipo'),
             'raza' : request.form.get('fraza'),
             'sexo' : request.form.get('fsexo'),
-            'detalles' : request.form.get('fdetalles') 
+            'detalles' : request.form.get('fdetalles'),
+            'zona' : request.form.get('fzona'),
+            'calle' : request.form.get('fcalle'),
+            'altura' : request.form.get('faltura'),
+            
         }
     return jsonify(mascota)
     else:
