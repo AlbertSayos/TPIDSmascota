@@ -1,7 +1,8 @@
-from flask import Flask, jsonify, render_template, Response
+from flask import Flask, jsonify, render_template, Response, request, redirect, ulr_for
 import requests  # Se utiliza para hacer consultas a APIs externas
 import os  # Se utiliza para interactuar con variables de entorno
 from dotenv import load_dotenv  # Se utiliza para cargar variables de entorno desde un archivo .env
+from flask_jwt_extended import JWTManager, create_access_token, decode_token
 api_key = os.getenv('APIKEY') #api de google cloud
 PORT = 8080
 
@@ -25,9 +26,27 @@ def map():
 def home():
     return render_template('home.html',api_key=api_key)
 
-@app.route('/registrar')
+@app.route('/registrar', methods=["GET", "POST"])
 def registrar():
-    return render_template('registrar.html')
+    if request.method == 'GET':
+        return render_template('registrar.html')
+    elif request.method == 'POST':
+
+        tokenDeUsuario = request.headers.get('autorizacion')
+        if tokenDeUsuario:
+            decoded_token = decode_token(tokenDeUsuario)
+            decode = decoded_token.get('sub')
+
+            especie = request.form.get('ftipo')
+            sexo = request.form.get('fsexo')
+            raza = request.form.get('fraza')
+            detalles = request.form.get('fdetalles')
+            zona = request.form.get('fzona')
+            calle = request.form.get('fcalle')
+            altura = request.form.get('faltura')
+            requests.get(f'{BackendLink}/registrar?usuarioid={decode.user_id}&especie={especie}&raza={raza}&sexo={sexo}&detalles={detalles}&zona={zona}&calle={calle}&altura={altura}')
+            
+            return redirect(ulr_for('index'))
 
 @app.route('/buscadas')
 def buscadas():

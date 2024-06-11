@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <title>Bark Street/Registrar</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/homestyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/homestyle.css') }}">
 </head>
 <body>
     <header>
@@ -19,7 +19,7 @@
     </header>
 
     <h2>Registro de Mascotas</h2>
-    <form action="registrar-mascota" method="post">
+    <form action="registrar-mascota" method="POST">
         <label for="tipo">Tipo de Mascotas</label>
         <select name="tipo" id="tipo" required>
             <option value="">Selecciona el tipo</option>
