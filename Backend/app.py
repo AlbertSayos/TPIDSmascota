@@ -173,12 +173,51 @@ def login():
 @app.route('/registrarUsuario', methods=['POST'])
 def registrarUsuario():
    #Ejemplo URL: http://localhost:8081/registrarUsuario?nombre=nombre&contraseña=contraseña&contacto=contacto
-   pass
+   conexion = engine.connect()
+   nuevo_usuario =request.get_json() #recibe los datos en formato json
 
-@app.route('/mascotaDeUsuario', methods=['GET'])
-def mascotaDeUsuario():
-   #Ejemplo URL: http://localhost:8081/mascotaDeUsuario?usuarioid=usuarioid
-   pass
+   nombre = nuevo_usuario.get('nombre')
+   contraseña = nuevo_usuario.get('contraseña')
+   contacto = nuevo_usuario.get('contacto')
+
+   query_nuevo_usuario= f"INSERT INTO usuarios (nombre, contraseña, contacto) VALUES ('{nombre}', '{contraseña}', '{contacto}');"
+   
+   try:
+      resultado= conexion.execute(text(query_nuevo_usuario))
+      conexion.commit()
+      conexion.close()
+   except SQLAlchemyError as error:
+        return jsonify({'error': 'No se pudo registrar el usuario' + str(error.__cause__)}),404
+   return jsonify({'mensaje': 'Se ha registrado el usuario con exito'}), 201
+
+@app.route('/mascotaDeUsuario/<id>', methods=['GET'])
+def mascotaDeUsuario(id):
+   #Ejemplo URL: http://localhost:8081/mascotaDeUsuario/id
+   conexion = engine.connect()
+   query = f'SELECT * from mascotas WHERE usuarioid = {id};'
+
+   try:
+      resultado= conexion.execute(text(query))
+      conexion.close()
+   except SQLAlchemyError as error:
+      return jsonify({'error': str(error.__cause__)})
+
+   if resultado.rowcount !=0:
+      mascotaDeUsuario=[]
+      for fila in resultado:
+         mascotaDeUsuario.append({
+            'especie' : fila.especie,
+            'sexo' : fila.sexo,
+            'raza' : fila.raza,
+            'descripcion': fila.descripcion,
+            'zona' : fila.zona,
+            'calle' : fila.calle,
+            'altura' : fila.altura,
+            'contacto' : fila.contacto,
+            'estado' : fila.estado
+         })
+      return jsonify(mascotaDeUsuario),200
+   return jsonify ({'mensaje': 'El usuario no existe.'}), 404
 
 @app.route('/tablaDeCasas', methods=['GET'])
 def tablaDeCasas():
