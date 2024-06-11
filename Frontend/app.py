@@ -139,7 +139,7 @@ def buscadas():
 @app.route('/cargarMapa')
 def cargarMapa():
     return render_template('mapDeEjemplo.html', api_key=api_key)
-
+"""
 #EJEMPLO DE COMO DEVOLVER CARGAR TAMBLAS
 resultados = [
     {
@@ -236,16 +236,34 @@ resultados = [
         ]
     }
 ]
-
+"""
 
 @app.route('/cargarTablas')
 def cargarTablas():
-    #llamas a dos tablas con requests.get(f'{BackendLink}/tablaDeMascotas') y el de tablas de las casas
-    #las juntas y las devolves
-    #tiene que quedar asi 
-    # mascotasPerdidas = ["tablaDeMascota": {....}
-    #                      "tablaDeCasas": {....}] 
-    return jsonify(resultados)
+    tablaDeMascota = {}
+    tablaDeCasas = {}
+    try:
+        res_mascotas = requests.get(f'{BackendLink}/tablademascotas')
+        res_casas = requests.get(f'{BackendLink}/tabladecentros')
+        
+        # Comprobamos si las peticiones fueron exitosas
+        if res_mascotas.status_code == 200 and res_casas.status_code == 200:
+            tablaDeMascota = res_mascotas.json()
+            tablaDeCasas = res_casas.json()
+        else:
+            return jsonify({"error": "Error al obtener datos de las tablas"}), 500
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": str(e)}), 500
+
+    tablasDeMascotasYCasas = [
+        {
+            "tablaDeMascota": tablaDeMascota,
+        },
+        {
+            "tablaDeCasas": tablaDeCasas
+        }
+    ]
+    return jsonify(tablasDeMascotasYCasas)
 
 @app.route('/login', methods=['GET','POST'])
 def login():

@@ -31,17 +31,17 @@ def mostrar_tabla_de_mascotas():
     mascotas = []
     for fila in resultado:
        mascota = {}
-       mascota['id'] = fila.id
+       mascota['mascotaid'] = fila.mascotaid
        mascota['especie'] = fila.especie
        mascota['sexo'] = fila.sexo
        mascota['raza'] = fila.raza
-       mascota['detalles'] = fila.detalles
+       mascota['descripcion'] = fila.descripcion
        mascota['zona'] =fila.zona
        mascota['calle']=fila.calle
        mascota['altura']=fila.altura
        mascota['contacto'] = fila.contacto
-       mascota['estado'] = fila.estado
-       mascota['IDusuario'] = fila.IDusuario
+       #mascota['estado'] = fila.estado
+       mascota['usuarioid'] = fila.usuarioid
        mascotas.append(mascota)
     return jsonify(mascotas)
 
