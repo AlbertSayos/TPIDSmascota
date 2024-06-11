@@ -35,21 +35,25 @@ def home():
     
 @app.route('/registrar', methods=['GET','POST'])
 def registrar():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return render_template('registrar.html')
+    elif request.method == 'POST':
+
         tokenDeUsuario = request.headers.get('autorizacion')
         if tokenDeUsuario:
             decoded_token = decode_token(tokenDeUsuario)
             decode = decoded_token.get('sub')
-            tipo = request.form.get('ftipo') 
-            raza = request.form.get('fraza')
+
+            especie = request.form.get('ftipo')
             sexo = request.form.get('fsexo')
+            raza = request.form.get('fraza')
+            detalles = request.form.get('fdetalles')
             zona = request.form.get('fzona')
             calle = request.form.get('fcalle')
             altura = request.form.get('faltura')
-            detalles = request.form.get('detalles')
-            requests.get(f'{BackendLink}/registrar?usuarioid={decode.user_id}&tipo={tipo}&raza={raza}&sexo={sexo}&detalles={detalles}&zona={zona}&calle={calle}&altura={altura}')
-            return redirect(url_for('login'))
-    return render_template('registrar.html')
+            requests.get(f'{BackendLink}/registrar?usuarioid={decode.user_id}&especie={especie}&raza={raza}&sexo={sexo}&detalles={detalles}&zona={zona}&calle={calle}&altura={altura}')
+            
+            return redirect(ulr_for('index'))
 
 @app.route('/PerfilMascota') # Planee una demo con ese estilo de parametros acorde a lo que se recibirá en la base de datos
 def perfil_mascota():

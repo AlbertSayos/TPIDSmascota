@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
     <title>Bark Street/Registrar</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/homestyle.css', _external=True) }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/homestyle.css') }}">
 </head>
 <body>
     <h2>Registro de Mascotas</h2>
-    <form action="registrar-mascota" method="post">
+    <form action="registrar-mascota" method="POST">
         <label for="tipo">Tipo de Mascotas</label>
         <select name="ftipo" id="tipo" required>
             <option value="">Selecciona el tipo</option>
