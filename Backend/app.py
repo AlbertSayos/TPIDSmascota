@@ -15,6 +15,7 @@ jwt = JWTManager(app)
 
 engine = create_engine('mysql+mysqlconnector://root:@localhost/mascotas')
 engineUsuarios = create_engine('mysql+mysqlconnector://root:@localhost/usuarios')
+engineCentros = create_engine('mysql+mysqlconnector://root:@localhost/centros')
 #reemplazar 'user', 'pass', 'host' y 'DBname' con los datos correspondientes
 
 @app.route('/tablademascotas', methods=["GET"])
@@ -22,7 +23,7 @@ def mostrar_tabla_de_mascotas():
     conexion = engine.connect() #establezco la conexion con la base de datos
     query = 'SELECT * FROM mascotas;'
 
-    try: 
+    try:
        resultado=conexion.execute(text(query))
        conexion.close()
     except SQLAlchemyError as error:
@@ -44,6 +45,68 @@ def mostrar_tabla_de_mascotas():
        mascota['usuarioid'] = fila.usuarioid
        mascotas.append(mascota)
     return jsonify(mascotas)
+
+@app.route('/tabladecentros', methods=["GET"])
+def mostrar_tabla_de_centros():
+   conexion = engine.connect() 
+   query = "SELECT * FROM centros;"
+    
+   try:
+       resultado = conexion.execute(text(query))
+       conexion.close()
+   except SQLAlchemyError as error:
+       return jsonify({'error': str(error.__cause__)})
+   centros = []
+   for fila in resultado:
+      centro = {}
+      centro['centroid'] = fila.centroid
+      centro['nombre'] = fila.nombre
+      centro['descripcion'] = fila.descripcion
+      centro['zona'] = fila.zona
+      centro['calle'] = fila.calle
+      centro['altura'] = fila.altura
+      centros.append(centro)
+   return jsonify(centros)
+
+@app.route('/registrar', methods=["POST"])
+def registrar():
+   
+   conexion = engine.connect() #establezco la conexion con la base de datos
+   coneccionUsuario = engineUsuarios.connect()
+   data = request.json
+   
+   if not data:
+        return jsonify({'error': 'No data provided'}), 400
+
+   id_usuario = data.get('usuarioid')
+   especie = data.get('especie')
+   sexo = data.get('sexo')
+   raza = data.get('raza')
+   detalles = data.get('detalles')
+   zona = data.get('zona')
+   calle = data.get('calle')
+   altura = data.get('altura')
+
+   query_contacto = f"SELECT contacto FROM usuarios WHERE {id_usuario}"
+   print("llegue a query")
+   try: 
+      contacto = coneccionUsuario.execute(text(query_contacto)).fetchone()
+      coneccionUsuario.commit()
+      coneccionUsuario.close()
+   except SQLAlchemyError as error:
+      return jsonify({'error': str(error.__cause__)})
+   
+   query = f"INSERT INTO mascotas (usuarioid, especie, raza, sexo, descripcion, zona, calle, altura, contacto) VALUES ({id_usuario}, '{especie}', '{raza}', '{sexo}', '{detalles}', '{zona}', '{calle}', {altura}, '{contacto[0]}')"
+   print(query)
+   try: 
+      conexion.execute(text(query))
+      conexion.commit()
+      conexion.close()
+   except SQLAlchemyError as error:
+      return jsonify({'error': str(error.__cause__)})
+   return jsonify({'message': 'se ha agregado correctamente' + query})
+   
+
 
 @app.route('/cargarzona/<zona>', methods=["GET"])
 def cargar_zona(zona):
@@ -87,16 +150,16 @@ def cargar_zona(zona):
 def buscar_mascotas():
    #Uso query parameters. En caso de que el usuario quiera omitir un parametro al buscar una mascota puede hacerlo
    #Ejemplo URL: http://localhost:8081/buscarmascotas?id=1&especie=perro&raza=labrador&sexo=hembra
-   id_mascota=request.args.get('id', default=None, type=int) 
+   id_mascota=request.args.get('id', default=None, type=str) 
    especie = request.args.get('especie', default=None, type=str) 
    raza = request.args.get('raza', default=None, type=str)
    sexo = request.args.get('sexo', default=None, type=str)
-   print(especie)
+   #print(especie)
    conexion = engine.connect()
    parametros=[]
 
    if not id_mascota is None:
-      parametros.append(f'id = {id_mascota}')
+      parametros.append(f"id = {id_mascota}")
    if not especie is None:
       parametros.append(f"especie = '{especie}'")
    if not raza is None:
@@ -108,7 +171,7 @@ def buscar_mascotas():
       query_mascotas = 'SELECT * FROM mascotas;'
    else: 
       query_mascotas= f"SELECT * FROM mascotas WHERE "+ "AND ".join(parametros) + ";"
-      
+   #print(query_mascotas) 
    try: 
        resultado_mascotas=conexion.execute(text(query_mascotas))
        conexion.close()
@@ -118,16 +181,16 @@ def buscar_mascotas():
    mascotas=[]
    for fila in resultado_mascotas:
       mascotas.append({
-         'id': fila.id,
+         'mascotaid': fila.mascotaid,
          'especie': fila.especie,
          'sexo': fila.sexo,
          'raza': fila.raza,
-         'detalles': fila.detalles,
+         'descripcion': fila.descripcion,
          'zona' : fila.zona,
          'calle' : fila.calle,
          'altura': fila.altura,
          'contacto' : fila.contacto,
-         'estado' : fila.estado,
+         #'estado' : fila.estado,
    })
       
    return jsonify(mascotas)

@@ -32,211 +32,110 @@ def map():
 def home():
     return render_template('home.html',api_key=api_key)
 
+    
 @app.route('/registrar', methods=['GET','POST'])
 def registrar():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return render_template('registrar.html')
+    elif request.method == 'POST':
+
         tokenDeUsuario = request.headers.get('autorizacion')
+        #print("verifico token" + str(tokenDeUsuario))
         if tokenDeUsuario:
+            
             decoded_token = decode_token(tokenDeUsuario)
+            print("hay error?")
             decode = decoded_token.get('sub')
-            tipo = request.form.get('ftipo') 
-            raza = request.form.get('fraza')
-            sexo = request.form.get('fsexo')
-            zona = request.form.get('fzona')
-            calle = request.form.get('fcalle')
-            altura = request.form.get('faltura')
-            detalles = request.form.get('detalles')
-            requests.get(f'{BackendLink}/registrar?usuarioid={decode.user_id}&tipo={tipo}&raza={raza}&sexo={sexo}&detalles={detalles}&zona={zona}&calle={calle}&altura={altura}')
-            return redirect(url_for('login'))
-    return render_template('registrar.html')
+            print(decode)
+            especie = request.headers.get('ftipo')
+            sexo = request.headers.get('fsexo')
+            raza = request.headers.get('fraza')
+            detalles = request.headers.get('fdetalles')
+            zona = request.headers.get('fzona')
+            calle = request.headers.get('fcalle')
+            altura = request.headers.get('faltura')
 
-tablademascotas = [
-    {
+            datos= {
+                'usuarioid': decode["user_id"],
+                'especie': especie,
+                'sexo': sexo,
+                'raza': raza,
+                'detalles': detalles,
+                'zona': zona,
+                'calle': calle,
+                'altura': altura
+            }
+
+            # Imprimir la URL y los datos para depuración
+            print(f'{BackendLink}/registrar')
+            print(datos)
+
+            # Realizar la solicitud POST
+            response = requests.post(f'{BackendLink}/registrar', json=datos)
+            
+            # Verificar la respuesta del servidor
+            if response.status_code == 200:
+                print("Datos enviados exitosamente.")
+            else:
+                print(f"Error al enviar los datos: {response.status_code}, {response.text}")
+        
+@app.route('/PerfilMascota') # Planee una demo con ese estilo de parametros acorde a lo que se recibirá en la base de datos
+def perfil_mascota():
+    mascota = {
         "id": 1,
         "especie": "perro",
         "raza": "Labrador Retriever",
         "zona": "Palermo",
         "calle": "Av. Santa Fe",
         "altura": 3000,
-        "sexo": "macho"
-    },
-    {   
-        "id": 2,
-        "especie": "gato",
-        "raza": "Siamés",
-        "zona": "Recoleta",
-        "calle": "Av. Callao",
-        "altura": 1200,
-        "sexo": "hembra"
-    },
-    {
-        "id": 3,
-        "especie": "perro",
-        "raza": "Golden Retriever",
-        "zona": "Belgrano",
-        "calle": "Av. Cabildo",
-        "altura": 2000,
-        "sexo": "macho"
-    },
-    {
-        "id": 4,
-        "especie": "gato",
-        "raza": "Persa",
-        "zona": "San Telmo",
-        "calle": "Av. Independencia",
-        "altura": 1500,
-        "sexo": "hembra"
-    },
-    {
-        "id": 5,
-        "especie": "perro",
-        "raza": "Bulldog Francés",
-        "zona": "Villa Crespo",
-        "calle": "Av. Corrientes",
-        "altura": 5800,
-        "sexo": "macho"
-    }
-]
-tablaDePerros = [
-    {
-        "id": 1,
-        "especie": "perro",
-        "raza": "Labrador Retriever",
-        "zona": "Palermo",
-        "calle": "Av. Santa Fe",
-        "altura": 3000,
-        "sexo": "macho"
-    },
-    {
-        "id": 3,
-        "especie": "perro",
-        "raza": "Golden Retriever",
-        "zona": "Belgrano",
-        "calle": "Av. Cabildo",
-        "altura": 2000,
-        "sexo": "macho"
-    },
-    {
-        "id": 5,
-        "especie": "perro",
-        "raza": "Bulldog Francés",
-        "zona": "Villa Crespo",
-        "calle": "Av. Corrientes",
-        "altura": 5800,
-        "sexo": "macho"
-    }
-]
+        "sexo": "macho",
+        "estado": "buscado",
+        "detalles": "Este es mi comentario",
+        "contacto": "Este es mi número"}
+    return render_template("PerfilMascota.html", mascota=mascota)
+
+@app.route("/RegistrarUsuario")
+def registrar_usuario():
+    if request.method == "POST": # Cuando el usuario haya sido ingresado, envia un JSON para la verificacion
+        usuario = {
+            'nombre' : request.form.get('fusuario'),
+            "contraseña" : request.form.get('fcontraseña')
+        }
+        return jsonify(usuario)
+        
+    else:
+        return render_template("registrarusuario.html")
 
 
-@app.route('/buscadas')
+
+@app.route('/buscadas', methods=['GET', 'POST'])
 def buscadas():
-    #llamas a la tabla de mascota con requests.get(f'{BackendLink}/buscarMascota') #tabla de perros es lo que espero recibir por ejemplo
-    tabla = tablademascotas #se puede poner tablaDePerros
-    tipo = request.args.get('tipo') #tambien estan raza y sexo
-    #en caso de que no haya ningun filtro llamas a tablademascotas
-    return render_template('buscadas.html',api_key=api_key, tablaDeMascota=tabla)
+    if request.method == "POST":
+        especie = request.form.get("mespecie")
+        raza = request.form.get("mraza")
+        sexo = request.form.get("msexo")
+        cadena = "?"
+        if especie:
+            cadena = cadena + (f"especie={especie}")
+        if raza:
+            cadena = cadena + (f"raza={raza}")
+        if sexo:
+            cadena = cadena + (f"sexo={sexo}")
+        print(f'{BackendLink}/buscarmascotas{cadena}')
+        filtro = requests.get(f'{BackendLink}/buscarmascotas{cadena}')
+        if filtro.status_code == 200:
+            tablaDeMascotas = filtro.json()
+            print(tablaDeMascotas)
+            return render_template('buscadas.html',api_key=api_key, tablaDeMascotas=tablaDeMascotas)
+    tabla = requests.get(f'{BackendLink}/buscarmascotas')
+    if tabla.status_code == 200:
+        tabla = tabla.json()
+        return render_template('buscadas.html', api_key=api_key, tablaDeMascotas=tabla)
+
 
 @app.route('/cargarMapa')
 def cargarMapa():
     return render_template('mapDeEjemplo.html', api_key=api_key)
-"""
-#EJEMPLO DE COMO DEVOLVER CARGAR TAMBLAS
-resultados = [
-    {
-        "tablaDeMascota": [
-    {
-        "id": 1,
-        "especie": "perro",
-        "raza": "Labrador Retriever",
-        "zona": "Palermo",
-        "calle": "Av. Santa Fe",
-        "altura": 3000,
-        "sexo": "macho",
-        "detalles": "Perro amigable y enérgico, encontrado cerca del parque."
-    },
-    {   
-        "id": 2,
-        "especie": "gato",
-        "raza": "Siamés",
-        "zona": "Recoleta",
-        "calle": "Av. Callao",
-        "altura": 1200,
-        "sexo": "hembra",
-        "detalles": "Gata tímida, encontrada cerca de un restaurante."
-    },
-    {
-        "id": 3,
-        "especie": "perro",
-        "raza": "Golden Retriever",
-        "zona": "Belgrano",
-        "calle": "Av. Cabildo",
-        "altura": 2000,
-        "sexo": "macho",
-        "detalles": "Perro juguetón, le encanta correr y jugar con pelotas."
-    },
-    {
-        "id": 4,
-        "especie": "gato",
-        "raza": "Persa",
-        "zona": "San Telmo",
-        "calle": "Av. Independencia",
-        "altura": 1500,
-        "sexo": "hembra",
-        "detalles": "Gata de pelaje largo y sedoso, muy cariñosa."
-    },
-    {
-        "id": 5,
-        "especie": "perro",
-        "raza": "Bulldog Francés",
-        "zona": "Villa Crespo",
-        "calle": "Av. Corrientes",
-        "altura": 5800,
-        "sexo": "macho",
-        "detalles": "Perro pequeño pero fuerte, le encanta pasear."
-    }
-]
-    },
-    {
-        "tablaDeCasas": [
-            {
-                "nombre": "Casa 1",
-                "descripcion": "Casa grande con jardín",
-                "zona": "Palermo",
-                "calle": "Av. Santa Fe",
-                "altura": 100
-            },
-            {
-                "nombre": "Casa 2",
-                "descripcion": "Departamento moderno",
-                "zona": "Recoleta",
-                "calle": "Av. Callao",
-                "altura": 100
-            },
-            {
-                "nombre": "Casa 3",
-                "descripcion": "Casa antigua con estilo",
-                "zona": "Belgrano",
-                "calle": "Av. Cabildo",
-                "altura": 100
-            },
-            {
-                "nombre": "Casa 4",
-                "descripcion": "Departamento luminoso",
-                "zona": "San Telmo",
-                "calle": "Av. Independencia",
-                "altura": 600
-            },
-            {
-                "nombre": "Casa 5",
-                "descripcion": "Loft amplio",
-                "zona": "Villa Crespo",
-                "calle": "Av. Corrientes",
-                "altura": 900
-            }
-        ]
-    }
-]
-"""
 
 @app.route('/cargarTablas')
 def cargarTablas():
@@ -310,9 +209,6 @@ def miperfil():
     decode = {}
     return render_template('miperfil.html', decode=decodeDeUsuario)
 
-@app.route('/registrarUsuario', methods=['POST'])
-def registrarUsuario():
-    pass
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)

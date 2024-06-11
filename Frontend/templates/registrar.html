@@ -2,47 +2,35 @@
 <html lang="es">
 <head>
     <title>Bark Street/Registrar</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/homestyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/homestyle.css') }}">
 </head>
 <body>
-    <header>
-
-        <h1>Encuentra tu mascota!</h1>
-        <ul class="listaNavBar">
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/map">Mapa</a></li>
-            <li><a href="buscadas">Buscar</a></li>
-            <li><a href="registrar">Registrar</a></li>
-        </ul>
-        <br>
-
-    </header>
-
     <h2>Registro de Mascotas</h2>
-    
-    <form method="get" action="/registrar" onsubmit="registrar(); return false;">
-
-        <label for="tipo">Encontraste un:</label>
-        <select name="tipo" id="tipo" required>
+    <form method="post" action="/registrar" onsubmit="registrar(); return false;">
+        <label for="tipo">Tipo de Mascotas</label>
+        <select name="ftipo" id="tipo" required>
             <option value="">Selecciona el tipo</option>
             <option value="perro">Perro</option>
             <option value="gato">Gato</option>
+            <option value="otro">Otro</option>
         </select>
-        <label for="raza"> de Raza</label>
-        <select name="raza" id="razas" required>
+        <select name="fraza" id="razas">
             <option value="">Selecciona la raza</option>
         </select>
-        <label for="sexo"></label>
-        <select name="sexo" id="sexo" required>
-            <option value=""></option>
-            <option value="macho">macho</option>
-            <option value="hembra">hembra</option>
+        <label for="sexo">Sexo</label>
+        <select name="fsexo" id="sexo" required>
+            <option value="">Selecciona el sexo</option>
+            <option value="macho">Masculino</option>
+            <option value="hembra">Femenino</option>
         </select>
-
         <label for="detalles">Detalles</label>
-        <textarea name="detalles" id="detalles" placeholder="Describa los detalles de la mascota" required></textarea>
-        
-
+        <textarea name="fdetalles" id="detalles" placeholder="Describa los detalles de la mascota" required></textarea>
+        <label for="zona">Zona</label>
+        <input type="text" name="fzona" id="zona" required>
+        <label for="calle">Calle</label>
+        <input type="text" name="fcalle" id="calle" required>
+        <label for="altura">Altura</label>
+        <input type="text" name="faltura" id="altura" required>
         <button type="submit">Registrar</button>
     </form>
     <script src="{{ url_for('static', filename='/script/completarBuscardor.js') }}"></script>
@@ -50,30 +38,48 @@
         document.addEventListener("DOMContentLoaded", function() {
             var token = localStorage.getItem('token');
             if (!token) {
-                    window.location.href = "/login";
-                }
-            });
+                window.location.href = "/login";
+            } else {
+                console.log(token);
+            }
+        });
 
         function registrar(){
             var token = localStorage.getItem('token');
             if (!token) {
                 window.location.href = "/login";
             } else {
+                var tipo = document.getElementById('tipo').value;
+                var raza = document.getElementById('razas').value;
+                var sexo = document.getElementById('sexo').value;
+                var detalles = document.getElementById('detalles').value;
+                var zona = document.getElementById('zona').value;
+                var calle = document.getElementById('calle').value;
+                var altura = document.getElementById('altura').value;
+
                 fetch('/registrar', {
                     method: 'POST',
                     headers: {
-                        'autorizacion': token  // Enviar el token en el encabezado
+                        'autorizacion': token,
+                        'ftipo': tipo,
+                        'fraza': raza,
+                        'fsexo': sexo,
+                        'fdetalles': detalles,
+                        'fzona': zona,
+                        'fcalle': calle,
+                        'faltura': altura
                     }
                 })
                 .then(response => {
                     if (response.status === 204) {  // Si la respuesta es exitosa y no requiere redireccionamiento
                         window.location.href = "/index";
-                    } else if (response.status === 401) {  // Si la respuesta es 401, redirigir al perfil
+                    } else if (response.status === 401) {  // Si la respuesta es 401, redirigir al login
                         window.location.href = "/login";
                     }
                 });
             }
         }
     </script>
-</body> 
+</body>
 </html>
+
