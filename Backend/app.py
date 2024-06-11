@@ -37,6 +37,28 @@ def mostrar_tabla_de_mascotas():
        mascotas.append(mascota)
     return jsonify(mascotas)
 
+@app.route('/tabladecentros', methods=["GET"])
+def mostrar_tabla_de_centros():
+   conexion = engine.connect() 
+   query = "SELECT * FROM centros;"
+    
+   try:
+       resultado = conexion.execute(text(query))
+       conexion.close()
+   except SQLAlchemyError as error:
+       return jsonify({'error': str(error.__cause__)})
+   centros = []
+   for fila in resultado:
+      centro = {}
+      centro['id_centro'] = fila.id_centro
+      centro['nombre'] = fila.nombre
+      centro['datos'] = fila.datos
+      centro['zona'] = fila.zona
+      centro['calle'] = fila.calle
+      centro['altura'] = fila.altura
+      centros.append(centro)
+   return jsonify(centros)
+
 @app.route('/cargarzona/<zona>', methods=["GET"])
 def cargar_zona(zona):
    conexion = engine.connect()
