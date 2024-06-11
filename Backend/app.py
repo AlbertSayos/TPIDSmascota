@@ -90,22 +90,22 @@ def buscar_mascotas():
    especie = request.args.get('especie', default=None, type=str) 
    raza = request.args.get('raza', default=None, type=str)
    sexo = request.args.get('sexo', default=None, type=str)
-
+   print(especie)
    conexion = engine.connect()
    parametros=[]
 
    if not especie is None:
-      parametros.append(f'especie = {especie}')
+      parametros.append(f"especie = '{especie}'")
    if not raza is None:
-      parametros.append(f'raza = {raza}')
+      parametros.append(f"raza = '{raza}'")
    if not sexo is None:
-      parametros.append(f'sexo = {sexo}')
+      parametros.append(f"sexo = '{sexo}'")
    
    if len(parametros) == 0:
       query_mascotas = 'SELECT * FROM mascotas;'
    else: 
-      query_mascotas= f'SELECT * FROM mascotas WHERE'+ ' AND'.join(parametros) + ';'
-
+      query_mascotas= f"SELECT * FROM mascotas WHERE "+ "AND ".join(parametros) + ";"
+      
    try: 
        resultado_mascotas=conexion.execute(text(query_mascotas))
        conexion.close()
@@ -132,7 +132,7 @@ def buscar_mascotas():
 
 @app.route('/registrarMascota', methods=['POST'])
 def registrarMascota():
-   #Ejemplo URL: http://localhost:8081/registrarMascota?usuarioid=usuarioid&tipo=tipo&raza=raza&sexo=sexo&detalles=detalles
+   #Ejemplo URL:  requests.get(f'{BackendLink}/registrar?usuarioid={decode.user_id}&tipo={tipo}&raza={raza}&sexo={sexo}&detalles={detalles}&zona={zona}&calle={calle}&altura={altura}')
    pass
 
 #**************************************************endpoind de usuarios*************************************************************#

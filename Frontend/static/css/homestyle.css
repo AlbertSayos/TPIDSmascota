@@ -78,8 +78,15 @@ h3{
     font-family: Roboto, sans-serif;
     font-size: large;
     font-weight: bold;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     }
-
+    #place-autocomplete-card p{
+      padding-right: 10px;
+    }
     #place-autocomplete {
     width: 250px;
     }
@@ -90,4 +97,133 @@ h3{
 
     #map #infowindow-content {
     display: inline;
+    }
+
+    /* Estilos de la mascota en estado no resaltado. */
+.mascota {
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    color: #263238;
+    display: flex;
+    font-size: 14px;
+    gap: 15px;
+    height: 30px;
+    justify-content: center;
+    padding: 4px;
+    position: relative;
+    transition: all 0.3s ease-out;
+    width: 30px;
+  }
+  
+  .mascota::after {
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid #FFFFFF;
+    content: "";
+    height: 0;
+    left: 50%;
+    position: absolute;
+    top: 95%;
+    transform: translate(-50%, 0);
+    transition: all 0.3s ease-out;
+    width: 0;
+    z-index: 1;
+  }
+  
+  .mascota .icono {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    color: #FFFFFF;
+  }
+  
+  .mascota .icono svg {
+    height: 20px;
+    width: auto;
+  }
+  
+  .mascota .detalles {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .mascota .especie {
+    color: #9E9E9E;
+    font-size: 10px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+  }
+  
+  .mascota .info {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Estilos de la mascota en estado resaltado. */
+  .mascota.resaltar {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
+    height: auto;
+    padding: 8px 15px;
+    width: auto;
+  }
+  
+  .mascota.resaltar::after {
+    border-top: 9px solid #FFFFFF;
+  }
+  
+  .mascota.resaltar .detalles {
+    display: flex;
+  }
+  
+  .mascota.resaltar .icono svg {
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* Colores del icono del gato */
+  .mascota.resaltar:has(.fa-paw) .icono {
+    color: rgb(170, 1, 254);
+  }
+  
+  .mascota:not(.resaltar):has(.fa-paw) {
+    background-color: rgb(170, 1, 254);
+  }
+  
+  .mascota:not(.resaltar):has(.fa-paw)::after {
+    border-top: 9px solid rgb(170, 1, 254);
+  }
+
+    /* Colores del icono del gato */
+    .mascota.resaltar:has(.fa-house) .icono {
+      color: rgb(1, 31, 254);
+    }
+    
+    .mascota:not(.resaltar):has(.fa-house) {
+      background-color: rgb(1, 31, 254);
+    }
+    
+    .mascota:not(.resaltar):has(.fa-house)::after {
+      border-top: 9px solid rgb(1, 31, 254);
+    }
+
+    .boton{
+      background-color: green;
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 2px;
+      text-decoration: none;
+    }
+
+    .boton:hover{
+      background-color: rgb(109, 128, 0);
+      border: 1px solid rgb(255, 255, 255);
+      border-radius: 5px;
+      padding: 2px;
+      text-decoration: none;
     }

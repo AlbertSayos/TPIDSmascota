@@ -101,34 +101,83 @@ async function initMap() {
 
     /***************************************agregar marcas***************************************************************/
     
-    function cargarMascota(titulo,coordenadas){
-        const priceTag = document.createElement("div");
+    function construirContenido(mascota) {
+        const contenido = document.createElement("div"); 
+    
+        contenido.classList.add("mascota");
+        contenido.innerHTML = `
+        <div class="icono">
+            <i aria-hidden="true" class="fa fa-paw" title="${mascota.especie}"></i>
+            <span class="fa-sr-only">${mascota.especie}</span>
+        </div>
+        <div class="detalles">  
+            <div class="especie">${mascota.especie}</div>  
+            <div class="raza">${mascota.raza}</div>  
+            <div class="info">
+                <div>${mascota.sexo}</div>  
+                <div>${mascota.detalles}</div> 
+                <div>${mascota.contacto}</div> 
+                <div><a href="#" target="_blank">Más información</a></div>
+            </div>
+        </div>
+        `;
+        return contenido;
+    }
+    function alternarResaltar(marcadorVista) {
+        if (marcadorVista.content.classList.contains("resaltar")) {
+        marcadorVista.content.classList.remove("resaltar");
+        marcadorVista.zIndex = null;
+        } else {
+        marcadorVista.content.classList.add("resaltar");
+        marcadorVista.zIndex = 1;
+        }
+    }
 
-        priceTag.className = "price-tag";
-        priceTag.textContent = titulo;
+    function cargarMascota(titulo,coordenadas,subTitulo,detalle,boton,ubicaion,icono){
+        console.log(titulo)
+        const contenido = document.createElement("div"); 
+        contenido.classList.add("mascota");
+        contenido.innerHTML = `
+        <div class="icono">
+            ${icono}
+            <span class="fa-sr-only">${titulo}</span>
+        </div>
+        <div class="detalles">  
+            <div class="especie">${ubicaion}</div>  
+            <div class="raza">${subTitulo}</div>
+            <div class="info">
+                <div>${detalle}</div>
+                ${boton}
+            </div>
+        </div>
+        `;
         const marker = new google.maps.marker.AdvancedMarkerElement({
             map: map,
             position: coordenadas,
-            title: titulo,
-            content: priceTag,
+            title: subTitulo,
+            content: contenido,
           });
+        marker.addListener("click", () => {
+            alternarResaltar(marker);
+        });
+
         }
-    
-        //console.log(JSON.stringify(MarcasDeMascotasYCasas[0].tablaDeMascota))
+
         var MarcasDeMascotasYCasas = await moduloDeTablas();
-        console.log("cargar mapa")
-        console.log(MarcasDeMascotasYCasas);
         tablaDeMascotasStr = JSON.stringify(MarcasDeMascotasYCasas[0].tablaDeMascota);
         tablaDeMascotas = JSON.parse(tablaDeMascotasStr);
         for (let i = 0; i < tablaDeMascotas.length; i++) {
             (function() {
                 let mascota = tablaDeMascotas[i];
-                
-                var titulo = mascota.especie + " " + mascota.raza;
-                var ubicaionMascota = mascota.calle + " " + mascota.altura + "," + mascota.zona ;
-                //console.log(tablaDeMascotas.length);
+                console.log(mascota.especie + i)
+                var titulo = mascota.especie;
+                var subTitulo = mascota.especie + " " + mascota.raza + " " + mascota.sexo;
+                var ubicaionMascota = mascota.calle + " " + mascota.altura + "," + mascota.zona;
+                var detalle = mascota.descripcion;
+                var icono = `<i aria-hidden="true" class="fa fa-paw" title="${subTitulo}"></i>`
+                var boton = `<div><a href="/PerfilMascota/${mascota.mascotaid}"  class="boton" target="_blank">Más información</a></div>`;
                 obtenerCoordenadas(geocoder,ubicaionMascota, function(coordenadas) {
-                    cargarMascota(titulo,coordenadas);
+                    cargarMascota(titulo,coordenadas,subTitulo,detalle,boton,ubicaionMascota,icono);
                 });
             })();
         }
@@ -137,13 +186,17 @@ async function initMap() {
         casasRegistradas = JSON.parse(casasRegistradasStr);
         for (let i = 0; i < casasRegistradas.length; i++) {
             (function() {
-                let mascota = casasRegistradas[i];
+                let casa = casasRegistradas[i];
                 
-                var titulo = mascota.nombre;
-                var ubicaionMascota = mascota.calle + " " + mascota.altura + "," + mascota.zona ;
+                var titulo = casa.nombre;
+                var subTitulo = "casa o centro de mascota"
+                var ubicaionCentro = casa.calle + " " + casa.altura + "," + casa.zona ;
+                var detalle = casa.descripcion;
+                var boton = `<div><a href="#" target="_blank" class="boton">Más información</a></div>`;
+                var icono = `<i aria-hidden="true" class="fa-solid fa-house" title="${subTitulo}"></i>`
                 //console.log(tablaDeMascotas.length);
-                obtenerCoordenadas(geocoder,ubicaionMascota, function(coordenadas) {
-                    cargarMascota(titulo,coordenadas);
+                obtenerCoordenadas(geocoder,ubicaionCentro, function(coordenadas) {
+                    cargarMascota(titulo,coordenadas,subTitulo,detalle,boton,ubicaionCentro,icono);
                 });
             })();
         }

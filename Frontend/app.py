@@ -39,11 +39,14 @@ def registrar():
         if tokenDeUsuario:
             decoded_token = decode_token(tokenDeUsuario)
             decode = decoded_token.get('sub')
-            tipo = request.form.get('tipo') 
-            raza = request.form.get('raza')
-            sexo = request.form.get('sexo')
+            tipo = request.form.get('ftipo') 
+            raza = request.form.get('fraza')
+            sexo = request.form.get('fsexo')
+            zona = request.form.get('fzona')
+            calle = request.form.get('fcalle')
+            altura = request.form.get('faltura')
             detalles = request.form.get('detalles')
-            requests.get(f'{BackendLink}/registrar?usuarioid={decode.user_id}&tipo={tipo}&raza={raza}&sexo={sexo}&detalles={detalles}')
+            requests.get(f'{BackendLink}/registrar?usuarioid={decode.user_id}&tipo={tipo}&raza={raza}&sexo={sexo}&detalles={detalles}&zona={zona}&calle={calle}&altura={altura}')
             return redirect(url_for('login'))
     return render_template('registrar.html')
 
@@ -141,42 +144,57 @@ def cargarMapa():
 resultados = [
     {
         "tablaDeMascota": [
-            {
-                "especie": "perro",
-                "raza": "Labrador Retriever",
-                "zona": "Palermo",
-                "calle": "Av. Santa Fe",
-                "altura": 3000
-            },
-            {
-                "especie": "gato",
-                "raza": "Siamés",
-                "zona": "Recoleta",
-                "calle": "Av. Callao",
-                "altura": 1200
-            },
-            {
-                "especie": "perro",
-                "raza": "Golden Retriever",
-                "zona": "Belgrano",
-                "calle": "Av. Cabildo",
-                "altura": 2000
-            },
-            {
-                "especie": "gato",
-                "raza": "Persa",
-                "zona": "San Telmo",
-                "calle": "Av. Independencia",
-                "altura": 1500
-            },
-            {
-                "especie": "perro",
-                "raza": "Bulldog Francés",
-                "zona": "Villa Crespo",
-                "calle": "Av. Corrientes",
-                "altura": 5800
-            }
-        ]
+    {
+        "id": 1,
+        "especie": "perro",
+        "raza": "Labrador Retriever",
+        "zona": "Palermo",
+        "calle": "Av. Santa Fe",
+        "altura": 3000,
+        "sexo": "macho",
+        "detalles": "Perro amigable y enérgico, encontrado cerca del parque."
+    },
+    {   
+        "id": 2,
+        "especie": "gato",
+        "raza": "Siamés",
+        "zona": "Recoleta",
+        "calle": "Av. Callao",
+        "altura": 1200,
+        "sexo": "hembra",
+        "detalles": "Gata tímida, encontrada cerca de un restaurante."
+    },
+    {
+        "id": 3,
+        "especie": "perro",
+        "raza": "Golden Retriever",
+        "zona": "Belgrano",
+        "calle": "Av. Cabildo",
+        "altura": 2000,
+        "sexo": "macho",
+        "detalles": "Perro juguetón, le encanta correr y jugar con pelotas."
+    },
+    {
+        "id": 4,
+        "especie": "gato",
+        "raza": "Persa",
+        "zona": "San Telmo",
+        "calle": "Av. Independencia",
+        "altura": 1500,
+        "sexo": "hembra",
+        "detalles": "Gata de pelaje largo y sedoso, muy cariñosa."
+    },
+    {
+        "id": 5,
+        "especie": "perro",
+        "raza": "Bulldog Francés",
+        "zona": "Villa Crespo",
+        "calle": "Av. Corrientes",
+        "altura": 5800,
+        "sexo": "macho",
+        "detalles": "Perro pequeño pero fuerte, le encanta pasear."
+    }
+]
     },
     {
         "tablaDeCasas": [
