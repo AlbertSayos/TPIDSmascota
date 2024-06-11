@@ -9,6 +9,7 @@
         <meta property="og:type" content="website">
         <meta property="og:locate" content="es_ES">
         <link rel="stylesheet" href="/static/css/homestyle.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head> 
 
     <!--Comienzo del body-->
@@ -31,12 +32,50 @@
             <br>
             <br>
         
-            <section>
+            <section class="buscador">
 
                 <!--Acá se va a encontrar la tabla de mascotas buscadas con un buscador-->
+                <form method="get" action="/buscadas">
+
+                    <label for="tipo">Tu mascota es:</label>
+                    <select name="tipo" id="tipo" required>
+                        <option value="">Selecciona el tipo</option>
+                        <option value="perro">Perro</option>
+                        <option value="gato">Gato</option>
+                    </select>
+                    <label for="tipo"> de Raza</label>
+                    <select name="raza" id="razas" required>
+                        <option value="">Selecciona la raza</option>
+                    </select>
+                    <label for="sexo"></label>
+                    <select name="sexo" id="sexo" required>
+                        <option value=""></option>
+                        <option value="macho">macho</option>
+                        <option value="hembra">hembra</option>
+                    </select>
+
+                    <button type="submit">Buscar</button>
+                </form>
+            </section>
+            <section class="tabla-de-mascotas" >
+
+                <div id="" class="fila" data="" style="display: flex; justify-content: space-between;
+                align-items: center; pointer-events: painted;">
+                    <p>tipo</p>
+                    <p>raza</p>
+                    <p>sexo</p>
+                    <p style="visibility: hidden;">Ver</p>
+                </div>
+                {% for mascota in tablaDeMascota %}
+                    <div id="{{ mascota.mascotaid }}" class="fila" data="{{ mascota.calle }} {{ mascota.altura }}, {{ mascota.zona }}" onclick="irADireccion(this.getAttribute('data'))" style="display: flex; justify-content: space-between; align-items: center; pointer-events: painted;">
+                        <p>{{ mascota.especie }}</p>
+                        <p>{{ mascota.raza }}</p>
+                        <p>{{ mascota.sexo }}</p>
+                        <a href="/perfilMascota/{{ mascota.mascotaid }}">Ver</a>
+                    </div>
+                {% endfor %}
 
             </section>
-
             <section>
                 
                 <div class="place-autocomplete-card" id="place-autocomplete-card">
@@ -63,5 +102,7 @@
         </script>
         <!--<script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>-->
         <script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>
+        <script src="{{ url_for('static', filename='/script/moduloDeTablas.js') }}"></script>
+        <script src="{{ url_for('static', filename='/script/completarBuscardor.js') }}"></script>
         
     </body>

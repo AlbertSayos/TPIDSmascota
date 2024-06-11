@@ -19,24 +19,61 @@
     </header>
 
     <h2>Registro de Mascotas</h2>
-    <form action="registrar-mascota" method="post">
-        <label for="tipo">Tipo de Mascotas</label>
+    
+    <form method="get" action="/registrar" onsubmit="registrar(); return false;">
+
+        <label for="tipo">Encontraste un:</label>
         <select name="tipo" id="tipo" required>
             <option value="">Selecciona el tipo</option>
             <option value="perro">Perro</option>
             <option value="gato">Gato</option>
         </select>
-        <label for="raza">Raza</label>
-        <input type="text" name="raza" id="raza" required>
-        <label for="sexo">Sexo</label>
-        <select name="sexo" id="sexo" required>
-            <option value="">Selecciona el sexo</option>
-            <option value="macho">Masculino</option>
-            <option value="hembra">Femenino</option>
+        <label for="raza"> de Raza</label>
+        <select name="raza" id="razas" required>
+            <option value="">Selecciona la raza</option>
         </select>
+        <label for="sexo"></label>
+        <select name="sexo" id="sexo" required>
+            <option value=""></option>
+            <option value="macho">macho</option>
+            <option value="hembra">hembra</option>
+        </select>
+
         <label for="detalles">Detalles</label>
         <textarea name="detalles" id="detalles" placeholder="Describa los detalles de la mascota" required></textarea>
+        
+
         <button type="submit">Registrar</button>
     </form>
-</body>
+    <script src="{{ url_for('static', filename='/script/completarBuscardor.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var token = localStorage.getItem('token');
+            if (!token) {
+                    window.location.href = "/login";
+                }
+            });
+
+        function registrar(){
+            var token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = "/login";
+            } else {
+                fetch('/registrar', {
+                    method: 'POST',
+                    headers: {
+                        'autorizacion': token  // Enviar el token en el encabezado
+                    }
+                })
+                .then(response => {
+                    if (response.status === 204) {  // Si la respuesta es exitosa y no requiere redireccionamiento
+                        window.location.href = "/index";
+                    } else if (response.status === 401) {  // Si la respuesta es 401, redirigir al perfil
+                        window.location.href = "/login";
+                    }
+                });
+            }
+        }
+    </script>
+</body> 
 </html>

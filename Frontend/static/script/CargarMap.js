@@ -1,45 +1,41 @@
+
 // Initialize and add the map
 let map;
 const ubicacionDefecto = {lat: -34.61747372535215, lng: -58.367949651070965};
+var geocoder;
 
-const mascotasPerdidas = [
-    {
-        "especie": "perro",
-        "raza": "Labrador Retriever",
-        "zona": "Palermo",
-        "calle": "Av. Santa Fe",
-        "altura": 3000
-    },
-    {
-        "especie": "gato",
-        "raza": "Siamés",
-        "zona": "Recoleta",
-        "calle": "Av. Callao",
-        "altura": 1200
-    },
-    {
-        "especie": "perro",
-        "raza": "Golden Retriever",
-        "zona": "Belgrano",
-        "calle": "Av. Cabildo",
-        "altura": 2000
-    },
-    {
-        "especie": "gato",
-        "raza": "Persa",
-        "zona": "San Telmo",
-        "calle": "Av. Independencia",
-        "altura": 1500
-    },
-    {
-        "especie": "perro",
-        "raza": "Bulldog Francés",
-        "zona": "Villa Crespo",
-        "calle": "Av. Corrientes",
-        "altura": 5800
+
+
+function obtenerCoordenadas(geocoder, calle, callback) {
+    // Definir la función de devolución de llamada
+    function procesarResultados(resultado, estado) {
+        if (estado === 'OK') {
+            // Obtener las coordenadas de la primera coincidencia encontrada
+            var latitud = resultado[0].geometry.location.lat();
+            var longitud = resultado[0].geometry.location.lng();
+            var coordenadas = { 'lat': latitud, 'lng': longitud };
+            // Llamar al callback con las coordenadas obtenidas
+            callback(coordenadas);
+        }
     }
-]
-updateInfoWindow 
+
+    // Hacer una solicitud al geocoder y pasar la función de devolución de llamada
+    geocoder.geocode({ 'address': calle }, procesarResultados);
+}
+function  posicionar(coordenadas){
+    map.setCenter(coordenadas);
+}
+
+
+
+function irADireccion(data){
+    obtenerCoordenadas(geocoder,data, function(coordenadas) {
+        posicionar(coordenadas);
+    });
+}
+
+
+updateInfoWindow
 //let geocoder;
 async function initMap() {
      // The location of Uluru
@@ -51,7 +47,7 @@ async function initMap() {
         google.maps.importLibrary("places"),
         google.maps.importLibrary("geocoding"),
       ]);
-    const geocoder = new google.maps.Geocoder();
+    geocoder = new google.maps.Geocoder();
     //*****************************************creo mapa y lo centro en la fiuba****************************************/
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 17,
@@ -104,47 +100,106 @@ async function initMap() {
     });
 
     /***************************************agregar marcas***************************************************************/
-    function obtenerCoordenadas(geocoder, calle, callback) {
-        // Definir la función de devolución de llamada
-        function procesarResultados(resultado, estado) {
-            if (estado === 'OK') {
-                // Obtener las coordenadas de la primera coincidencia encontrada
-                var latitud = resultado[0].geometry.location.lat();
-                var longitud = resultado[0].geometry.location.lng();
-                var coordenadas = { 'lat': latitud, 'lng': longitud };
-                // Llamar al callback con las coordenadas obtenidas
-                callback(coordenadas);
-            }
-        }
     
-        // Hacer una solicitud al geocoder y pasar la función de devolución de llamada
-        geocoder.geocode({ 'address': calle }, procesarResultados);
+    function construirContenido(mascota) {
+        const contenido = document.createElement("div"); 
+    
+        contenido.classList.add("mascota");
+        contenido.innerHTML = `
+        <div class="icono">
+            <i aria-hidden="true" class="fa fa-paw" title="${mascota.especie}"></i>
+            <span class="fa-sr-only">${mascota.especie}</span>
+        </div>
+        <div class="detalles">  
+            <div class="especie">${mascota.especie}</div>  
+            <div class="raza">${mascota.raza}</div>  
+            <div class="info">
+                <div>${mascota.sexo}</div>  
+                <div>${mascota.detalles}</div> 
+                <div>${mascota.contacto}</div> 
+                <div><a href="#" target="_blank">Más información</a></div>
+            </div>
+        </div>
+        `;
+        return contenido;
     }
-    function cargarMascota(titulo,coordenadas){
-        const priceTag = document.createElement("div");
+    function alternarResaltar(marcadorVista) {
+        if (marcadorVista.content.classList.contains("resaltar")) {
+        marcadorVista.content.classList.remove("resaltar");
+        marcadorVista.zIndex = null;
+        } else {
+        marcadorVista.content.classList.add("resaltar");
+        marcadorVista.zIndex = 1;
+        }
+    }
 
-        priceTag.className = "price-tag";
-        priceTag.textContent = titulo;
+    function cargarMascota(titulo,coordenadas,subTitulo,detalle,boton,ubicaion,icono){
+        console.log(titulo)
+        const contenido = document.createElement("div"); 
+        contenido.classList.add("mascota");
+        contenido.innerHTML = `
+        <div class="icono">
+            ${icono}
+            <span class="fa-sr-only">${titulo}</span>
+        </div>
+        <div class="detalles">  
+            <div class="especie">${ubicaion}</div>  
+            <div class="raza">${subTitulo}</div>
+            <div class="info">
+                <div>${detalle}</div>
+                ${boton}
+            </div>
+        </div>
+        `;
         const marker = new google.maps.marker.AdvancedMarkerElement({
             map: map,
             position: coordenadas,
-            title: titulo,
-            content: priceTag,
+            title: subTitulo,
+            content: contenido,
           });
+        marker.addListener("click", () => {
+            alternarResaltar(marker);
+        });
+
         }
-    
-        
-        for (let i = 0; i < mascotasPerdidas.length; i++) {
+
+        var MarcasDeMascotasYCasas = await moduloDeTablas();
+        tablaDeMascotasStr = JSON.stringify(MarcasDeMascotasYCasas[0].tablaDeMascota);
+        tablaDeMascotas = JSON.parse(tablaDeMascotasStr);
+        for (let i = 0; i < tablaDeMascotas.length; i++) {
             (function() {
-                let mascota = mascotasPerdidas[i];
-                var titulo = mascota.especie + " " + mascota.raza;
-                var ubicaionMascota = mascota.calle + " " + mascota.altura + "," + mascota.zona ;
+                let mascota = tablaDeMascotas[i];
+                console.log(mascota.especie + i)
+                var titulo = mascota.especie;
+                var subTitulo = mascota.especie + " " + mascota.raza + " " + mascota.sexo;
+                var ubicaionMascota = mascota.calle + " " + mascota.altura + "," + mascota.zona;
+                var detalle = mascota.descripcion;
+                var icono = `<i aria-hidden="true" class="fa fa-paw" title="${subTitulo}"></i>`
+                var boton = `<div><a href="/PerfilMascota/${mascota.mascotaid}"  class="boton" target="_blank">Más información</a></div>`;
                 obtenerCoordenadas(geocoder,ubicaionMascota, function(coordenadas) {
-                    cargarMascota(titulo,coordenadas);
+                    cargarMascota(titulo,coordenadas,subTitulo,detalle,boton,ubicaionMascota,icono);
                 });
             })();
         }
-    
+        
+        casasRegistradasStr = JSON.stringify(MarcasDeMascotasYCasas[1].tablaDeCasas);
+        casasRegistradas = JSON.parse(casasRegistradasStr);
+        for (let i = 0; i < casasRegistradas.length; i++) {
+            (function() {
+                let casa = casasRegistradas[i];
+                
+                var titulo = casa.nombre;
+                var subTitulo = "casa o centro de mascota"
+                var ubicaionCentro = casa.calle + " " + casa.altura + "," + casa.zona ;
+                var detalle = casa.descripcion;
+                var boton = `<div><a href="#" target="_blank" class="boton">Más información</a></div>`;
+                var icono = `<i aria-hidden="true" class="fa-solid fa-house" title="${subTitulo}"></i>`
+                //console.log(tablaDeMascotas.length);
+                obtenerCoordenadas(geocoder,ubicaionCentro, function(coordenadas) {
+                    cargarMascota(titulo,coordenadas,subTitulo,detalle,boton,ubicaionCentro,icono);
+                });
+            })();
+        }
     
 }
 
@@ -159,4 +214,10 @@ function updateInfoWindow(content, center) {
     });
   }
 
+
+
+
+//**************************************iniciar funciones******************************************************* */
+//traerDatosDeMarcas()
+//MarcasDeMascotasYCasas = moduloDeTablas()
 initMap();
