@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapa con Google Maps API</title>
+    <script>
+        // Colocar la API Key en una variable de JavaScript
+        const apiKey = "{{ api_key }}";
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+        script.defer = true;
+        script.async = true;
+        document.head.appendChild(script);
+    </script>
+</head>
+<body>
+    <h3>Mapa</h3>
+    <div id="map"></div>
+    <script src="{{ url_for('static', filename='/script/CargarMap.js') }}"></script>
+</body>
+</html>
