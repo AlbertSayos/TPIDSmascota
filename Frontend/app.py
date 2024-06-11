@@ -47,7 +47,20 @@ def perfil_mascota():
         "detalles": "Este es mi comentario",
         "contacto": "Este es mi número"}
     return render_template("PerfilMascota.html", mascota=mascota)
-    
+
+@app.route("/RegistrarUsuario")
+def registrar_usuario():
+    if request.method == "POST": # Cuando el usuario haya sido ingresado, envia un JSON para la verificacion
+        usuario = {
+            'nombre' : request.form.get('fusuario'),
+            "contraseña" : request.form.get('fcontraseña')
+        }
+        return jsonify(usuario)
+        
+    else:
+        return render_template("registrarusuario.html")
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
