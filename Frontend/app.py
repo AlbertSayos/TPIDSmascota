@@ -33,7 +33,7 @@ def registrar():
     else:
         return render_template('registrar.html') 
         
-@app.route('/PerfilMascota')
+@app.route('/PerfilMascota') # Planee una demo con ese estilo de parametros acorde a lo que se recibirá en la base de datos
 def perfil_mascota():
     mascota = {
         "id": 1,
