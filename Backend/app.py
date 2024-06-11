@@ -1,11 +1,11 @@
-from flask import Flask, jsonify
-from flask_sqlalchemy import SQLAlchemy 
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 
-PORT = 8081
+PORT = 8080
 
-app = Flask(__name__)
+app = Flask(__name__) 
 engine = create_engine('mysql+mysqlconnector://user:pass@host/DBname') 
 #reemplazar 'user', 'pass', 'host' y 'DBname' con los datos correspondientes
 
@@ -14,7 +14,7 @@ def mostrar_tabla_de_mascotas():
     conexion = engine.connect() #establezco la conexion con la base de datos
     query = 'SELECT * FROM mascotas;'
 
-    try: 
+    try:
        resultado=conexion.execute(text(query))
        conexion.close()
     except SQLAlchemyError as error:
@@ -75,6 +75,52 @@ def cargar_zona(zona):
       return jsonify(datos)
    return jsonify({'mensaje': 'No hay animales ni centros de animales en transito por esta zona'}, 404)
    
+@app.route('/buscarmascotas', methods=['GET'])
+def buscar_mascotas():
+   #Uso query parameters. En caso de que el usuario quiera omitir un parametro al buscar una mascota puede hacerlo
+   #Ejemplo URL: http://localhost:8081/buscarmascotas?especie=perro&raza=labrador&sexo=hembra 
+   especie = request.args.get('especie', default=None, type=str) 
+   raza = request.args.get('raza', default=None, type=str)
+   sexo = request.args.get('sexo', default=None, type=str)
+
+   conexion = engine.connect()
+   parametros=[]
+
+   if not especie is None:
+
+      parametros.append(f'especie = "{especie}"')
+   if not raza is None:
+      parametros.append(f'raza = "{raza}"')
+   if not sexo is None:
+      parametros.append(f'sexo = "{sexo}"')
+
+   if len(parametros) == 0:
+      query_mascotas = 'SELECT * FROM mascotas;'
+   else: 
+      query_mascotas= f'SELECT * FROM mascotas WHERE'+ ' AND'.join(parametros) + ';'
+
+   try: 
+       resultado_mascotas=conexion.execute(text(query_mascotas))
+       conexion.close()
+   except SQLAlchemyError as error:
+       return jsonify({'error': str(error.__cause__)})
+
+   mascotas=[]
+   for fila in resultado_mascotas:
+      mascotas.append({
+         'id': fila.id,
+         'especie': fila.especie,
+         'sexo': fila.sexo,
+         'raza': fila.raza,
+         'detalles': fila.detalles,
+         'zona' : fila.zona,
+         'calle' : fila.calle,
+         'altura': fila.altura,
+         'contacto' : fila.contacto,
+         'estado' : fila.estado,
+   })
+
+   return jsonify(mascotas)
 
 if __name__ == '__main__':
   app.run(debug=True, port=PORT)

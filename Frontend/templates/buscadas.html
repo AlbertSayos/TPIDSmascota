@@ -24,17 +24,83 @@
                 <li><a href="registrar">Registrar</a></li>
             </ul>
             <br>
-
         </header>
 
         <main>
+            <form action="{{ url_for('buscadas')}}" method="POST" id="formulario" onsubmit="return validarFormulario()">
+                <label for="especie">Especie:</label>
+                <select id="especie" name="mespecie">
+                    <option value="">Seleccione una opción</option>
+                    <option value="perro">Perro</option>
+                    <option value="gato">Gato</option>
+                </select><br><br>
+                
+                <label for="raza">Raza:</label>
+                <select id="raza" name="mraza">
+                    <option value="">Seleccione una opción</option>
+                </select><br><br>
+                
+                <label for="sexo">Sexo:</label>
+                <select id="sexo" name="msexo">
+                    <option value="">Seleccione una opción</option>
+                    <option value="macho">Macho</option>
+                    <option value="hembra">Hembra</option>
+                </select><br><br>
+                
+                <input type="submit" value="Enviar">
+            </form>
+        
+            <script>
+                const especieSelect = document.getElementById('especie');
+                const razaSelect = document.getElementById('raza');
+                
+                const razasPerro = ['Labrador', 'Poodle', 'Bulldog'];
+                const razasGato = ['Siames', 'Persa', 'Sphynx'];
+                
+                // Función para actualizar las opciones de la lista de razas según la especie seleccionada
+                function actualizarRazas() {
+                    const especieSeleccionada = especieSelect.value;
+                    razaSelect.innerHTML = '';
+                    
+                    if (especieSeleccionada === 'perro') {
+                        razasPerro.forEach(raza => {
+                            const option = document.createElement('option');
+                            option.text = raza;
+                            option.value = raza.toLowerCase();
+                            razaSelect.appendChild(option);
+                        });
+                    } else if (especieSeleccionada === 'gato') {
+                        razasGato.forEach(raza => {
+                            const option = document.createElement('option');
+                            option.text = raza;
+                            option.value = raza.toLowerCase();
+                            razaSelect.appendChild(option);
+                        });
+                    }
+                }
+                especieSelect.addEventListener('change', actualizarRazas);
+            </script>
             <br>
             <br>
         
-            <section>
+            <section class="tabla-de-mascotas" >
 
-                <!--Acá se va a encontrar la tabla de mascotas buscadas con un buscador-->
 
+            <div id="" class="fila" data="" style="display: flex; justify-content: space-between;
+            align-items: center; pointer-events: painted;">
+                <p>tipo</p>
+                <p>raza</p>
+                <p>sexo</p>
+                <p style="visibility: hidden;">Ver</p>
+            </div>
+            {% for mascota in tablaDeMascota %}
+                <div id="{{ mascota.mascotaid }}" class="fila" data="{{ mascota.calle }} {{ mascota.altura }}, {{ mascota.zona }}" onclick="irADireccion(this.getAttribute('data'))" style="display: flex; justify-content: space-between; align-items: center; pointer-events: painted;">
+                    <p>{{ mascota.especie }}</p>
+                    <p>{{ mascota.raza }}</p>
+                    <p>{{ mascota.sexo }}</p>
+                    <a href="/perfilMascota/{{ mascota.mascotaid }}">Ver</a>
+                </div>
+            {% endfor %}
             </section>
 
             <section>
@@ -51,8 +117,6 @@
         <footer>
             <p class="info_del_sitio">acá va a haber info a cerca de los creadores del sitio, contactar por si hay errores, etc</p>
         </footer>
-
-
         <script>
             (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
             key: '{{api_key}}',

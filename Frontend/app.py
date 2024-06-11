@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, Response
+from flask import Flask, jsonify, render_template, Response, request
 import requests  # Se utiliza para hacer consultas a APIs externas
 import os  # Se utiliza para interactuar con variables de entorno
 from dotenv import load_dotenv  # Se utiliza para cargar variables de entorno desde un archivo .env
@@ -8,7 +8,7 @@ PORT = 8080
 load_dotenv()  # Carga las variables de entorno desde el archivo .env si existe
 app = Flask(__name__)
 
-BackendLink = os.getenv('backend_link')  # Obtiene el valor de la variable de entorno 'backend_link'
+BackendLink = os.getenv('BACKEND_LINK')  # Obtiene el valor de la variable de entorno 'backend_link'
 
 
 @app.route('/')
@@ -29,9 +29,20 @@ def home():
 def registrar():
     return render_template('registrar.html')
 
-@app.route('/buscadas')
+@app.route('/buscadas', methods=['GET', 'POST'])
 def buscadas():
-    return render_template('buscadas.html')
+    if request.method == "POST":
+        especie = request.form["mespecie"]
+        raza = request.form["mraza"]
+        sexo = request.form["msexo"]
+        filtro = requests.get(f'{BackendLink}/buscarmascotas?especie = {especie}&raza = {raza}&sexo = {sexo}')
+        if filtro.status_code == 200:
+            tablaDeMascotas = filtro.json()
+            return render_template('buscadas.html',api_key=api_key, tablaDeMascota=tablaDeMascotas)
+    tabla = requests.get(f'{BackendLink}/buscarmascotas')
+    if tabla.status_code == 200:
+        tabla = tabla.json()
+        return render_template('buscadas.html', api_key=api_key, tablaDeMascotas=tabla)
 
 @app.route('/cargarMapa')
 def cargarMapa():
