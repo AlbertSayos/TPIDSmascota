@@ -162,13 +162,21 @@ tablaDePerros = [
 ]
 
 
-@app.route('/buscadas')
+@app.route('/buscadas', methods=['GET', 'POST'])
 def buscadas():
-    #llamas a la tabla de mascota con requests.get(f'{BackendLink}/buscarMascota') #tabla de perros es lo que espero recibir por ejemplo
-    tabla = tablademascotas #se puede poner tablaDePerros
-    tipo = request.args.get('tipo') #tambien estan raza y sexo
-    #en caso de que no haya ningun filtro llamas a tablademascotas
-    return render_template('buscadas.html',api_key=api_key, tablaDeMascota=tabla)
+    if request.method == "POST":
+        especie = request.form["mespecie"]
+        raza = request.form["mraza"]
+        sexo = request.form["msexo"]
+        filtro = requests.get(f'{BackendLink}/buscarmascotas?especie = {especie}&raza = {raza}&sexo = {sexo}')
+        if filtro.status_code == 200:
+            tablaDeMascotas = filtro.json()
+            return render_template('buscadas.html',api_key=api_key, tablaDeMascota=tablaDeMascotas)
+    tabla = requests.get(f'{BackendLink}/buscarmascotas')
+    if tabla.status_code == 200:
+        tabla = tabla.json()
+        return render_template('buscadas.html', api_key=api_key, tablaDeMascotas=tabla)
+
 
 @app.route('/cargarMapa')
 def cargarMapa():

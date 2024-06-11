@@ -6,7 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
 
-PORT = 8081
+PORT = 8080
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv('contraseña')
@@ -22,7 +22,7 @@ def mostrar_tabla_de_mascotas():
     conexion = engine.connect() #establezco la conexion con la base de datos
     query = 'SELECT * FROM mascotas;'
 
-    try: 
+    try:
        resultado=conexion.execute(text(query))
        conexion.close()
     except SQLAlchemyError as error:
@@ -44,6 +44,28 @@ def mostrar_tabla_de_mascotas():
        mascota['usuarioid'] = fila.usuarioid
        mascotas.append(mascota)
     return jsonify(mascotas)
+
+@app.route('/tabladecentros', methods=["GET"])
+def mostrar_tabla_de_centros():
+   conexion = engine.connect() 
+   query = "SELECT * FROM centros;"
+    
+   try:
+       resultado = conexion.execute(text(query))
+       conexion.close()
+   except SQLAlchemyError as error:
+       return jsonify({'error': str(error.__cause__)})
+   centros = []
+   for fila in resultado:
+      centro = {}
+      centro['id_centro'] = fila.id_centro
+      centro['nombre'] = fila.nombre
+      centro['datos'] = fila.datos
+      centro['zona'] = fila.zona
+      centro['calle'] = fila.calle
+      centro['altura'] = fila.altura
+      centros.append(centro)
+   return jsonify(centros)
 
 @app.route('/registrar', methods=["POST"])
 def registrar():
