@@ -52,7 +52,7 @@ def eliminar_mascota():
    mascota =request.get_json() #recibe los datos en formato json
    id_mascota = mascota.get('mascotaid')
 
-   query = f'DELETE FROM users WHERE mascotaid = {id_mascota};'
+   query = f'DELETE FROM mascotas WHERE mascotaid = {id_mascota};'
 
    validar_query = f'SELECT * FROM mascotas WHERE mascotaid = {id_mascota};'
 
