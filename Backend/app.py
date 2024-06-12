@@ -46,6 +46,32 @@ def mostrar_tabla_de_mascotas():
        mascotas.append(mascota)
     return jsonify(mascotas)
 
+@app.route('/tablademascotas', methods=['DELETE'])
+def eliminar_mascota():
+   conexion = engine.connect()
+   mascota =request.get_json() #recibe los datos en formato json
+   id_mascota = mascota.get('mascotaid')
+
+   query = f'DELETE FROM users WHERE mascotaid = {id_mascota};'
+
+   validar_query = f'SELECT * FROM mascotas WHERE mascotaid = {id_mascota};'
+
+   try:
+      val_resultado= conexion.execute(text(validar_query))
+
+      if val_resultado.rowcount != 0:
+         resultado = conexion.execute(text(query))
+         conexion.commit()
+         conexion.close()
+      else:
+         conexion.close()
+         return jsonify({'mensaje': 'La mascota no existe'}),404
+      
+   except SQLAlchemyError as error:
+      return jsonify({'error': str(error.__cause__)})
+   return jsonify ({'mensaje': 'La mascota se ha eliminado con exito'}), 202
+
+
 @app.route('/tabladecentros', methods=["GET"])
 def mostrar_tabla_de_centros():
    conexion = engine.connect() 
@@ -281,10 +307,6 @@ def mascotaDeUsuario(id):
          })
       return jsonify(mascotaDeUsuario),200
    return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
-
-@app.route('/tablaDeCasas', methods=['GET'])
-def tablaDeCasas():
-   pass
 
 if __name__ == '__main__':
   app.run(debug=True, port=PORT)
