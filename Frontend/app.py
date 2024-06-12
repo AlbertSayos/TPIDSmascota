@@ -207,8 +207,15 @@ def miperfil():
         return  redirect(url_for('perfil'))
     decodeDeUsuario = decode
     decode = {}
-    return render_template('miperfil.html', decode=decodeDeUsuario)
-
+    user_id = decodeDeUsuario["user_id"]
+    nombreDeUsuario = decodeDeUsuario["username"]
+    respuesta = requests.get(f'{BackendLink}/mascotaDeUsuario/{user_id}')
+    if respuesta.status_code == 200:
+        listaDeMascotas = respuesta.json()
+        print(listaDeMascotas)
+        return render_template('miperfil.html', nombreDeUsuario=nombreDeUsuario,listaDeMascotas=listaDeMascotas)
+    else:
+        return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)

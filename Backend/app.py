@@ -14,8 +14,6 @@ app.config['SECRET_KEY'] = os.getenv('contraseña')
 jwt = JWTManager(app)
 
 engine = create_engine('mysql+mysqlconnector://root:@localhost/mascotas')
-engineUsuarios = create_engine('mysql+mysqlconnector://root:@localhost/usuarios')
-engineCentros = create_engine('mysql+mysqlconnector://root:@localhost/centros')
 #reemplazar 'user', 'pass', 'host' y 'DBname' con los datos correspondientes
 
 @app.route('/tablademascotas', methods=["GET"])
@@ -72,7 +70,7 @@ def mostrar_tabla_de_centros():
 def registrar():
    
    conexion = engine.connect() #establezco la conexion con la base de datos
-   coneccionUsuario = engineUsuarios.connect()
+   coneccionUsuario = engine.connect()
    data = request.json
    
    if not data:
@@ -159,7 +157,7 @@ def buscar_mascotas():
    parametros=[]
 
    if not id_mascota is None:
-      parametros.append(f"id = {id_mascota}")
+      parametros.append(f"mascotaid = {id_mascota}")
    if not especie is None:
       parametros.append(f"especie = '{especie}'")
    if not raza is None:
@@ -170,8 +168,8 @@ def buscar_mascotas():
    if len(parametros) == 0:
       query_mascotas = 'SELECT * FROM mascotas;'
    else: 
-      query_mascotas= f"SELECT * FROM mascotas WHERE "+ "AND ".join(parametros) + ";"
-   #print(query_mascotas) 
+      query_mascotas= f"SELECT * FROM mascotas WHERE "+ " AND ".join(parametros) + ";"
+   print(query_mascotas) 
    try: 
        resultado_mascotas=conexion.execute(text(query_mascotas))
        conexion.close()
@@ -191,15 +189,11 @@ def buscar_mascotas():
          'altura': fila.altura,
          'contacto' : fila.contacto,
          #'estado' : fila.estado,
+         'usuarioid' : fila.usuarioid
    })
       
    return jsonify(mascotas)
 
-
-@app.route('/registrarMascota', methods=['POST'])
-def registrarMascota():
-   #Ejemplo URL:  requests.get(f'{BackendLink}/registrar?usuarioid={decode.user_id}&tipo={tipo}&raza={raza}&sexo={sexo}&detalles={detalles}&zona={zona}&calle={calle}&altura={altura}')
-   pass
 
 #**************************************************endpoind de usuarios*************************************************************#
 @app.route('/login', methods=['GET'])
@@ -207,7 +201,7 @@ def login():
    #Ejemplo URL: http://localhost:8081/login?usuario=Marcos&contraseña=contraseña123
    usuario = request.args.get('usuario', default=None, type=str) 
    contraseña = request.args.get('contraseña', default=None, type=str)
-   conexion = engineUsuarios.connect()
+   conexion = engine.connect()
    querry_usuario = f"SELECT * FROM usuarios WHERE nombre = '{usuario}';"
    print(usuario)
    try: 
@@ -219,7 +213,7 @@ def login():
       if (contraseña == resultado.contraseña):
          token = create_access_token(identity={'username': resultado.nombre,'user_id': resultado.usuarioid})
          try:
-            conexion2 = engineUsuarios.connect()
+            conexion2 = engine.connect()
             querry_token = f"UPDATE usuarios SET token = '{token}' WHERE nombre = '{resultado.nombre}';"
             conexion2.execute(text(querry_token))
             conexion2.commit()
@@ -277,14 +271,12 @@ def mascotaDeUsuario(id):
             'calle' : fila.calle,
             'altura' : fila.altura,
             'contacto' : fila.contacto,
-            'estado' : fila.estado
+            #'estado' : fila.estado
+            'usuarioid' : fila.usuarioid
          })
       return jsonify(mascotaDeUsuario),200
    return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
 
-@app.route('/tablaDeCasas', methods=['GET'])
-def tablaDeCasas():
-   pass
 
 if __name__ == '__main__':
   app.run(debug=True, port=PORT)
