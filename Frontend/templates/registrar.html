@@ -1,38 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <title>Bark Street/Registrar</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/homestyle.css') }}">
-</head>
-<body>
-    <h2>Registro de Mascotas</h2>
-    <form method="post" action="/registrar" onsubmit="registrar(); return false;">
-        <label for="tipo">Tipo de Mascotas</label>
-        <select name="ftipo" id="tipo" required>
-            <option value="">Selecciona el tipo</option>
-            <option value="perro">Perro</option>
-            <option value="gato">Gato</option>
-            <option value="otro">Otro</option>
-        </select>
-        <select name="fraza" id="razas">
-            <option value="">Selecciona la raza</option>
-        </select>
-        <label for="sexo">Sexo</label>
-        <select name="fsexo" id="sexo" required>
-            <option value="">Selecciona el sexo</option>
-            <option value="macho">Masculino</option>
-            <option value="hembra">Femenino</option>
-        </select>
-        <label for="detalles">Detalles</label>
-        <textarea name="fdetalles" id="detalles" placeholder="Describa los detalles de la mascota" required></textarea>
-        <label for="zona">Zona</label>
-        <input type="text" name="fzona" id="zona" required>
-        <label for="calle">Calle</label>
-        <input type="text" name="fcalle" id="calle" required>
-        <label for="altura">Altura</label>
-        <input type="text" name="faltura" id="altura" required>
-        <button type="submit">Registrar</button>
-    </form>
+
+    <head>
+        <title>Inicio de Sesión</title>
+        <meta charset="UTF-8">
+        <meta name="keywords" content="mascotas, mascotas perdidas, mascota encontrada">
+        <meta property="og:title" content="El mejor lugar para hallar a tu mascota perdida">
+        <meta property="og:type" content="website">
+        <meta property="og:locate" content="es_ES">
+        <link rel="stylesheet" href="/static/css/homestyle.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head> 
+
+    <!--Comienzo del body-->
+
+    <body>
+        <header>
+
+            <h1>Encuentra tu mascota!</h1>
+            <ul class="listaNavBar">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="map">Mapa</a></li>
+                <li><a href="buscadas">Buscar</a></li>
+                <li><a href="registrar">Registrar</a></li>
+            </ul>
+            <br>
+        </header>
+        <section class="registrarMascota">
+            <h2>Registro de Mascotas</h2>
+            <form method="post" action="/registrar" onsubmit="registrar(); return false;">
+                <label for="tipo">Tipo de Mascotas</label>
+                <select name="ftipo" id="tipo" required>
+                    <option value="">Selecciona el tipo</option>
+                    <option value="perro">Perro</option>
+                    <option value="gato">Gato</option>
+                    <option value="otro">Otro</option>
+                </select>
+                <select name="fraza" id="razas">
+                    <option value="">Selecciona la raza</option>
+                </select>
+                <label for="sexo">Sexo</label>
+                <select name="fsexo" id="sexo" required>
+                    <option value="">Selecciona el sexo</option>
+                    <option value="macho">Masculino</option>
+                    <option value="hembra">Femenino</option>
+                </select>
+                <label for="detalles">Detalles</label>
+                <textarea name="fdetalles" id="detalles" placeholder="Describa los detalles de la mascota" required></textarea>
+                <label for="zona">Zona</label>
+                <input type="text" name="fzona" id="zona" required>
+                <label for="calle">Calle</label>
+                <input type="text" name="fcalle" id="calle" required>
+                <label for="altura">Altura</label>
+                <input type="text" name="faltura" id="altura" required>
+                <button type="submit">Registrar</button>
+            </form>
+        </section>
     <script src="{{ url_for('static', filename='/script/completarBuscardor.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -71,10 +94,11 @@
                     }
                 })
                 .then(response => {
-                    if (response.status === 204) {  // Si la respuesta es exitosa y no requiere redireccionamiento
-                        window.location.href = "/index";
-                    } else if (response.status === 401) {  // Si la respuesta es 401, redirigir al login
-                        window.location.href = "/login";
+                    //print(response.status)
+                    if (response.status === 200) { 
+                        window.location.href = "/";
+                    } else {  
+                        window.location.href = "/registrar";
                     }
                 });
             }

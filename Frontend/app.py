@@ -72,12 +72,12 @@ def registrar():
 
             # Realizar la solicitud POST
             response = requests.post(f'{BackendLink}/registrar', json=datos)
-            
+            print(response.status_code)
             # Verificar la respuesta del servidor
             if response.status_code == 200:
-                print("Datos enviados exitosamente.")
+                return jsonify({'message': 'se ha agregado correctamente'}),200
             else:
-                print(f"Error al enviar los datos: {response.status_code}, {response.text}")
+                return jsonify({'message': 'algo fallo'}),400
         
 @app.route('/PerfilMascota') # Planee una demo con ese estilo de parametros acorde a lo que se recibirá en la base de datos
 def perfil_mascota():
@@ -135,7 +135,7 @@ def buscadas():
 
 @app.route('/cargarMapa')
 def cargarMapa():
-    return render_template('mapDeEjemplo.html', api_key=api_key)
+    return render_template('map.html', api_key=api_key)
 
 @app.route('/cargarTablas')
 def cargarTablas():

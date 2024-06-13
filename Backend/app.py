@@ -1,7 +1,7 @@
 from flask import Flask, jsonify,request
 import os
 from flask_sqlalchemy import SQLAlchemy 
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text,inspect
 from sqlalchemy.exc import SQLAlchemyError
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
@@ -13,8 +13,22 @@ app.config['JWT_SECRET_KEY'] = os.getenv('contraseña')
 app.config['SECRET_KEY'] = os.getenv('contraseña')
 jwt = JWTManager(app)
 
-engine = create_engine('mysql+mysqlconnector://root:@localhost/mascotas')
+
+engine = create_engine('mysql+mysqlconnector://root:@localhost/mascotas') 
+#engine = create_engine('mysql+mysqlconnector://root:@localhost/mascotas')
+#engineUsuarios = create_engine('mysql+mysqlconnector://root:@localhost/usuarios')
+#engineCentros = create_engine('mysql+mysqlconnector://root:@localhost/centros')
 #reemplazar 'user', 'pass', 'host' y 'DBname' con los datos correspondientes
+
+@app.route('/')
+def index():
+    # Utiliza el inspector para obtener la lista de tablas
+    with engine.connect() as connection:
+        inspector = inspect(connection)
+        tables = inspector.get_table_names()
+
+    # Retorna la lista de tablas como JSON
+    return jsonify({'tables': tables})
 
 @app.route('/tablademascotas', methods=["GET"])
 def mostrar_tabla_de_mascotas():
@@ -70,7 +84,7 @@ def mostrar_tabla_de_centros():
 def registrar():
    
    conexion = engine.connect() #establezco la conexion con la base de datos
-   coneccionUsuario = engine.connect()
+   #coneccionUsuario = engine.connect()
    data = request.json
    
    if not data:
@@ -88,21 +102,22 @@ def registrar():
    query_contacto = f"SELECT contacto FROM usuarios WHERE {id_usuario}"
    print("llegue a query")
    try: 
-      contacto = coneccionUsuario.execute(text(query_contacto)).fetchone()
-      coneccionUsuario.commit()
-      coneccionUsuario.close()
-   except SQLAlchemyError as error:
-      return jsonify({'error': str(error.__cause__)})
-   
-   query = f"INSERT INTO mascotas (usuarioid, especie, raza, sexo, descripcion, zona, calle, altura, contacto) VALUES ({id_usuario}, '{especie}', '{raza}', '{sexo}', '{detalles}', '{zona}', '{calle}', {altura}, '{contacto[0]}')"
-   print(query)
-   try: 
-      conexion.execute(text(query))
+      contacto = conexion.execute(text(query_contacto)).fetchone()
       conexion.commit()
       conexion.close()
    except SQLAlchemyError as error:
       return jsonify({'error': str(error.__cause__)})
-   return jsonify({'message': 'se ha agregado correctamente' + query})
+   
+   conexion2 = engine.connect()
+   query = f"INSERT INTO mascotas (usuarioid, especie, raza, sexo, descripcion, zona, calle, altura, contacto) VALUES ({id_usuario}, '{especie}', '{raza}', '{sexo}', '{detalles}', '{zona}', '{calle}', {altura}, '{contacto[0]}')"
+   print(query)
+   try: 
+      conexion2.execute(text(query))
+      conexion2.commit()
+      conexion2.close()
+   except SQLAlchemyError as error:
+      return jsonify({'error': str(error.__cause__)}),400
+   return jsonify({'message': 'se ha agregado correctamente' + query}),200
    
 
 
@@ -157,7 +172,7 @@ def buscar_mascotas():
    parametros=[]
 
    if not id_mascota is None:
-      parametros.append(f"mascotaid = {id_mascota}")
+      parametros.append(f"id = {id_mascota}")
    if not especie is None:
       parametros.append(f"especie = '{especie}'")
    if not raza is None:
@@ -168,8 +183,8 @@ def buscar_mascotas():
    if len(parametros) == 0:
       query_mascotas = 'SELECT * FROM mascotas;'
    else: 
-      query_mascotas= f"SELECT * FROM mascotas WHERE "+ " AND ".join(parametros) + ";"
-   print(query_mascotas) 
+      query_mascotas= f"SELECT * FROM mascotas WHERE "+ "AND ".join(parametros) + ";"
+   #print(query_mascotas) 
    try: 
        resultado_mascotas=conexion.execute(text(query_mascotas))
        conexion.close()
@@ -189,10 +204,10 @@ def buscar_mascotas():
          'altura': fila.altura,
          'contacto' : fila.contacto,
          #'estado' : fila.estado,
-         'usuarioid' : fila.usuarioid
    })
       
    return jsonify(mascotas)
+
 
 
 #**************************************************endpoind de usuarios*************************************************************#
@@ -272,11 +287,9 @@ def mascotaDeUsuario(id):
             'altura' : fila.altura,
             'contacto' : fila.contacto,
             #'estado' : fila.estado
-            'usuarioid' : fila.usuarioid
          })
       return jsonify(mascotaDeUsuario),200
    return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
-
 
 if __name__ == '__main__':
   app.run(debug=True, port=PORT)
