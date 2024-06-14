@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="57.163" y1="106.223" x2="57.163" y2="430.367" id="gradient-2" gradientTransform="matrix(1, 0, 0, 1, 17.867897, 5.633763)">
+      <stop offset="0" style="stop-color: rgb(96.471% 67.059% 41.569%)"/>
+      <stop offset="1" style="stop-color: rgb(61.252% 36.055% 11.909%)"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="57.163" y1="106.223" x2="57.163" y2="430.367" id="gradient-0" gradientTransform="matrix(1, 0, 0, 1, 17.867897, 5.633763)">
+      <stop offset="0" style="stop-color: rgb(3.9216% 40% 49.804%)"/>
+      <stop offset="1" style="stop-color: rgb(0% 25.112% 33.62%)"/>
+    </linearGradient>
+  </defs>
+  <g id="b" transform="matrix(1.2373499870300293, -0.003445000154897571, 0, 1.419666051864624, 149.79197692871097, -134.36045837402344)" style="">
+    <g id="c">
+      <path class="e" d="M 194.453 224.603 C 194.453 295.069 75.031 436.001 75.031 436.001 C 75.031 436.001 -44.391 295.069 -44.391 224.603 C -44.391 162.335 9.076 111.857 75.031 111.857 C 140.986 111.857 194.453 162.335 194.453 224.603 Z" style="stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 14px; fill-rule: nonzero; stroke: url('#gradient-0'); paint-order: fill; fill: url('#gradient-2'); transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(1, 0, 0, 1, 0, -0.000015258789)"/>
+    </g>
+  </g>
+  <g id="d" transform="matrix(1, -0.0027840000111609697, 0, 1, 4.204071044921882, 65.38433837890625)" style="">
+    <ellipse cx="216.663" cy="73.03" rx="19.757" ry="23.04" style="fill: rgb(255, 255, 255);"/>
+    <ellipse cx="177.15" cy="103.75" rx="19.757" ry="23.04" style="fill: rgb(255, 255, 255);"/>
+    <ellipse cx="267.466" cy="73.03" rx="19.757" ry="23.04" style="fill: rgb(255, 255, 255);"/>
+    <ellipse cx="306.979" cy="103.75" rx="19.757" ry="23.04" style="fill: rgb(255, 255, 255);"/>
+    <path d="M 309.668 157.215 C 306.563 149.183 299.327 145.112 292.342 141.176 C 286.263 137.749 280.523 134.511 276.769 128.696 C 266.422 112.59 260.738 102.872 243.786 102.872 C 226.834 102.872 221.133 112.594 210.761 128.693 C 207.004 134.52 201.236 137.765 195.15 141.199 C 188.164 145.138 180.943 149.199 177.828 157.215 C 176.615 160.105 176.005 163.175 176.028 166.267 C 176.028 179.304 187.476 189.912 200.16 189.912 C 212.843 189.912 229.551 184.111 243.822 184.111 C 258.092 184.111 274.568 189.912 287.41 189.912 C 300.251 189.912 311.502 179.304 311.502 166.267 C 311.512 163.173 310.89 160.104 309.668 157.215 Z" style="fill: rgb(255, 255, 255); transform-box: fill-box; transform-origin: 50% 50%;"/>
+  </g>
+</svg>

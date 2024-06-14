@@ -1,8 +1,15 @@
 body {
-    background-color: #55868C;
+    background-image: url('../image/imagenfondo.png');
     color: #FAFFFD;
     font-size: 1.0rem;
     font-weight: bold;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
 }
 
 header {
@@ -10,7 +17,11 @@ header {
 }
 
 a {
-    color: #E6F8B2;
+  color: black;
+  text-decoration: none;
+}
+a:hover{
+  color: #f7ac6b;
 }
 
 li {
@@ -21,28 +32,24 @@ li {
 .listaNavBar {
     display: flex;
     justify-content: space-around;
-    background-color: #42213D;
+    background-color: #b1d7c5;
     padding: 0.1em;
     border-radius: 0.5em;
 }
 
 .buscar_registrar {
-    background-color: #42213D;
+    background-color: #b1d7c5;
     font-size: 2rem;
 }
 
 .boton_buscar_registrar {
-    background-color: #42213D;
+    background-color: #b1d7c5;
 }
 
 .info_del_sitio {
     text-align: center;
 }
 
-
-body{
-    background-color: rgb(74, 66, 66);
-}
 h3{
     color: #ffffff;
 }
@@ -226,4 +233,33 @@ h3{
       border-radius: 5px;
       padding: 2px;
       text-decoration: none;
+    }
+
+    .imagenes-header{
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+      max-height: 216px;
+      justify-content: center;
+    }
+
+    .logo{
+      width: 30%;
+      max-height: 216px;
+      max-width: 216px;
+    }
+
+    .sub-imagenes-header{
+      width: 70%;
+    }
+
+    .subtitulo{
+      color: black;
+      font-size: 30px;
+    }
+
+    .banner{
+      width: 70%;
     }

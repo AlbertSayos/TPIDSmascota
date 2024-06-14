@@ -1,3 +1,4 @@
+<!-- mapabasic.html -->
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -15,17 +16,22 @@
 
     <body>
         <header>
-
-            <h1>Encuentra tu mascota!</h1>
+            <div class="imagenes-header">
+                <img class="logo" src="{{ url_for('static', filename='/image/logo.png') }}">
+                <div class="sub-imagenes-header">
+                    <img class="banner" src="{{ url_for('static', filename='/image/banner.png') }}">
+                    <h4 class="subtitulo">Página de búsqueda Encuentra tu Mascota</h4>
+                </div> <!-- Corrected the closing div tag position -->
+            </div>
             <ul class="listaNavBar">
                 <li><a href="/">Inicio</a></li>
-                <li><a href="/map">Mapa</a></li>
                 <li><a href="buscadas">Buscar</a></li>
                 <li><a href="registrar">Registrar</a></li>
+                <li><a href="/miperfil">mi perfil</a></li>
             </ul>
             <br>
-
         </header>
+        
         
         <main>
             <section class="buscar_registrar">
@@ -40,13 +46,35 @@
                 <p>Registra una mascota perdida</p>
                 <button class="boton_buscar_registrar"><a href="/registrar">registrar</a></button>
             </section>
-            <section>
-
+            
+            <section id="secion-de-mapa">
+                <h3>Busca tu mascota</h3>
                 <div class="place-autocomplete-card" id="place-autocomplete-card">
                     <p>Buscar</p>
-                  </div>
-                  <div id="map"></div>
-
+                </div>
+                <div id="map"></div>
+        
+                <!-- Incluye el script generado dinámicamente -->
+                <script src="{{ url_for('static', filename='/script/cargarMap.js') }}"></script>
+                <script src="{{ url_for('static', filename='/script/moduloDeTablas.js') }}"></script>
+                <script>
+                    {{ scriptDeMapa | safe }}
+                    
+                    // Llamar a initMap con los datos necesarios
+                    document.addEventListener('DOMContentLoaded', function() {
+                        initMap();
+                    });
+                </script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var token = "{{ token }}";
+                        if (token && token !== "") {
+                            localStorage.setItem('token', token);
+                        }
+                        console.log(localStorage.getItem('token'));
+                    });
+        
+                </script>
             </section>
         </main>
 
@@ -54,25 +82,5 @@
             <p class="info_del_sitio">acá va a haber info a cerca de los creadores del sitio, contactar por si hay errores, etc</p>
         </footer>
 
-        <script>
-            (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
-              key: '{{api_key}}',
-              v: "beta",
-              // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
-              // Add other bootstrap parameters as needed, using camel case.
-            });
-          </script>
-        <!--<script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>-->
-        <script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>
-        <script src="{{ url_for('static', filename='/script/moduloDeTablas.js') }}"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var token = "{{ token }}";
-                if (token && token !== "") {
-                    localStorage.setItem('token', token);
-                }
-                console.log(localStorage.getItem('token'));
-            });
 
-        </script>
     </body>

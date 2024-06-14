@@ -17,9 +17,9 @@
                     }
                 })
                 .then(response => {
-                    if (response.status === 204) {  // Si la respuesta es exitosa y no requiere redireccionamiento
+                    if (response.status === 204) {
                         window.location.href = "/miperfil";
-                    } else if (response.status === 401) {  // Si la respuesta es 401, redirigir al perfil
+                    } else if (response.status === 401) {
                         window.location.href = "/login";
                     }
                 });

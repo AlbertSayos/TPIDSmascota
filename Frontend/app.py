@@ -16,17 +16,21 @@ app.config['JWT_SECRET_KEY'] = os.getenv('contraseña')
 app.config['SECRET_KEY'] = os.getenv('contraseña')
 jwt = JWTManager(app)
 token = ""
+decode = ""
 
 @app.route('/')
 def index():
     global token
     tokenDeUsuario = token
     token = ""
-    return render_template('home.html',api_key=api_key,token=tokenDeUsuario)
+    scriptDeMapa = conseguirScript()
+    return render_template('home.html',scriptDeMapa=scriptDeMapa,token=tokenDeUsuario)
 
 @app.route('/map')
 def map():
-    return render_template('mapDeEjemplo.html',api_key=api_key)
+    
+    scriptDeMapa = conseguirScript()
+    return render_template('map.html',api_key=api_key,scriptDeMapa=scriptDeMapa)
 
 @app.route('/home')
 def home():
@@ -79,7 +83,7 @@ def registrar():
             else:
                 return jsonify({'message': 'algo fallo'}),400
         
-@app.route('/PerfilMascota') # Planee una demo con ese estilo de parametros acorde a lo que se recibirá en la base de datos
+@app.route('/PerfilMascota/id') # Planee una demo con ese estilo de parametros acorde a lo que se recibirá en la base de datos
 def perfil_mascota():
     mascota = {
         "id": 1,
@@ -110,6 +114,7 @@ def registrar_usuario():
 
 @app.route('/buscadas', methods=['GET', 'POST'])
 def buscadas():
+    scriptDeMapa = conseguirScript()
     if request.method == "POST":
         especie = request.form.get("mespecie")
         raza = request.form.get("mraza")
@@ -125,16 +130,16 @@ def buscadas():
         filtro = requests.get(f'{BackendLink}/buscarmascotas{cadena}')
         if filtro.status_code == 200:
             tablaDeMascotas = filtro.json()
-            print(tablaDeMascotas)
-            return render_template('buscadas.html',api_key=api_key, tablaDeMascotas=tablaDeMascotas)
+            return render_template('buscadas.html',scriptDeMapa=scriptDeMapa, tablaDeMascotas=tablaDeMascotas)
     tabla = requests.get(f'{BackendLink}/buscarmascotas')
     if tabla.status_code == 200:
         tabla = tabla.json()
-        return render_template('buscadas.html', api_key=api_key, tablaDeMascotas=tabla)
+        return render_template('buscadas.html', scriptDeMapa=scriptDeMapa, tablaDeMascotas=tabla)
 
 
 @app.route('/cargarMapa')
 def cargarMapa():
+    scriptDeMapa = conseguirScript()
     return render_template('map.html', api_key=api_key)
 
 @app.route('/cargarTablas')
@@ -187,14 +192,15 @@ def logout():
 def perfil():
     return render_template('perfil.html') #y aca ponemos un script que pase un token al POST de mi perfil
 
-decode = {}
 @app.route('/decodificar', methods=['GET'])
 def decodificar():
     global decode
     tokenDeUsuario = request.headers.get('autorizacion')
-    print(tokenDeUsuario)
+    
     if tokenDeUsuario:
+        print(tokenDeUsuario)
         decoded_token = decode_token(tokenDeUsuario)
+        print(decoded_token)
         decode = decoded_token.get('sub')
         return '', 204
     else:
@@ -210,12 +216,32 @@ def miperfil():
     user_id = decodeDeUsuario["user_id"]
     nombreDeUsuario = decodeDeUsuario["username"]
     respuesta = requests.get(f'{BackendLink}/mascotaDeUsuario/{user_id}')
+    print(respuesta.json())
     if respuesta.status_code == 200:
         listaDeMascotas = respuesta.json()
         print(listaDeMascotas)
         return render_template('miperfil.html', nombreDeUsuario=nombreDeUsuario,listaDeMascotas=listaDeMascotas)
     else:
         return redirect(url_for('login'))
+
+
+
+def conseguirScript():
+    base_url = "https://maps.googleapis.com/maps/api/js"
+    params = {
+        "key": api_key,
+        "v": "beta",
+        "callback": "initMap"  # llama la funcion cuando carga la pagina
+    }
+    libraries = ["marker", "places", "geocoding"]  # Lista de bibliotecas a importar
+    params["libraries"] = ",".join(libraries)
+    scriptDeMapa= requests.get(base_url, params=params)
+
+    if scriptDeMapa.status_code == 200:
+        return scriptDeMapa.text
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
