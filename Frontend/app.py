@@ -237,6 +237,7 @@ def conseguirScript():
     params["libraries"] = ",".join(libraries)
     scriptDeMapa= requests.get(base_url, params=params)
 
+
     if scriptDeMapa.status_code == 200:
         return scriptDeMapa.text
 
