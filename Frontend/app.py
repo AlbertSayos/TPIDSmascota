@@ -26,11 +26,6 @@ def index():
     scriptDeMapa = conseguirScript()
     return render_template('home.html',scriptDeMapa=scriptDeMapa,token=tokenDeUsuario)
 
-@app.route('/map')
-def map():
-    
-    scriptDeMapa = conseguirScript()
-    return render_template('map.html',api_key=api_key,scriptDeMapa=scriptDeMapa)
 
 @app.route('/home')
 def home():
