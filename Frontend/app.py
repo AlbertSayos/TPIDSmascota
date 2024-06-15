@@ -23,14 +23,12 @@ def index():
     global token
     tokenDeUsuario = token
     token = ""
-    scriptDeMapa = conseguirScript()
-    return render_template('home.html',scriptDeMapa=scriptDeMapa,token=tokenDeUsuario)
+    return render_template('home.html',token=tokenDeUsuario)
 
 @app.route('/map')
 def map():
     
-    scriptDeMapa = conseguirScript()
-    return render_template('map.html',api_key=api_key,scriptDeMapa=scriptDeMapa)
+    return render_template('mapbasic.html')
 
 @app.route('/home')
 def home():
@@ -114,7 +112,6 @@ def registrar_usuario():
 
 @app.route('/buscadas', methods=['GET', 'POST'])
 def buscadas():
-    scriptDeMapa = conseguirScript()
     datos = {
         "id": "",
         "especie": "",
@@ -138,7 +135,7 @@ def buscadas():
     tabla = requests.get(f'{BackendLink}/buscarmascotas', json=datos)
     if tabla.status_code == 200:
         tabla = tabla.json()
-    return render_template('buscadas.html', scriptDeMapa=scriptDeMapa, tablaDeMascotas=tabla)
+    return render_template('buscadas.html',tablaDeMascotas=tabla)
 
 
 @app.route('/cargarTablas')
@@ -228,7 +225,7 @@ def miperfil():
         return redirect(url_for('login'))
 
 
-
+@app.route('/script')
 def conseguirScript():
     base_url = "https://maps.googleapis.com/maps/api/js"
     params = {

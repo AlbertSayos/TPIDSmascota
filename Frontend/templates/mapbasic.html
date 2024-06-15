@@ -10,10 +10,21 @@
         <script src="{{ url_for('static', filename='/script/cargarMap.js') }}"></script>
         <script src="{{ url_for('static', filename='/script/moduloDeTablas.js') }}"></script>
         <script>
-            const scriptDeMapaKey = {{ scriptDeMapa | tojson | safe }};
-            localStorage.setItem(scriptDeMapaKey, scriptDeMapaKey);
-            eval(localStorage.getItem(scriptDeMapaKey))
-            initMap();
+            async function loadScript() {
+            try {
+                let respuesta = await fetch('/script');
+                if (!respuesta.ok) {
+                    throw new Error('hubo un error');
+                }
+                let scriptContent = await respuesta.text();
+                eval(scriptContent);
+            } catch (error) {
+                console.error('Error al cargar el script:', error);
+            }
+        }
+
+        loadScript();
+        initMap();
         </script>
     </section>
 
