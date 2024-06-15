@@ -115,32 +115,31 @@ def registrar_usuario():
 @app.route('/buscadas', methods=['GET', 'POST'])
 def buscadas():
     scriptDeMapa = conseguirScript()
+    datos = {
+        "id": "",
+        "especie": "",
+        "raza": "",
+        "sexo": ""
+    }
     if request.method == "POST":
         especie = request.form.get("mespecie")
         raza = request.form.get("mraza")
         sexo = request.form.get("msexo")
-        cadena = "?"
-        if especie:
-            cadena = cadena + (f"especie={especie}")
-        if raza:
-            cadena = cadena + (f"raza={raza}")
-        if sexo:
-            cadena = cadena + (f"sexo={sexo}")
-        print(f'{BackendLink}/buscarmascotas{cadena}')
-        filtro = requests.get(f'{BackendLink}/buscarmascotas{cadena}')
-        if filtro.status_code == 200:
-            tablaDeMascotas = filtro.json()
-            return render_template('buscadas.html',scriptDeMapa=scriptDeMapa, tablaDeMascotas=tablaDeMascotas)
-    tabla = requests.get(f'{BackendLink}/buscarmascotas')
+
+        datos = {
+            "especie": especie,
+            "raza": raza,
+            "sexo": sexo
+        }
+        #filtro = requests.get(f'{BackendLink}/buscarmascotas', json=datos)
+        #if filtro.status_code == 200:
+        #    tablaDeMascotas = filtro.json()
+        #    return render_template('buscadas.html',scriptDeMapa=scriptDeMapa, tablaDeMascotas=tablaDeMascotas)
+    tabla = requests.get(f'{BackendLink}/buscarmascotas', json=datos)
     if tabla.status_code == 200:
         tabla = tabla.json()
-        return render_template('buscadas.html', scriptDeMapa=scriptDeMapa, tablaDeMascotas=tabla)
+    return render_template('buscadas.html', scriptDeMapa=scriptDeMapa, tablaDeMascotas=tabla)
 
-
-@app.route('/cargarMapa')
-def cargarMapa():
-    scriptDeMapa = conseguirScript()
-    return render_template('map.html', api_key=api_key)
 
 @app.route('/cargarTablas')
 def cargarTablas():
@@ -175,7 +174,11 @@ def login():
      if request.method == 'POST':
         nombre = request.form.get('nombre') 
         contraseña = request.form.get('contraseña')
-        respuesta = requests.get(f'{BackendLink}/login?usuario={nombre}&contraseña={contraseña}')
+        datos = {
+            "nombre": nombre,
+            "contraseña": contraseña
+        }
+        respuesta = requests.get(f'{BackendLink}', json=datos)
         if respuesta.status_code == 200:
             tokenDeUsuario = respuesta.json().get('token')
             token = tokenDeUsuario
@@ -215,8 +218,8 @@ def miperfil():
     decode = {}
     user_id = decodeDeUsuario["user_id"]
     nombreDeUsuario = decodeDeUsuario["username"]
-    respuesta = requests.get(f'{BackendLink}/mascotaDeUsuario/{user_id}')
-    print(respuesta.json())
+    datos = {"user_id":user_id}
+    respuesta = requests.get(f'{BackendLink}/mascotaDeUsuario', json=datos)
     if respuesta.status_code == 200:
         listaDeMascotas = respuesta.json()
         print(listaDeMascotas)
@@ -240,9 +243,6 @@ def conseguirScript():
 
     if scriptDeMapa.status_code == 200:
         return scriptDeMapa.text
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)

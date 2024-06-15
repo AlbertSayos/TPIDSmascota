@@ -30,7 +30,7 @@ def index():
     # Retorna la lista de tablas como JSON
     return jsonify({'tables': tables})
 
-@app.route('/tablademascotas', methods=["GET"])
+@app.route('/tablademascotas', methods=["GET"])#
 def mostrar_tabla_de_mascotas():
     conexion = engine.connect() #establezco la conexion con la base de datos
     query = 'SELECT * FROM mascotas;'
@@ -58,7 +58,7 @@ def mostrar_tabla_de_mascotas():
        mascotas.append(mascota)
     return jsonify(mascotas)
 
-@app.route('/tablademascotas', methods=['DELETE'])
+@app.route('/tablademascotas', methods=['DELETE'])#
 def eliminar_mascota():
    conexion = engine.connect()
    mascota =request.get_json() #recibe los datos en formato json
@@ -84,7 +84,7 @@ def eliminar_mascota():
    return jsonify ({'mensaje': 'La mascota se ha eliminado con exito'}), 202
 
 
-@app.route('/tabladecentros', methods=["GET"])
+@app.route('/tabladecentros', methods=["GET"])#
 def mostrar_tabla_de_centros():
    conexion = engine.connect() 
    query = "SELECT * FROM centros;"
@@ -106,7 +106,7 @@ def mostrar_tabla_de_centros():
       centros.append(centro)
    return jsonify(centros)
 
-@app.route('/registrar', methods=["POST"])
+@app.route('/registrar', methods=["POST"])#
 def registrar():
    
    conexion = engine.connect() #establezco la conexion con la base de datos
@@ -233,7 +233,6 @@ def buscar_mascotas():
    })
       
    return jsonify(mascotas)
-
 
 
 #**************************************************endpoind de usuarios*************************************************************#

@@ -17,6 +17,8 @@ async function initMap() {
 
     // Autocompletado de lugares, etc.
     geocoder = new google.maps.Geocoder();
+
+    
     const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement();
     placeAutocomplete.id = "place-autocomplete-input";
     const card = document.getElementById("place-autocomplete-card");

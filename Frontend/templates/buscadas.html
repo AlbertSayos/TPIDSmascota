@@ -75,11 +75,7 @@
 
             </section>
             <section>
-                
-                <div class="place-autocomplete-card" id="place-autocomplete-card">
-                    <p>Buscar</p>
-                  </div>
-                  <div id="map"></div>
+                {% extends "mapbasic.html" %}
                 
             </section>
             
@@ -88,14 +84,6 @@
         <footer>
             <p class="info_del_sitio">acá va a haber info a cerca de los creadores del sitio, contactar por si hay errores, etc</p>
         </footer>
-        <script src="{{ url_for('static', filename='/script/cargarMap.js') }}" ></script>
-        <script src="{{ url_for('static', filename='/script/moduloDeTablas.js') }}"></script>
-        <script>
-            {{ scriptDeMapa | safe }}
-            
-            // Llamar a initMap con los datos necesarios
-            
-            initMap();
-        </script>
+
         
     </body>
