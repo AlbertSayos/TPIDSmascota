@@ -242,7 +242,7 @@ def login():
 @app.route('/registrar', methods=['POST'])
 def registrarUsuario():
    
-   conexion = engine.connect()
+   conexion = engineUsuarios.connect()
    nuevo_usuario =request.get_json() #recibe los datos en formato json
 
    nombre = nuevo_usuario.get('nombre')
@@ -261,7 +261,7 @@ def registrarUsuario():
 
 @app.route('/mascotaDeUsuario', methods=['GET'])
 def mascotaDeUsuario():
-   conexion = engine.connect()
+   conexion = engineUsuarios.connect()
    usuario = request.get_json()
    usuario_id= request.get('id')
    query = f'SELECT * from mascotas WHERE usuarioid = {usuario_id};'
