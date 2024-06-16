@@ -13,9 +13,7 @@ app.config['JWT_SECRET_KEY'] = os.getenv('contraseña')
 app.config['SECRET_KEY'] = os.getenv('contraseña')
 jwt = JWTManager(app)
 
-engine = create_engine('mysql+mysqlconnector://root:@localhost/mascotas')
-engineUsuarios = create_engine('mysql+mysqlconnector://root:@localhost/usuarios')
-engineCentros = create_engine('mysql+mysqlconnector://root:@localhost/centros')
+engine = create_engine('mysql+mysqlconnector://root:tp@localhost/tp')
 #reemplazar 'user', 'pass', 'host' y 'DBname' con los datos correspondientes
 
 #**************************************************endpoind de mascotas*************************************************************#
@@ -209,7 +207,7 @@ def buscar_mascotas():
 #**************************************************endpoind de usuarios*************************************************************#
 @app.route('/login', methods=['GET'])
 def login():
-   conexion = engineUsuarios.connect()
+   conexion = engine.connect()
    login= request.get_json()
    usuario = request.get('usuario')
    contraseña = request.get('contraseña')
@@ -225,7 +223,7 @@ def login():
       if (contraseña == resultado.contraseña):
          token = create_access_token(identity={'username': resultado.nombre,'user_id': resultado.usuarioid})
          try:
-            conexion2 = engineUsuarios.connect()
+            conexion2 = engine.connect()
             querry_token = f"UPDATE usuarios SET token = '{token}' WHERE nombre = '{resultado.nombre}';"
             conexion2.execute(text(querry_token))
             conexion2.commit()
@@ -242,7 +240,7 @@ def login():
 @app.route('/registrar', methods=['POST'])
 def registrarUsuario():
    
-   conexion = engineUsuarios.connect()
+   conexion = engine.connect()
    nuevo_usuario =request.get_json() #recibe los datos en formato json
 
    nombre = nuevo_usuario.get('nombre')
@@ -261,7 +259,7 @@ def registrarUsuario():
 
 @app.route('/mascotaDeUsuario', methods=['GET'])
 def mascotaDeUsuario():
-   conexion = engineUsuarios.connect()
+   conexion = engine.connect()
    usuario = request.get_json()
    usuario_id= request.get('id')
    query = f'SELECT * from mascotas WHERE usuarioid = {usuario_id};'
