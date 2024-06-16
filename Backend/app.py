@@ -178,9 +178,9 @@ def buscar_mascotas():
    conexion = engine.connect()
    busqueda_mascota=request.get_json()
 
-   especie = request.get('especie') 
-   raza = request.get('raza')
-   sexo = request.get('sexo')
+   especie = busqueda_mascota.get('especie') 
+   raza = busqueda_mascota.get('raza')
+   sexo = busqueda_mascota.get('sexo')
 
 
    query_mascotas= f"SELECT * FROM mascotas WHERE especie={especie} AND raza={raza} AND sexo={sexo};"
@@ -214,8 +214,8 @@ def buscar_mascotas():
 def login():
    conexion = engineUsuarios.connect()
    login= request.get_json()
-   usuario = request.get('usuario')
-   contraseña = request.get('contraseña')
+   usuario = login.get('usuario')
+   contraseña = login.get('contraseña')
 
    query_usuario = f"SELECT * FROM usuarios WHERE nombre = '{usuario}';"
    
@@ -266,7 +266,7 @@ def registrarUsuario():
 def mascotaDeUsuario():
    conexion = engine.connect()
    usuario = request.get_json()
-   usuario_id= request.get('id')
+   usuario_id= usuario.get('id')
    query = f'SELECT * from mascotas WHERE usuarioid = {usuario_id};'
 
    try:
