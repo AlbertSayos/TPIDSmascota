@@ -81,33 +81,31 @@ def registrar():
             else:
                 return jsonify({'message': 'algo fallo'}),400
         
-@app.route('/PerfilMascota/id') # Planee una demo con ese estilo de parametros acorde a lo que se recibirá en la base de datos
-def perfil_mascota():
-    mascota = {
-        "id": 1,
-        "especie": "perro",
-        "raza": "Labrador Retriever",
-        "zona": "Palermo",
-        "calle": "Av. Santa Fe",
-        "altura": 3000,
-        "sexo": "macho",
-        "estado": "buscado",
-        "detalles": "Este es mi comentario",
-        "contacto": "Este es mi número"}
-    return render_template("PerfilMascota.html", mascota=mascota)
+@app.route('/PerfilMascota/<int:id>')
+def perfil_mascota(id):
+    response=requests.get(f'{BackendLink}//buscarmascotas?mascotaid={id}')
+    if response.status_code == 200:
+        mascota = response.json()[0]
+        return render_template("PerfilMascota.html", mascota=mascota)
+    return render_template("404.html")
 
-@app.route("/RegistrarUsuario")
-def registrar_usuario():
+@app.route("/registro", methods=["GET", "POST"])
+def registro():
     if request.method == "POST": # Cuando el usuario haya sido ingresado, envia un JSON para la verificacion
+        nombre= request.form.get('fusuario')
+        contraseña= request.form.get('fpassword')
+        contacto= request.form.get('fcontact')
         usuario = {
-            'nombre' : request.form.get('fusuario'),
-            "contraseña" : request.form.get('fcontraseña')
+            'nombre' : nombre,
+            "contraseña" : contraseña,
+            "contacto" : contacto
         }
-        return jsonify(usuario)
-        
-    else:
-        return render_template("registrarusuario.html")
-
+        response=requests.post(f'{BackendLink}/registrarUsuario?nombre={nombre}&contraseña={contraseña}&contacto={contacto}', json=usuario)
+        if response.status_code == 200:
+            return redirect(url_for('login'))
+        else:
+            return render_template("registrarusuario.html")
+    return render_template("registrarusuario.html")
 
 
 @app.route('/buscadas', methods=['GET', 'POST'])

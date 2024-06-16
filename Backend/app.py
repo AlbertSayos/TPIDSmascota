@@ -175,16 +175,31 @@ def registrarMascota():
    
 @app.route('/buscarmascotas', methods=['GET'])
 def buscar_mascotas():
-   conexion = engine.connect()
+   #Uso query parameters. En caso de que el usuario quiera omitir un parametro al buscar una mascota puede hacerlo
+   #Ejemplo URL: http://localhost:8081/buscarmascotas?id=1&especie=perro&raza=labrador&sexo=hembra
    busqueda_mascota=request.get_json()
-
+   id_mascota=busqueda_mascota.get('mascotaid')
    especie = busqueda_mascota.get('especie') 
    raza = busqueda_mascota.get('raza')
    sexo = busqueda_mascota.get('sexo')
+   #print(especie)
+   conexion = engine.connect()
+   parametros=[]
 
-
-   query_mascotas= f"SELECT * FROM mascotas WHERE especie={especie} AND raza={raza} AND sexo={sexo};"
-
+   if not id_mascota is None:
+      parametros.append(f"id = {id_mascota}")
+   if not especie is None:
+      parametros.append(f"especie = '{especie}'")
+   if not raza is None:
+      parametros.append(f"raza = '{raza}'")
+   if not sexo is None:
+      parametros.append(f"sexo = '{sexo}'")
+   
+   if len(parametros) == 0:
+      query_mascotas = 'SELECT * FROM mascotas;'
+   else: 
+      query_mascotas= f"SELECT * FROM mascotas WHERE "+ "AND ".join(parametros) + ";"
+   #print(query_mascotas) 
    try: 
        resultado_mascotas=conexion.execute(text(query_mascotas))
        conexion.close()
