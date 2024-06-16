@@ -83,20 +83,13 @@ def registrar():
             else:
                 return jsonify({'message': 'algo fallo'}),400
         
-@app.route('/PerfilMascota/id') # Planee una demo con ese estilo de parametros acorde a lo que se recibirá en la base de datos
-def perfil_mascota():
-    mascota = {
-        "id": 1,
-        "especie": "perro",
-        "raza": "Labrador Retriever",
-        "zona": "Palermo",
-        "calle": "Av. Santa Fe",
-        "altura": 3000,
-        "sexo": "macho",
-        "estado": "buscado",
-        "detalles": "Este es mi comentario",
-        "contacto": "Este es mi número"}
-    return render_template("PerfilMascota.html", mascota=mascota)
+@app.route('/PerfilMascota/<int:id>')
+def perfil_mascota(id):
+    response=requests.get(f'{BackendLink}//buscarmascotas?mascotaid={id}')
+    if response.status_code == 200:
+        mascota = response.json()[0]
+        return render_template("PerfilMascota.html", mascota=mascota)
+    return render_template("404.html")
 
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
