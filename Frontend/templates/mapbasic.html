@@ -1,8 +1,6 @@
-<!-- Tu archivo HTML extendido -->
-    <head>
-        <link rel="stylesheet" href="/static/css/homestyle.css">
-    </head>
-    <section id="secion-de-mapa">
+
+   
+   <section id="secion-de-mapa">
         <h3>Busca tu mascota</h3>
         <div class="place-autocomplete-card" id="place-autocomplete-card">
             <p>Buscar</p>
@@ -10,15 +8,24 @@
         <div id="map"></div>
 
         <!-- Incluye el script generado dinámicamente -->
-        <script src="{{ url_for('static', filename='/script/cargarMap.js') }}"></script>
+        <script src="{{ url_for('static', filename='/script/cargarMap.js') }}" ></script>
         <script src="{{ url_for('static', filename='/script/moduloDeTablas.js') }}"></script>
         <script>
-            {{ scriptDeMapa | safe }}
-            
-            // Llamar a initMap con los datos necesarios
-            document.addEventListener('DOMContentLoaded', function() {
-                initMap();
-            });
+            async function loadScript() {
+            try {
+                let respuesta = await fetch('/script');
+                if (!respuesta.ok) {
+                    throw new Error('hubo un error');
+                }
+                let scriptContent = await respuesta.text();
+                eval(scriptContent);
+            } catch (error) {
+                console.error('Error al cargar el script:', error);
+            }
+        }
+
+        loadScript();
+        initMap();
         </script>
     </section>
 
