@@ -1,6 +1,42 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
+        {% block title %}<title>Mi perfil {{nombreDeUsuario}}</title>{% endblock %}
+        {% block main %}
+            <main>
+                <h1>Mi Perfil</h1>
+        <!-- >nombreDeUsuario -->
+        <!--listaDeMascotas-->
+            <h3 class="nombre">{{nombreDeUsuario}}</h3>
+            {% for mascota in listaDeMascotas %}
+                <div id="{{ mascota.mascotaid }}" class="fila" style="display: flex; justify-content: space-between; align-items: center; pointer-events: painted;">
+                    <p>{{ mascota.especie }}</p>
+                    <p>{{ mascota.raza }}</p>
+                    <p>{{ mascota.sexo }}</p>
+                    <p>{{ mascota.descripcion }}</p>
+                    <a href="/PerfilMascota/{{ mascota.mascotaid }}">Ver</a>
+                    <!--<p id="eliminar" class="eliminar" onclick="eliminar('{{ mascota.mascotaid }}')">eliminar</p>-->
+                    <form id="eliminarForm" action="/eliminarMascota" method="POST">
+                        <input type="hidden" id="eliminar-mascota" name="fmascotaid" value="{{ mascota.mascotaid }}">
+                        <button type="submit">eliminar</button>
+                    </form>
+                </div>
+                {% endfor %}
+                <script>
+                    function eliminar(mascotaId) {
+                            fetch(`/eliminarMascota`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'mascotaId': 'mascotaId'
+                                }
+                            })
+                            .then(response => {
+                                window.location.href = "/miperfil";
+                            });
+                        }
+                </script>
+            </main>
+        {% endblock %}
+    
     <head>
         <title>Mi perfil {{nombreDeUsuario}}</title>
         <meta charset="UTF-8">

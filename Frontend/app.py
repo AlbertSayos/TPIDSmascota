@@ -28,7 +28,8 @@ def index():
 @app.route('/map')
 def map():
     
-    return render_template('mapbasic.html')
+    scriptDeMapa = conseguirScript()
+    return render_template('map.html',api_key=api_key,scriptDeMapa=scriptDeMapa)
 
 @app.route('/home')
 def home():

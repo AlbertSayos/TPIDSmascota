@@ -38,8 +38,11 @@ li {
 }
 
 .buscar_registrar {
-    background-color: #b1d7c5;
-    font-size: 2rem;
+  display: inline-block;
+  padding: 10px 0; /* Espacio arriba y abajo del texto */
+  border-top: 1px solid black; /* Línea superior */
+  border-bottom: 1px solid black; /* Línea inferior */
+  margin: 20px 0; /* Espacio alrededor del subtítulo */
 }
 
 .boton_buscar_registrar {
@@ -241,14 +244,14 @@ h3{
       flex-direction: row;
       flex-wrap: nowrap;
       align-items: flex-start;
-      max-height: 216px;
+      max-height: 200px;
       justify-content: center;
     }
 
     .logo{
       width: 30%;
-      max-height: 216px;
-      max-width: 216px;
+      max-height: 200px;
+      max-width: 200px;
     }
 
     .sub-imagenes-header{
@@ -257,14 +260,9 @@ h3{
 
     .subtitulo{
       color: black;
-      font-size: 30px;
+      font-size: 25px;
     }
 
     .banner{
-      width: 70%;
-    }
-
-    .fila{
-      background-color: #4285F4;
-      color: #263238;
+      width: 50%;
     }
