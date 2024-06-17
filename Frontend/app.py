@@ -78,6 +78,21 @@ def registrar():
                 print("Datos enviados exitosamente.")
             else:
                 print(f"Error al enviar los datos: {response.status_code}, {response.text}")
+
+@app.route('/eliminarMascota', methods=[{'POST'}])
+def eliminarMascota():
+    mascotaid = request.form.get("fmascotaid")
+    datos = {
+                'mascotaid': mascotaid
+            }
+    response = requests.post(f'{BackendLink}/registrar', json=datos)
+    if response.status_code == 200:
+        print("Datos enviados exitosamente.")
+        return redirect(url_for("miperfil"))
+    else:
+        print(f"Error al enviar los datos: {response.status_code}, {response.text}")
+        return redirect(url_for("index"))
+
         
 @app.route('/PerfilMascota') # Planee una demo con ese estilo de parametros acorde a lo que se recibirá en la base de datos
 def perfil_mascota():
