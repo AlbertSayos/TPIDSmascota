@@ -89,6 +89,21 @@ def perfil_mascota(id):
         return render_template("PerfilMascota.html", mascota=mascota)
     return render_template("404.html")
 
+
+@app.route('/eliminarMascota', methods=[{'POST'}])
+def eliminarMascota():
+    mascotaid = request.form.get("fmascotaid")
+    datos = {
+                'mascotaid': mascotaid
+            }
+    response = requests.post(f'{BackendLink}/registrar', json=datos)
+    if response.status_code == 200:
+        print("Datos enviados exitosamente.")
+        return redirect(url_for("miperfil"))
+    else:
+        print(f"Error al enviar los datos: {response.status_code}, {response.text}")
+        return redirect(url_for("index"))
+
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
     if request.method == "POST": # Cuando el usuario haya sido ingresado, envia un JSON para la verificacion
