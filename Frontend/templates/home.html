@@ -9,6 +9,15 @@
     <meta property="og:locate" content="es_ES">
     <link rel="stylesheet" href="/static/css/homestyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Manejo del token
+        var token = "{{ token }}";
+        if (token && token !== "") {
+            localStorage.setItem('token', token);
+        }
+        console.log(localStorage.getItem('token'));
+        
+    </script>
 </head>
 
 <!--Comienzo del body-->
@@ -69,15 +78,7 @@
         localStorage.setItem(scriptDeMapaKey, scriptDeMapaKey);
         eval(localStorage.getItem(scriptDeMapaKey))
         initMap();
-    </script>
-    <script>
-            // Manejo del token
-            var token = "{{ token }}";
-            if (token && token !== "") {
-                localStorage.setItem('token', token);
-            }
-            console.log(localStorage.getItem('token'));
-    
     </script>-->
+    
 </body>
 </html>

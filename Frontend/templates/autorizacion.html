@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Autorización</title>
+    <!-- Puedes incluir estilos CSS, scripts JavaScript, etc. -->
+</head>
+<body>
+
+<!-- Formulario con el token oculto -->
+<form id="tokenForm" action="/miperfil" method="POST">
+    <input type="hidden" id="tokenField" name="token" value="">
+    <button type="submit">Enviar Token</button>
+</form>
+
+<script>
+    // Obtener el token desde localStorage
+    var token = localStorage.getItem('token');
+
+    // Asignar el token al campo oculto del formulario
+    document.getElementById('tokenField').value = token;
+
+    // Enviar automáticamente el formulario
+    document.getElementById('tokenForm').submit();
+</script>
+
+</body>
+</html>

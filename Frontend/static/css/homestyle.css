@@ -263,3 +263,8 @@ h3{
     .banner{
       width: 70%;
     }
+
+    .fila{
+      background-color: #4285F4;
+      color: #263238;
+    }

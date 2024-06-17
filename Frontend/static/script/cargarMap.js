@@ -59,12 +59,12 @@ function posicionar(coordenadas) {
         console.error('El mapa no está definido o no es una instancia válida de google.maps.Map.');
     }
 }
-
 function irADireccion(data){
     obtenerCoordenadas(geocoder,data, function(coordenadas) {
         posicionar(coordenadas);
     });
 }
+
 //*************************************************iniciar mapa*************************************************************** */
 async function initMap() {
     var center = { lat: -34.61747372535215, lng: -58.367949651070965 };

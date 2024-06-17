@@ -28,7 +28,7 @@
         </header>
         <section class="registrarMascota">
             <h2>Registro de Mascotas</h2>
-            <form method="post" action="/registrar" onsubmit="registrar(); return false;">
+            <form method="post" action="/registrar" >
                 <label for="tipo">Tipo de Mascotas</label>
                 <select name="ftipo" id="tipo" required>
                     <option value="">Selecciona el tipo</option>
@@ -53,58 +53,26 @@
                 <input type="text" name="fcalle" id="calle" required>
                 <label for="altura">Altura</label>
                 <input type="text" name="faltura" id="altura" required>
+
+                <input type="hidden" name="ftoken" id="tokenform" >
+
                 <button type="submit">Registrar</button>
+
             </form>
         </section>
         
     <script src="{{ url_for('static', filename='/script/completarBuscardor.js') }}"></script>
     
     <script>
+        console.log("cargue")
         document.addEventListener("DOMContentLoaded", function() {
             var token = localStorage.getItem('token');
             if (!token) {
                 window.location.href = "/login";
             } else {
-                console.log(token);
-            }
-        });
-
-        function registrar(){
-            var token = localStorage.getItem('token');
-            if (!token) {
-                window.location.href = "/login";
-            } else {
-                var tipo = document.getElementById('tipo').value;
-                var raza = document.getElementById('razas').value;
-                var sexo = document.getElementById('sexo').value;
-                var detalles = document.getElementById('detalles').value;
-                var zona = document.getElementById('zona').value;
-                var calle = document.getElementById('calle').value;
-                var altura = document.getElementById('altura').value;
-
-                fetch('/registrar', {
-                    method: 'POST',
-                    headers: {
-                        'autorizacion': token,
-                        'ftipo': tipo,
-                        'fraza': raza,
-                        'fsexo': sexo,
-                        'fdetalles': detalles,
-                        'fzona': zona,
-                        'fcalle': calle,
-                        'faltura': altura
-                    }
-                })
-                .then(response => {
-                    //print(response.status)
-                    if (response.status === 200) { 
-                        window.location.href = "/";
-                    } else {  
-                        window.location.href = "/registrar";
-                    }
-                });
-            }
-        }
+                    document.getElementById('tokenform').value = token;
+                }
+            });
     </script>
 </body>
 </html>

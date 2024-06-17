@@ -11,6 +11,7 @@
         <meta property="og:locate" content="es_ES">
         <link rel="stylesheet" href="/static/css/homestyle.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     </head> 
 
     <!--Comienzo del body-->
@@ -72,7 +73,9 @@
                         <a href="/PerfilMascota/{{ mascota.mascotaid }}">Ver</a>
                     </div>
                 {% endfor %}
-
+                
+            <script src="{{ url_for('static', filename='/script/completarBuscardor.js') }}"></script>
+        
             </section>
             <section>
                 {% extends "mapbasic.html" %}
@@ -84,6 +87,7 @@
         <footer>
             <p class="info_del_sitio">acá va a haber info a cerca de los creadores del sitio, contactar por si hay errores, etc</p>
         </footer>
+
 
         
     </body>

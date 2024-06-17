@@ -34,14 +34,14 @@ def map():
 def home():
     return render_template('home.html',api_key=api_key)
 
-    
-@app.route('/registrar', methods=['GET','POST'])
+#registra una publicacion de una mascota encontrada  
+@app.route('/registrar', methods=['GET','POST']) 
 def registrar():
     if request.method == 'GET':
         return render_template('registrar.html')
     elif request.method == 'POST':
 
-        tokenDeUsuario = request.headers.get('autorizacion')
+        tokenDeUsuario = request.form.get('ftoken')
         #print("verifico token" + str(tokenDeUsuario))
         if tokenDeUsuario:
             
@@ -49,13 +49,13 @@ def registrar():
             print("hay error?")
             decode = decoded_token.get('sub')
             print(decode)
-            especie = request.headers.get('ftipo')
-            sexo = request.headers.get('fsexo')
-            raza = request.headers.get('fraza')
-            detalles = request.headers.get('fdetalles')
-            zona = request.headers.get('fzona')
-            calle = request.headers.get('fcalle')
-            altura = request.headers.get('faltura')
+            especie = request.form.get('ftipo')
+            sexo = request.form.get('fsexo')
+            raza = request.form.get('fraza')
+            detalles = request.form.get('fdetalles')
+            zona = request.form.get('fzona')
+            calle = request.form.get('fcalle')
+            altura = request.form.get('faltura')
 
             datos= {
                 'usuarioid': decode["user_id"],
@@ -69,15 +69,15 @@ def registrar():
             }
 
             # Imprimir la URL y los datos para depuración
-            print(f'{BackendLink}/registrar')
+            print(f'{BackendLink}/registrarmascota')
             print(datos)
 
             # Realizar la solicitud POST
-            response = requests.post(f'{BackendLink}/registrar', json=datos)
+            response = requests.post(f'{BackendLink}/registrarMascota', json=datos)
             print(response.status_code)
             # Verificar la respuesta del servidor
-            if response.status_code == 200:
-                return jsonify({'message': 'se ha agregado correctamente'}),200
+            if response.status_code == 201:
+                return redirect(url_for('index'))
             else:
                 return jsonify({'message': 'algo fallo'}),400
         
@@ -131,6 +131,7 @@ def buscadas():
         #    tablaDeMascotas = filtro.json()
         #    return render_template('buscadas.html',scriptDeMapa=scriptDeMapa, tablaDeMascotas=tablaDeMascotas)
     tabla = requests.get(f'{BackendLink}/buscarmascotas', json=datos)
+    print(tabla.json())
     if tabla.status_code == 200:
         tabla = tabla.json()
     return render_template('buscadas.html',tablaDeMascotas=tabla)
@@ -167,16 +168,17 @@ def cargarTablas():
 def login():
      global token
      if request.method == 'POST':
-        nombre = request.form.get('nombre') 
-        contraseña = request.form.get('contraseña')
+        nombre = request.form.get('fnombre') 
+        contraseña = request.form.get('fcontraseña')
         datos = {
             "nombre": nombre,
             "contraseña": contraseña
         }
-        respuesta = requests.get(f'{BackendLink}', json=datos)
+        respuesta = requests.get(f'{BackendLink}/login', json=datos)
         if respuesta.status_code == 200:
             tokenDeUsuario = respuesta.json().get('token')
             token = tokenDeUsuario
+            print(token)
             return redirect(url_for('index'))
         else:
             return redirect(url_for('login'))
@@ -185,7 +187,7 @@ def login():
 @app.route('/logout', methods=['GET'])
 def logout():
     return render_template ('logout.html')
-
+"""
 @app.route('/perfil', methods=['GET'])
 def perfil():
     return render_template('perfil.html') #y aca ponemos un script que pase un token al POST de mi perfil
@@ -213,7 +215,7 @@ def miperfil():
     decode = {}
     user_id = decodeDeUsuario["user_id"]
     nombreDeUsuario = decodeDeUsuario["username"]
-    datos = {"user_id":user_id}
+    datos = {"id":user_id}
     respuesta = requests.get(f'{BackendLink}/mascotaDeUsuario', json=datos)
     if respuesta.status_code == 200:
         listaDeMascotas = respuesta.json()
@@ -221,6 +223,28 @@ def miperfil():
         return render_template('miperfil.html', nombreDeUsuario=nombreDeUsuario,listaDeMascotas=listaDeMascotas)
     else:
         return redirect(url_for('login'))
+"""
+@app.route('/miperfil', methods=['GET', 'POST'])
+def miperfil():
+    if request.method == 'POST':
+        tokenDeUsuario = request.form.get('token') 
+        if tokenDeUsuario:
+            decodeDeUsuario = decode_token(tokenDeUsuario).get('sub')
+
+            user_id = decodeDeUsuario["user_id"]
+            nombreDeUsuario = decodeDeUsuario["username"]
+            datos = {"id":user_id}
+            respuesta = requests.get(f'{BackendLink}/mascotaDeUsuario', json=datos)
+            if respuesta.status_code == 200:
+                listaDeMascotas = respuesta.json()
+                print(listaDeMascotas)
+                return render_template('miperfil.html', nombreDeUsuario=nombreDeUsuario,listaDeMascotas=listaDeMascotas)
+            else:
+                return redirect(url_for('registro'))
+        else:
+            return redirect(url_for('login'))
+    print("********************************************************************************")
+    return render_template('autorizacion.html') 
 
 
 @app.route('/script')
