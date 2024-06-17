@@ -217,9 +217,12 @@ def buscar_mascotas():
             'calle' : fila.calle,
             'altura': fila.altura,
             'contacto' : fila.contacto,
+            'mascotaid' : fila.mascotaid
             #'estado' : fila.estado,
       })
+      
       return jsonify(mascotas_buscadas),200
+   print(mascotas_buscadas)
    return jsonify({'mensaje': 'No existen mascotas con esas caracteristicas'}),404
 
 

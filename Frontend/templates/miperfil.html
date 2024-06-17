@@ -37,7 +37,7 @@
                     <p>{{ mascota.raza }}</p>
                     <p>{{ mascota.sexo }}</p>
                     <p>{{ mascota.descripcion }}</p>
-                    <a href="/perfilMascota/{{ mascota.mascotaid }}">Ver</a>
+                    <a href="/PerfilMascota/{{ mascota.mascotaid }}">Ver</a>
                     <!--<p id="eliminar" class="eliminar" onclick="eliminar('{{ mascota.mascotaid }}')">eliminar</p>-->
                     <form id="eliminarForm" action="/eliminarMascota" method="POST">
                         <input type="hidden" id="eliminar-mascota" name="fmascotaid" value="{{ mascota.mascotaid }}">

@@ -81,9 +81,11 @@ def registrar():
             else:
                 return jsonify({'message': 'algo fallo'}),400
         
-@app.route('/PerfilMascota/<int:id>')
+@app.route('/PerfilMascota/<id>')
 def perfil_mascota(id):
-    response=requests.get(f'{BackendLink}//buscarmascotas?mascotaid={id}')
+    mascotaid = id
+    data = {"mascotaid": mascotaid}
+    response=requests.post(f'{BackendLink}/buscarmascotas', json=data)
     if response.status_code == 200:
         mascota = response.json()[0]
         return render_template("PerfilMascota.html", mascota=mascota)
@@ -118,8 +120,8 @@ def registro():
             "contraseña" : contraseña,
             "contacto" : contacto
         }
-        response=requests.post(f'{BackendLink}/registrarUsuario?nombre={nombre}&contraseña={contraseña}&contacto={contacto}', json=usuario)
-        if response.status_code == 200:
+        response=requests.post(f'{BackendLink}/registrarusuario', json=usuario)
+        if response.status_code == 201:
             return redirect(url_for('login'))
         else:
             return render_template("registrarusuario.html")
@@ -144,7 +146,7 @@ def buscadas():
             "raza": raza,
             "sexo": sexo
         }
-    tabla = requests.get(f'{BackendLink}/buscarmascotas', json=datos)
+    tabla = requests.post(f'{BackendLink}/buscarmascotas', json=datos)
     print(tabla.json())
     if tabla.status_code == 200:
         tabla = tabla.json()
