@@ -28,8 +28,7 @@ def index():
 @app.route('/map')
 def map():
     
-    scriptDeMapa = conseguirScript()
-    return render_template('map.html',api_key=api_key,scriptDeMapa=scriptDeMapa)
+    return render_template('mapbasic.html')
 
 @app.route('/home')
 def home():
@@ -88,6 +87,7 @@ def perfil_mascota(id):
     data = {"mascotaid": mascotaid}
     response=requests.post(f'{BackendLink}/buscarmascotas', json=data)
     if response.status_code == 200:
+        print(response)
         mascota = response.json()[0]
         return render_template("PerfilMascota.html", mascota=mascota)
     return render_template("404.html")
@@ -191,7 +191,9 @@ def login():
             "nombre": nombre,
             "contraseña": contraseña
         }
+        print(datos)
         respuesta = requests.get(f'{BackendLink}/login', json=datos)
+        print(respuesta)
         if respuesta.status_code == 200:
             tokenDeUsuario = respuesta.json().get('token')
             token = tokenDeUsuario
@@ -210,11 +212,14 @@ def miperfil():
     if request.method == 'POST':
         tokenDeUsuario = request.form.get('token') 
         if tokenDeUsuario:
+            
+            print("llegue hasta aca")
             decodeDeUsuario = decode_token(tokenDeUsuario).get('sub')
 
             user_id = decodeDeUsuario["user_id"]
             nombreDeUsuario = decodeDeUsuario["username"]
             datos = {"id":user_id}
+            print(datos)
             respuesta = requests.get(f'{BackendLink}/mascotaDeUsuario', json=datos)
             if respuesta.status_code == 200:
                 listaDeMascotas = respuesta.json()

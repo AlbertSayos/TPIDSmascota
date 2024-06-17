@@ -2,7 +2,7 @@
 
         {% block title %}<title>Mi perfil {{nombreDeUsuario}}</title>{% endblock %}
         {% block main %}
-            <main>
+        <main>
                 <h1>Mi Perfil</h1>
         <!-- >nombreDeUsuario -->
         <!--listaDeMascotas-->
@@ -20,79 +20,6 @@
                         <button type="submit">eliminar</button>
                     </form>
                 </div>
-                {% endfor %}
-                <script>
-                    function eliminar(mascotaId) {
-                            fetch(`/eliminarMascota`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'mascotaId': 'mascotaId'
-                                }
-                            })
-                            .then(response => {
-                                window.location.href = "/miperfil";
-                            });
-                        }
-                </script>
-            </main>
-        {% endblock %}
-    
-    <head>
-        <title>Mi perfil {{nombreDeUsuario}}</title>
-        <meta charset="UTF-8">
-        <meta name="keywords" content="mascotas, mascotas perdidas, mascota encontrada">
-        <meta property="og:title" content="El mejor lugar para hallar a tu mascota perdida">
-        <meta property="og:type" content="website">
-        <meta property="og:locate" content="es_ES">
-        <link rel="stylesheet" href="/static/css/homestyle.css">
-    </head> 
-
-    <!--Comienzo del body-->
-
-    <body>
-        <header>
-
-            <h1>Encuentra tu mascota!</h1>
-            <ul class="listaNavBar">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="map">Mapa</a></li>
-                <li><a href="buscadas">Buscar</a></li>
-                <li><a href="registrar">Registrar</a></li>
-            </ul>
-            <br>
-        </header>
-
-
-        <h1>Mi Perfil</h1>
-        <!-- >nombreDeUsuario -->
-        <!--listaDeMascotas-->
-            <h3 class="nombre">{{nombreDeUsuario}}</h3>
-            {% for mascota in listaDeMascotas %}
-                <div id="{{ mascota.mascotaid }}" class="fila" style="display: flex; justify-content: space-between; align-items: center; pointer-events: painted;">
-                    <p>{{ mascota.especie }}</p>
-                    <p>{{ mascota.raza }}</p>
-                    <p>{{ mascota.sexo }}</p>
-                    <p>{{ mascota.descripcion }}</p>
-                    <a href="/PerfilMascota/{{ mascota.mascotaid }}">Ver</a>
-                    <!--<p id="eliminar" class="eliminar" onclick="eliminar('{{ mascota.mascotaid }}')">eliminar</p>-->
-                    <form id="eliminarForm" action="/eliminarMascota" method="POST">
-                        <input type="hidden" id="eliminar-mascota" name="fmascotaid" value="{{ mascota.mascotaid }}">
-                        <button type="submit">eliminar</button>
-                    </form>
-                </div>
             {% endfor %}
-            <!--<script>
-                function eliminar(mascotaId) {
-                        fetch(`/eliminarMascota`, {
-                            method: 'DELETE',
-                            headers: {
-                                'mascotaId': 'mascotaId'
-                            }
-                        })
-                        .then(response => {
-                            window.location.href = "/miperfil";
-                        });
-                    }
-            </script>-->
-</body>
-</html>
+        </main>
+        {% endblock %}
