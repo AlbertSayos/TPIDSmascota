@@ -9,7 +9,6 @@
         <meta property="og:type" content="website">
         <meta property="og:locate" content="es_ES">
         <link rel="stylesheet" href="/static/css/homestyle.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head> 
 
     <!--Comienzo del body-->
@@ -39,10 +38,14 @@
                     <p>{{ mascota.sexo }}</p>
                     <p>{{ mascota.descripcion }}</p>
                     <a href="/perfilMascota/{{ mascota.mascotaid }}">Ver</a>
-                    <p id="eliminar" class="eliminar" onclick="eliminar('{{ mascota.mascotaid }}')">eliminar</p>
+                    <!--<p id="eliminar" class="eliminar" onclick="eliminar('{{ mascota.mascotaid }}')">eliminar</p>-->
+                    <form id="eliminarForm" action="/eliminarMascota" method="POST">
+                        <input type="hidden" id="eliminar-mascota" name="fmascotaid" value="{{ mascota.mascotaid }}">
+                        <button type="submit">eliminar</button>
+                    </form>
                 </div>
             {% endfor %}
-            <script>
+            <!--<script>
                 function eliminar(mascotaId) {
                         fetch(`/eliminarMascota`, {
                             method: 'DELETE',
@@ -54,6 +57,6 @@
                             window.location.href = "/miperfil";
                         });
                     }
-            </script>
+            </script>-->
 </body>
 </html>

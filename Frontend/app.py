@@ -90,14 +90,17 @@ def perfil_mascota(id):
     return render_template("404.html")
 
 
-@app.route('/eliminarMascota', methods=[{'POST'}])
+@app.route('/eliminarMascota',methods=["GET", "POST"])
 def eliminarMascota():
+    if request.method == "GET":
+        return redirect(url_for("index"))
     mascotaid = request.form.get("fmascotaid")
     datos = {
                 'mascotaid': mascotaid
             }
-    response = requests.post(f'{BackendLink}/registrar', json=datos)
-    if response.status_code == 200:
+    print(datos)
+    response = requests.delete(f'{BackendLink}/eliminarmascota', json=datos)
+    if response.status_code == 202:
         print("Datos enviados exitosamente.")
         return redirect(url_for("miperfil"))
     else:
@@ -141,10 +144,6 @@ def buscadas():
             "raza": raza,
             "sexo": sexo
         }
-        #filtro = requests.get(f'{BackendLink}/buscarmascotas', json=datos)
-        #if filtro.status_code == 200:
-        #    tablaDeMascotas = filtro.json()
-        #    return render_template('buscadas.html',scriptDeMapa=scriptDeMapa, tablaDeMascotas=tablaDeMascotas)
     tabla = requests.get(f'{BackendLink}/buscarmascotas', json=datos)
     print(tabla.json())
     if tabla.status_code == 200:
@@ -202,43 +201,7 @@ def login():
 @app.route('/logout', methods=['GET'])
 def logout():
     return render_template ('logout.html')
-"""
-@app.route('/perfil', methods=['GET'])
-def perfil():
-    return render_template('perfil.html') #y aca ponemos un script que pase un token al POST de mi perfil
 
-@app.route('/decodificar', methods=['GET'])
-def decodificar():
-    global decode
-    tokenDeUsuario = request.headers.get('autorizacion')
-    
-    if tokenDeUsuario:
-        print(tokenDeUsuario)
-        decoded_token = decode_token(tokenDeUsuario)
-        print(decoded_token)
-        decode = decoded_token.get('sub')
-        return '', 204
-    else:
-        return redirect(url_for('login'))
-    
-@app.route('/miperfil', methods=['GET'])
-def miperfil():
-    global decode
-    if not decode:
-        return  redirect(url_for('perfil'))
-    decodeDeUsuario = decode
-    decode = {}
-    user_id = decodeDeUsuario["user_id"]
-    nombreDeUsuario = decodeDeUsuario["username"]
-    datos = {"id":user_id}
-    respuesta = requests.get(f'{BackendLink}/mascotaDeUsuario', json=datos)
-    if respuesta.status_code == 200:
-        listaDeMascotas = respuesta.json()
-        print(listaDeMascotas)
-        return render_template('miperfil.html', nombreDeUsuario=nombreDeUsuario,listaDeMascotas=listaDeMascotas)
-    else:
-        return redirect(url_for('login'))
-"""
 @app.route('/miperfil', methods=['GET', 'POST'])
 def miperfil():
     if request.method == 'POST':
