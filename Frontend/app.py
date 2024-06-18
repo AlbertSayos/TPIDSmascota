@@ -3,7 +3,7 @@ import requests  # Se utiliza para hacer consultas a APIs externas
 import os  # Se utiliza para interactuar con variables de entorno
 from dotenv import load_dotenv  # Se utiliza para cargar variables de entorno desde un archivo .env
 from flask_jwt_extended import JWTManager, create_access_token, decode_token
-
+from flask_jwt_extended.exceptions import JWTExtendedException, JWTDecodeError
 
 
 BackendLink = os.getenv('backend_link')  # Obtiene el valor de la variable de entorno 'backend_link'
@@ -18,6 +18,9 @@ jwt = JWTManager(app)
 token = ""
 decode = ""
 
+"""
+redenreriza el home html, pagina de inicio de la web
+"""
 @app.route('/')
 def index():
     global token
@@ -25,16 +28,11 @@ def index():
     token = ""
     return render_template('home.html',token=tokenDeUsuario)
 
-@app.route('/map')
-def map():
-    
-    return render_template('mapbasic.html')
-
-@app.route('/home')
-def home():
-    return render_template('home.html',api_key=api_key)
-
-#registra una publicacion de una mascota encontrada  
+"""
+registra una publicacion de una mascota encontrada, tiene que tener una secion iniciada
+GET: renderiza registrar.html para rellenar un formulario
+POST: recibe por request.form, la informacion de del registro, lo envia por requests a la api
+"""
 @app.route('/registrar', methods=['GET','POST']) 
 def registrar():
     if request.method == 'GET':
@@ -46,9 +44,7 @@ def registrar():
         if tokenDeUsuario:
             
             decoded_token = decode_token(tokenDeUsuario)
-            print("hay error?")
             decode = decoded_token.get('sub')
-            print(decode)
             especie = request.form.get('ftipo')
             sexo = request.form.get('fsexo')
             raza = request.form.get('fraza')
@@ -70,46 +66,59 @@ def registrar():
 
             # Imprimir la URL y los datos para depuración
             print(f'{BackendLink}/registrarmascota')
-            print(datos)
+            
 
             # Realizar la solicitud POST
             response = requests.post(f'{BackendLink}/registrarMascota', json=datos)
-            print(response.status_code)
+            
             # Verificar la respuesta del servidor
             if response.status_code == 201:
                 return redirect(url_for('index'))
-            else:
-                return jsonify({'message': 'algo fallo'}),400
-        
+        return render_template('registrar.html')
+
+
+"""
+Renderiza "perfilmascota.html" . id es el numero de identidad, de una publicacion de mascota y muestra sus datos.
+envia un requests a la api del backend para pedir la informacion
+"""
 @app.route('/PerfilMascota/<id>')
 def perfil_mascota(id):
     mascotaid = id
     data = {"mascotaid": mascotaid}
+    print(data)
     response=requests.post(f'{BackendLink}/buscarmascotas', json=data)
+    
     if response.status_code == 200:
         print(response)
         mascota = response.json()[0]
         return render_template("PerfilMascota.html", mascota=mascota)
     return render_template("404.html")
 
-
+"""
+envia una peticion delete a la api del backend para eliminar una mascota por id
+GET: redirecciona al index
+POST: toma por request.for el id de la mascota y envia una peticion delete al backend
+"""
 @app.route('/eliminarMascota',methods=["GET", "POST"])
 def eliminarMascota():
     if request.method == "GET":
         return redirect(url_for("index"))
     mascotaid = request.form.get("fmascotaid")
     datos = {
-                'mascotaid': mascotaid
-            }
-    print(datos)
+        'mascotaid': mascotaid
+        }
     response = requests.delete(f'{BackendLink}/eliminarmascota', json=datos)
     if response.status_code == 202:
-        print("Datos enviados exitosamente.")
         return redirect(url_for("miperfil"))
     else:
-        print(f"Error al enviar los datos: {response.status_code}, {response.text}")
         return redirect(url_for("index"))
 
+
+"""
+Registro de usuario
+GET: renderiza el "registrarusuario.html"
+POST: toma por request.for el nombre de usuario, la contraseña y el contacto, envia una peticion post al backend con esa informacion
+"""
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
     if request.method == "POST": # Cuando el usuario haya sido ingresado, envia un JSON para la verificacion
@@ -129,6 +138,12 @@ def registro():
     return render_template("registrarusuario.html")
 
 
+"""
+Pagina web donde esta el registro de las mascotas buscadas
+GET: renderiza "buscadas.html" con la tabla completa
+POST: toma por request.for el la especie,la raza y el sexo del animal buscado, envia una peticion post al backend con esa informacion
+    esta vacio por defecto
+"""
 @app.route('/buscadas', methods=['GET', 'POST'])
 def buscadas():
     datos = {
@@ -148,12 +163,14 @@ def buscadas():
             "sexo": sexo
         }
     tabla = requests.post(f'{BackendLink}/buscarmascotas', json=datos)
-    print(tabla.json())
     if tabla.status_code == 200:
         tabla = tabla.json()
     return render_template('buscadas.html',tablaDeMascotas=tabla)
 
-
+"""
+Devuelve una lista de diccionarios de las tablas de mascotas y centros de mascotas
+GET: envia una peticion requests para traer la infomracion de las mascotas y centros para mascotas registrados
+"""
 @app.route('/cargarTablas')
 def cargarTablas():
     tablaDeMascota = {}
@@ -166,8 +183,7 @@ def cargarTablas():
         if res_mascotas.status_code == 200 and res_casas.status_code == 200:
             tablaDeMascota = res_mascotas.json()
             tablaDeCasas = res_casas.json()
-        else:
-            return jsonify({"error": "Error al obtener datos de las tablas"}), 500
+        
     except requests.exceptions.RequestException as e:
         return jsonify({"error": str(e)}), 500
 
@@ -181,6 +197,13 @@ def cargarTablas():
     ]
     return jsonify(tablasDeMascotasYCasas)
 
+
+
+"""
+inicio de secion de usuario
+GET: renderiza el "login.html"
+POST: toma por request.for el nombre de usuario, la contraseña, envia una peticion post al backend con esa informacion, recibe un token
+"""
 @app.route('/login', methods=['GET','POST'])
 def login():
      global token
@@ -191,48 +214,59 @@ def login():
             "nombre": nombre,
             "contraseña": contraseña
         }
-        print(datos)
         respuesta = requests.get(f'{BackendLink}/login', json=datos)
-        print(respuesta)
         if respuesta.status_code == 200:
             tokenDeUsuario = respuesta.json().get('token')
             token = tokenDeUsuario
-            print(token)
             return redirect(url_for('index'))
         else:
             return redirect(url_for('login'))
      return render_template ('login.html')
-     
+
+"""
+cierra la secion de usuario
+GET: renderiza el "logout.html"
+"""
 @app.route('/logout', methods=['GET'])
 def logout():
     return render_template ('logout.html')
 
+
+"""
+Mi perfil de usuario, necesita tener la sescion iniciada, puede eliminar y revisar informacion de sus mascotas registradas
+GET: renderiza el "autorizacion.html" para validar la secion
+POST: Valida el token y dependiendo de la informacion del usuario traer la informacion de las mascotas posteadas por el usuario
+"""
 @app.route('/miperfil', methods=['GET', 'POST'])
 def miperfil():
     if request.method == 'POST':
         tokenDeUsuario = request.form.get('token') 
         if tokenDeUsuario:
-            
-            print("llegue hasta aca")
-            decodeDeUsuario = decode_token(tokenDeUsuario).get('sub')
-
+            try:
+                # Intenta decodificar el token
+                decodeDeUsuario = decode_token(token).get('sub')
+            except (JWTDecodeError, JWTExtendedException, Exception) as e:
+                print(f"Ha ocurrido un error al decodificar el token: {e}")
+                return redirect(url_for('login'))
             user_id = decodeDeUsuario["user_id"]
             nombreDeUsuario = decodeDeUsuario["username"]
             datos = {"id":user_id}
-            print(datos)
             respuesta = requests.get(f'{BackendLink}/mascotaDeUsuario', json=datos)
             if respuesta.status_code == 200:
                 listaDeMascotas = respuesta.json()
-                print(listaDeMascotas)
                 return render_template('miperfil.html', nombreDeUsuario=nombreDeUsuario,listaDeMascotas=listaDeMascotas)
             else:
                 return redirect(url_for('registro'))
         else:
             return redirect(url_for('login'))
-    print("********************************************************************************")
     return render_template('autorizacion.html') 
 
 
+
+
+"""
+Hace una consulta a la api de google map y recibe un scrip y lo devuelve
+"""
 @app.route('/script')
 def conseguirScript():
     base_url = "https://maps.googleapis.com/maps/api/js"
