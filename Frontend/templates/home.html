@@ -19,16 +19,7 @@
             </section>
             {% include "mapbasic.html" %}
             
-            <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        var token = "{{ token }}";
-                        if (token && token !== "") {
-                            localStorage.setItem('token', token);
-                        }
-                        console.log(localStorage.getItem('token'));
-                    });
-        
-            </script>
+            
         </main>
 
     {% endblock %}

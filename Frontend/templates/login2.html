@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+    {% block title %}<title>Inicio de sesión</title>{% endblock %}
+
+    {% block main %}
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var usuarioid = "{{ 10000 }}";
+                if (usuarioid && usuarioid !== "") {
+                    localStorage.setItem('usuarioid', usuarioid);
+                }
+                console.log(localStorage.getItem('usuarioid'));
+            });
+
+    </script>
+    {% endblock %}

@@ -16,5 +16,14 @@
                 </form>
             </section>
         </main>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var usuarioid = "{{ usuarioid }}";
+                if (usuarioid && usuarioid !== "") {
+                    localStorage.setItem('usuarioid', usuarioid);
+                }
+                console.log(localStorage.getItem('usuarioid'));
+            });
 
+    </script>
     {% endblock %}
