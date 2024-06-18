@@ -38,13 +38,13 @@
             <script src="{{ url_for('static', filename='/script/completarBuscardor.js') }}"></script>
             <script>
                 console.log("cargue")
-        document.addEventListener("DOMContentLoaded", function() {
-            var token = localStorage.getItem('token');
-            if (!token) {
-                window.location.href = "/login";
-            } else {
-                    document.getElementById('tokenform').value = token;
-                }
+                document.addEventListener("DOMContentLoaded", function() {
+                    var token = localStorage.getItem('token');
+                    if (!token) {
+                        window.location.href = "/login";
+                    } else {
+                            document.getElementById('tokenform').value = token;
+                        }
             });
             </script>
         </main>

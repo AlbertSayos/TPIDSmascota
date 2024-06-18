@@ -198,7 +198,6 @@ def cargarTablas():
     return jsonify(tablasDeMascotasYCasas)
 
 
-
 """
 inicio de secion de usuario
 GET: renderiza el "login.html"
@@ -231,7 +230,6 @@ GET: renderiza el "logout.html"
 def logout():
     return render_template ('logout.html')
 
-
 """
 Mi perfil de usuario, necesita tener la sescion iniciada, puede eliminar y revisar informacion de sus mascotas registradas
 GET: renderiza el "autorizacion.html" para validar la secion
@@ -260,9 +258,6 @@ def miperfil():
         else:
             return redirect(url_for('login'))
     return render_template('autorizacion.html') 
-
-
-
 
 """
 Hace una consulta a la api de google map y recibe un scrip y lo devuelve

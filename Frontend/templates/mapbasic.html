@@ -8,8 +8,8 @@
         <div id="map"></div>
 
         <!-- Incluye el script generado dinámicamente -->
-        <script src="{{ url_for('static', filename='/script/cargarMap.js') }}" ></script>
-        <script src="{{ url_for('static', filename='/script/moduloDeTablas.js') }}"></script>
+        <script src="{{ url_for('static', filename='/script/utilMap.js') }}"></script>
+        <script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>
         <script>
             async function loadScript() {
             try {
