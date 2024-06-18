@@ -44,16 +44,21 @@ li {
   border-bottom: 1px solid black; /* Línea inferior */
   margin: 20px 0; /* Espacio alrededor del subtítulo */
   width: 100%;
+  width: 100%;
 }
 
 .boton_buscar_registrar {
-    background-color: #e4742a;
+    background-color: #e77e38;
     padding: 1rem;
-
 }
 
 .info_del_sitio {
     text-align: center;
+    background-color:#b1d7c5;
+    width: fit-content;
+    justify-content: center;
+    margin: 0 auto;
+    color: black;
 }
 
 h3{
@@ -264,7 +269,17 @@ h3{
     .subtitulo{
       color: black;
       font-size: 25px;
-      background-color: #b1d7c5;
+
+      width: fit-content;
+    }
+
+    .subtitulo-centrado{
+      margin: 0 auto;
+      color: black;
+      font-size: 25px;
+
+      width: fit-content;
+      justify-content: center;
     }
 
     .banner{

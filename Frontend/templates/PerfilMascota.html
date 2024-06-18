@@ -1,32 +1,18 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <title>Bark Street/MascotaX</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/homestyle.css', _external=True) }}">
-</head>
-<body>
-    <header>
-
-        <h1>Encuentra tu mascota!</h1>
-        <ul class="listaNavBar">
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/map">Mapa</a></li>
-            <li><a href="buscadas">Buscar</a></li>
-            <li><a href="registrar">Registrar</a></li>
-        </ul>
-        <br>
-
-    </header>
-
-    <h2>{{ mascota.especie }} {{ mascota.raza }} : [{{ mascota.estado }}]</h2>
-    <p>Sexo: {{ mascota.sexo }}</p>
-    <p>{{ mascota.descripcion }}</p>
-    <p>Ubicación:
-        {{ mascota.zona }}, {{ mascota.calle }} {{ mascota.altura }}
-    </p>
-    <p>Contacto:
-        {{ mascota.contacto }}
-    </p>
-
-</body>
-</html>
+{% extends "base.html" %}
+    
+    {% block title %}<title>Busca tu mascota</title>{% endblock %}
+    {% block main %}
+        
+        <main>
+                    
+            <h2>{{ mascota.especie }} {{ mascota.raza }} : [{{ mascota.estado }}]</h2>
+            <p>Sexo: {{ mascota.sexo }}</p>
+            <p>{{ mascota.descripcion }}</p>
+            <p>Ubicación:
+                {{ mascota.zona }}, {{ mascota.calle }} {{ mascota.altura }}
+            </p>
+            <p>Contacto:
+                {{ mascota.contacto }}
+            </p>
+        </main>
+    {% endblock %}

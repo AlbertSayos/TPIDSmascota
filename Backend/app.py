@@ -144,7 +144,6 @@ def registrarMascota():
    
    if not data:
       return jsonify({'error': 'No data provided'}), 400
-   print(data)
    id_usuario = data.get('usuarioid')
    especie = data.get('especie')
    sexo = data.get('sexo')
@@ -197,8 +196,7 @@ def buscar_mascotas():
       query_mascotas = 'SELECT * FROM mascotas;'
    else: 
       query_mascotas= f"SELECT * FROM mascotas WHERE "+ "AND ".join(parametros) + ";"
-   #print(query_mascotas) 
-   print(query_mascotas)
+   
    try: 
        resultado_mascotas=conexion.execute(text(query_mascotas))
        conexion.close()
@@ -222,7 +220,6 @@ def buscar_mascotas():
       })
       
       return jsonify(mascotas_buscadas),200
-   print(mascotas_buscadas)
    return jsonify({'mensaje': 'No existen mascotas con esas caracteristicas'}),404
 
 
@@ -231,9 +228,8 @@ def buscar_mascotas():
 def login():
    conexion = engine.connect()
    
-   print("**************************************************************************************")
    login= request.json
-   print("login")
+
    usuario = login.get('nombre')
    contraseña = login.get('contraseña')
    query_usuario = f"SELECT * FROM usuarios WHERE nombre = '{usuario}';"
