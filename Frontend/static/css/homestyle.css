@@ -43,10 +43,13 @@ li {
   border-top: 1px solid black; /* Línea superior */
   border-bottom: 1px solid black; /* Línea inferior */
   margin: 20px 0; /* Espacio alrededor del subtítulo */
+  width: 100%;
 }
 
 .boton_buscar_registrar {
-    background-color: #b1d7c5;
+    background-color: #e4742a;
+    padding: 1rem;
+
 }
 
 .info_del_sitio {
@@ -261,6 +264,7 @@ h3{
     .subtitulo{
       color: black;
       font-size: 25px;
+      background-color: #b1d7c5;
     }
 
     .banner{
