@@ -2,19 +2,26 @@
     {% block title %}<title>Inicio de sesión</title>{% endblock %}
 
     {% block main %}
-        <main>
+    <div id="contenedor" >
+        <main class="logiregnpage">
             <section class="subtitulo">
                 <h2>Iniciar Sesión</h2>
                 <form action="/login" method="post">
-                    <label for="nombre">Nombre de Usuario</label>
-                    <input type="text" id="nombreUsuario" name="fnombre" required>
+                    <label for="nombre">Nombre de Usuario</label> <br>
+                    <input type="text" id="nombreUsuario" name="fnombre" required> <br>
             
-                    <label for="Contraseña">Contraseña</label>
-                    <input type="password" id="Contraseña" name="fcontraseña" required>
+                    <label for="Contraseña">Contraseña</label> <br>
+                    <input type="password" id="Contraseña" name="fcontraseña" required> <br>
             
-                    <button type="submit">Ingresar</button>
+                    <button id="boton-submitlogin" type="submit">Ingresar</button>
                 </form>
+                <div id="registro-usuario">
+                    <p>No tienes usuario, registrate aqui >>> <a href="{{ url_for('registro')}}">Registrarse</a></p>
+                </div>
+                <script src="{{ url_for('static', filename='/script/ocultarInicioSesion.js')}}">
+                </script>
             </section>
         </main>
+    </div>
 
     {% endblock %}

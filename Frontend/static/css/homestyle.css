@@ -1,6 +1,6 @@
 body {
     background-image: url('../image/imagenfondo.png');
-    color: #FAFFFD;
+    color: #000000;
     font-size: 1.0rem;
     font-weight: bold;
     background-position: center center;
@@ -14,6 +14,69 @@ body {
 
 header {
     text-align: center;
+}
+
+.boton-mascotas {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #b1d7c5;
+  color: black; 
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.boton-mascotas:hover {
+  background-color: #9da9a3; 
+}
+
+#registro-usuario a {
+  font-size: large;
+  color: #4285f4;
+}
+#registro-usuario p {
+  font-size: medium;
+}
+
+#contenedor {
+  width: 400px;
+  background-image: url('../image/');
+  background-color: #b1d7c5;
+  text-align: center;
+  position: relative;
+  left: 20%;
+  width: 60%; 
+  height: 60vh;
+  border-radius: 10%;
+}
+.logiregnpage{
+  position: absolute;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
+}
+
+#boton-submitlogin {
+  transform: translate(0%, 50%) ;
+  padding: 10px 24px;
+  background-color: #b1d7c5; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+
+#boton-submitlogin:hover {
+  background-color: #f7ac6b;
 }
 
 a {
@@ -48,10 +111,12 @@ li {
 
 .boton_buscar_registrar {
     background-color: #e77e38;
-    padding: 1rem;
+    padding: 1rem;  
 }
 
 .info_del_sitio {
+    position: relative;
+    top: 10px;
     text-align: center;
     background-color:#b1d7c5;
     width: fit-content;
