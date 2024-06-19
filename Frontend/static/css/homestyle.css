@@ -8,12 +8,14 @@ body {
     background-size: contain;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     flex-wrap: nowrap;
 }
 
 header {
     text-align: center;
+    max-width: 1150px;
+    width: 100%;
 }
 
 a {
@@ -66,9 +68,15 @@ h3{
 }
 
 #map {
-    height: 400px;
+    height: 600px;
     width: 100%;
+    max-width: 1100px;
     color: black;
+}
+
+.div-map{
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 
 /* Estilos para el campo de búsqueda */
@@ -264,6 +272,14 @@ h3{
 
     .sub-imagenes-header{
       width: 70%;
+      height: 18vw;
+      max-height: 221px;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: space-around;
     }
 
     .subtitulo{
@@ -285,3 +301,142 @@ h3{
     .banner{
       width: 50%;
     }
+
+  .swiper {
+    width: 90vw;
+    max-width: 1061px;
+    height: 40vw;
+    max-height: 467px;
+    margin: auto;
+  }
+
+  .swiper-slide {
+    
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+  }
+
+  .swiper-slide .img-1 {
+      background: url('../image/slider1.png');
+  }
+  .swiper-slide .img-2 {
+    background: url('../image/slider2.png');
+    background-size: contain;
+  }
+  .swiper-slide .img-3 {
+    background: url('../image/slider3.png');
+  }
+
+  .slider {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+  }
+
+  .slider h6{
+    font-size: 1rem;
+  }
+
+  .swiper-pagination-bullet {
+    background-color: #0a667f; /* Cambia este color al que prefieras */
+    border: 2px solid #0a667f;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #cfeadb !important; /* Cambia este color al que prefieras */
+}
+
+/* Estilos de los botones de navegación */
+.swiper-button-prev,
+.swiper-button-next {
+    color: #0a667f; /* Cambia este color al que prefieras */
+    
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+    font-size: 40px; /* Puedes ajustar el tamaño del icono si es necesario */
+    color: #cfeadb;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Añade sombra al texto para resaltar */
+        
+}
+
+.tabla-de-mascotas{
+  max-height: 600px;
+  color: black;
+  overflow: auto;
+  width: 45%;
+  border: 1px solid #b1d7c5;
+  padding: 5px;
+  background: white;
+}
+
+main{
+  width: 90%;
+  max-width: 1100px;
+  color: black;
+}
+
+.contenedor{
+  display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+.sec-map{
+  width: 45%;
+  border: 1px solid #b1d7c5;
+}
+
+
+.fila {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fila p {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+}
+
+.tipo {
+  width: calc(100% / 4); /* Un cuarto del ancho total */
+}
+
+.raza {
+  width: calc(100% / 4); /* Un cuarto del ancho total */
+}
+
+.sexo {
+  width: calc(100% / 4); /* Un cuarto del ancho total */
+}
+
+.ver {
+  width: 10%; /* Un cuarto del ancho total */
+  background: #0a667f;
+  color: white;
+  text-align: center;
+  padding: 2px
+}
+
+.buscador{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+}
+
+.tipo .raza .sexo .btn-buscar{
+  width: calc(100% / 2);
+}

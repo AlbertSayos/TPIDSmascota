@@ -4,7 +4,44 @@
     {% block main %}
         
         <main>
-            <h4 class="subtitulo-centrado">Página de búsqueda Encuentra tu Mascota</h4>
+
+            <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    
+            <section class="slider">
+                <!-- Slider main container -->
+                <div class="swiper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide">
+                            <!--<img src="{{ url_for('static', filename='/image/slider1.png') }}">-->
+                            
+                            <div class="img-1 slider">
+
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img-2 slider">
+                            </div>
+                                                    
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img-3 slider">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+                
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                
+                    <!-- If we need scrollbar -->
+                    <div class="swiper-scrollbar"></div>
+                </div>
+            </section>
+            <!--<h4 class="subtitulo-centrado">Página de búsqueda Encuentra tu Mascota</h4>
             <section class="buscar_registrar">
                 <p class="subtitulo">Busca tu mascota</p>
                 <button class="boton_buscar_registrar"><a href="/buscadas">buscar</a></button>
@@ -16,18 +53,37 @@
             <section class="buscar_registrar">
                 <p class="subtitulo">Registra una mascota perdida</p>
                 <button class="boton_buscar_registrar"><a href="/registrar">registrar</a></button>
-            </section>
-            {% include "mapbasic.html" %}
-            
-            <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        var token = "{{ token }}";
-                        if (token && token !== "") {
-                            localStorage.setItem('token', token);
-                        }
-                        console.log(localStorage.getItem('token'));
-                    });
+            </section>-->
+            <div class="div-map">
+                {% include "mapbasic.html" %}
+            </div>
+            <script type="module">
+                import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
         
+                const swiper = new Swiper('.swiper', {
+                    // Optional parameters
+                    direction: 'horizontal',
+                    loop: true,
+                    autoplay: true,
+        
+                    // If we need pagination
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+        
+                    // Navigation arrows
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+        
+                    // And if we need scrollbar
+                    scrollbar: {
+                        el: '.swiper-scrollbar',
+                        draggable: true,
+                    },
+                });
             </script>
         </main>
         <footer>
