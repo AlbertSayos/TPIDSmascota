@@ -3,8 +3,7 @@ import requests  # Se utiliza para hacer consultas a APIs externas
 import os  # Se utiliza para interactuar con variables de entorno
 from dotenv import load_dotenv  # Se utiliza para cargar variables de entorno desde un archivo .env
 
-#BackendLink = os.getenv('backend_link')  # Obtiene el valor de la variable de entorno 'backend_link'
-BackendLink = 'https://albertosayos.pythonanywhere.com'
+BackendLink = os.getenv('backend_link')  # Obtiene el valor de la variable de entorno 'backend_link'
 api_key = os.getenv('APIKEY') #api de google cloud
 PORT = 8080
 
