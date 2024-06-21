@@ -1,78 +1,92 @@
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <title>Busca tu mascota</title>
-        <meta charset="UTF-8">
-        <meta name="keywords" content="mascotas, mascotas perdidas, mascota encontrada">
-        <meta property="og:title" content="El mejor lugar para hallar a tu mascota perdida">
-        <meta property="og:type" content="website">
-        <meta property="og:locate" content="es_ES">
-        <link rel="stylesheet" href="/static/css/homestyle.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    </head> 
-
-    <!--Comienzo del body-->
-
-    <body>
-        <header>
-
-            <h1>Encuentra tu mascota!</h1>
-            <ul class="listaNavBar">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/map">Mapa</a></li>
-                <li><a href="buscadas">Buscar</a></li>
-                <li><a href="registrar">Registrar</a></li>
-            </ul>
-            <br>
-
-        </header>
+{% extends "base.html" %}
+    
+    {% block title %}<title>Busca tu mascota</title>{% endblock %}
+    {% block main %}
         
         <main>
+
+            <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    
+            <section class="slider">
+                <!-- Slider main container -->
+                <div class="swiper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide">
+                            <!--<img src="{{ url_for('static', filename='/image/slider1.png') }}">-->
+                            
+                            <div class="img-1 slider">
+
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img-2 slider">
+                            </div>
+                                                    
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img-3 slider">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+                
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                
+                    <!-- If we need scrollbar -->
+                    <div class="swiper-scrollbar"></div>
+                </div>
+            </section>
+            <!--<h4 class="subtitulo-centrado">Página de búsqueda Encuentra tu Mascota</h4>
             <section class="buscar_registrar">
-                <p>Busca tu mascota</p>
-                <button class="boton_buscar_registrar"><a href="buscadas.html">buscar</a></button>
+                <p class="subtitulo">Busca tu mascota</p>
+                <button class="boton_buscar_registrar"><a href="/buscadas">buscar</a></button>
             </section>
 
             <br>
             <br>
             
             <section class="buscar_registrar">
-                <p>Registra una mascota perdida</p>
-                <button class="boton_buscar_registrar"><a href="registrar.html">registrar</a></button>
-            </section>
-            <section>
-
-                <div class="place-autocomplete-card" id="place-autocomplete-card">
-                    <p>Buscar</p>
-                  </div>
-                  <div id="map"></div>
-
-            </section>
+                <p class="subtitulo">Registra una mascota perdida</p>
+                <button class="boton_buscar_registrar"><a href="/registrar">registrar</a></button>
+            </section>-->
+            <div class="div-map">
+                {% include "mapbasic.html" %}
+            </div>
+            <script type="module">
+                import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
+        
+                const swiper = new Swiper('.swiper', {
+                    // Optional parameters
+                    direction: 'horizontal',
+                    loop: true,
+                    autoplay: true,
+        
+                    // If we need pagination
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+        
+                    // Navigation arrows
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+        
+                    // And if we need scrollbar
+                    scrollbar: {
+                        el: '.swiper-scrollbar',
+                        draggable: true,
+                    },
+                });
+            </script>
         </main>
-
         <footer>
             <p class="info_del_sitio">acá va a haber info a cerca de los creadores del sitio, contactar por si hay errores, etc</p>
         </footer>
-
-        <script>
-            (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
-              key: '{{api_key}}',
-              v: "beta",
-              // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
-              // Add other bootstrap parameters as needed, using camel case.
-            });
-          </script>
-        <!--<script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>-->
-        <script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>
-        <script src="{{ url_for('static', filename='/script/moduloDeTablas.js') }}"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var token = "{{ token }}";
-                if (token && token !== "") {
-                    localStorage.setItem('token', token);
-                }
-                console.log(localStorage.getItem('token'));
-            });
-
-        </script>
-    </body>
+    {% endblock %}

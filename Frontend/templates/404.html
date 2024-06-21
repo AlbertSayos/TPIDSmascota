@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+    
+    {% block title %}<title>404</title>{% endblock %}
+    {% block main %}
+        
+        <main>
+            <img src="{{ url_for('static', filename='/image/404.png') }}" style="width: 50%;">
+        </main>
+
+    {% endblock %}
