@@ -4,7 +4,13 @@
     {% block main %}
         
         <main>
-            <img src="{{ url_for('static', filename='/image/404.png') }}" style="width: 50%;">
+            <div class="error">
+                <h1>¡Oops!</h1>
+                <h2>Página no encontrada</h2>
+                <p> Lo sentimos, parece que la página que estas buscando no existe.</p>
+                <a href="{{url_for('index')}}"><button>Volver al inicio</button></a>
+            </div>
+            <img src="{{ url_for('static', filename='/image/404.png') }}" style="width:43%;position:absolute;top:180px;right: 60px;">
         </main>
 
     {% endblock %}
