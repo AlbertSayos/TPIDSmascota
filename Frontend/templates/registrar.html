@@ -5,32 +5,49 @@
     {% block main %}
         <main>
             <section class="registrarMascota">
-                <h2 class="subtitulo">Registro de Mascotas</h2>
+                <h2>Registro de Mascotas</h2>
                 <form method="post" action="/registrar" onsubmit="registrar(); return false;">
-                    <label for="tipo">Tipo de Mascotas</label>
-                    <select name="ftipo" id="tipo" required>
-                        <option value="">Selecciona el tipo</option>
-                        <option value="perro">Perro</option>
-                        <option value="gato">Gato</option>
-                        <option value="otro">Otro</option>
-                    </select>
-                    <select name="fraza" id="razas">
-                        <option value="">Selecciona la raza</option>
-                    </select>
-                    <label for="sexo">Sexo</label>
-                    <select name="fsexo" id="sexo" required>
-                        <option value="">Selecciona el sexo</option>
-                        <option value="macho">Masculino</option>
-                        <option value="hembra">Femenino</option>
-                    </select>
-                    <label for="detalles">Detalles</label>
-                    <textarea name="fdetalles" id="detalles" placeholder="Describa los detalles de la mascota" required></textarea>
-                    <label for="zona">Zona</label>
-                    <input type="text" name="fzona" id="zona" required>
-                    <label for="calle">Calle</label>
-                    <input type="text" name="fcalle" id="calle" required>
-                    <label for="altura">Altura</label>
-                    <input type="text" name="faltura" id="altura" required>
+                    <div class="opciones">
+                        <div class="input">
+                            <label for="tipo">Tipo de Mascota</label>
+                            <select name="ftipo" id="tipo" required> 
+                                <option value="">Selecciona el tipo</option> 
+                                <option value="perro">Perro</option>
+                                <option value="gato">Gato</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="input">
+                            <label for="raza">Raza</label>
+                            <select name="fraza" id="razas"> 
+                                <option value="">Selecciona la raza</option>
+                            </select>
+                        </div> 
+                        <div class="input">  
+                            <label for="sexo">Sexo</label>
+                            <select name="fsexo" id="sexo" required>
+                                <option value="">Selecciona el sexo</option> 
+                                <option value="macho">Masculino</option>
+                                <option value="hembra">Femenino</option>
+                            </select>
+                        </div>  
+                        <div class="input">
+                            <label for="zona">Zona</label>
+                            <input type="text" name="fzona" id="zona" required> 
+                        </div>
+                        <div class="input">    
+                            <label for="calle">Calle</label>
+                            <input type="text" name="fcalle" id="calle" required> 
+                        </div>    
+                        <div class="input">
+                            <label for="altura">Altura</label>
+                            <input type="text" name="faltura" id="altura" required> </br>
+                        </div>
+                    </div>     
+                    <div class="input">
+                        <label for="detalles">Detalles</label>
+                        <textarea name="fdetalles" id="detalles" placeholder="Describa los detalles de la mascota" required></textarea> </br>
+                    </div>
                     <input type="hidden" name="ftoken" id="tokenform" >
                     <button type="submit">Registrar</button>
                 </form>

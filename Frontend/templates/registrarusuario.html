@@ -3,16 +3,22 @@
 
         {% block main %}
             <main>
-                <section class="registrarUsuario">
-                    <h2>Registro de usuario</h2>
+                <section class="formulario">
                     <form action="registro" method="post">
-                        <label for="usuario">Usuario:</label>
-                        <input type="text" name="fusuario" id="usuario" required>
-                        <label for="password">Contraseña:</label>
-                        <input type="password" name="fpassword" id="password" required>
-                        <label for="contact">Contacto:</label>
-                        <input type="contact" name="fcontact" id="contact" required>
-                        <button type="submit">Ingresar</button>
+                        <h2>Registro de usuario</h2>
+                        <div class="input">
+                            <label for="usuario">Usuario:</label>
+                            <input type="text" name="fusuario" id="usuario" required>
+                        </div>
+                        <div class="input">
+                            <label for="password">Contraseña:</label>
+                            <input type="password" name="fpassword" id="password" required>
+                        </div>
+                        <div class="input">
+                            <label for="contact">Contacto:</label>
+                            <input type="contact" name="fcontact" id="contact" required>
+                        </div>
+                        <button type="submit">Registrarse</button>
                     </form>
                 </section>
             </main>

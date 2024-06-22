@@ -3,16 +3,19 @@
 
     {% block main %}
         <main>
-            <section class="subtitulo">
-                <h2>Iniciar Sesión</h2>
+            <section class="formulario">
                 <form action="/login" method="post">
-                    <label for="nombre">Nombre de Usuario</label>
-                    <input type="text" id="nombreUsuario" name="fnombre" required>
-            
-                    <label for="Contraseña">Contraseña</label>
-                    <input type="password" id="Contraseña" name="fcontraseña" required>
-            
+                    <h2>Iniciar Sesión</h2>
+                    <div class="input">
+                        <label for="nombre">Nombre de Usuario</label>
+                        <input type="text" id="nombreUsuario" name="fnombre" required>
+                    </div>
+                    <div class="input">
+                        <label for="Contraseña">Contraseña</label>
+                        <input type="password" id="Contraseña" name="fcontraseña" required>
+                    </div>    
                     <button type="submit">Ingresar</button>
+                    <p> Si no tenés cuenta, <a href="{{url_for('registro') }}">registrate acá.</a></p>
                 </form>
             </section>
         </main>
