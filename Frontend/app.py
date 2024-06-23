@@ -55,7 +55,7 @@ def registrar():
 
             # Imprimir la URL y los datos para depuración
             print(f'{BackendLink}/registrarmascota')
-            
+            print(datos)
 
             # Realizar la solicitud POST
             response = requests.post(f'{BackendLink}/registrarMascota', json=datos)
