@@ -346,10 +346,6 @@ h3{
       justify-content: center;
     }
 
-    .banner{
-      width: 50%;
-    }
-
   .swiper {
     width: 90vw;
     max-width: 1061px;
@@ -586,7 +582,11 @@ button{
   height: 30px;
   font-weight: 600;
   }
-  
+.registrarMascota .banner{
+  position: absolute;
+  right:250px;
+  bottom:200px;
+}
   .error{
     padding: 100px;
     display: flex;
