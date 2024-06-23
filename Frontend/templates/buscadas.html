@@ -42,6 +42,12 @@
                             <p class="sexo">sexo</p>
                             <p class="ver" style="visibility: hidden;">Ver</p>
                         </div>
+                        
+                        
+                        {% set tablaDeMascotas = listaDeMascotas %}
+                        {% set miperfil = False %}
+                        {% include "tablaBase.html" %}
+                        <!--
                         {% for mascota in tablaDeMascotas %}
                             <div id="{{ mascota.mascotaid }}" class="fila" data="{{ mascota.calle }} {{ mascota.altura }}, {{ mascota.zona }}" onclick="irADireccion(this.getAttribute('data'))">
                                 <p class="tipo">{{ mascota.especie }}</p>
@@ -50,6 +56,7 @@
                                 <a class="ver" href="/PerfilMascota/{{ mascota.mascotaid }}">Ver</a>
                             </div>
                         {% endfor %}
+                        -->
                         
                     <script src="{{ url_for('static', filename='/script/completarBuscardor.js') }}"></script>
                     </div>

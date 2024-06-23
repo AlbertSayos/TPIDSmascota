@@ -154,7 +154,7 @@ def buscadas():
     tabla = requests.post(f'{BackendLink}/buscarmascotas', json=datos)
     if tabla.status_code == 200:
         tabla = tabla.json()
-    return render_template('buscadas.html',tablaDeMascotas=tabla)
+    return render_template('buscadas.html',listaDeMascotas=tabla)
 
 """
 Devuelve una lista de diccionarios de las tablas de mascotas y centros de mascotas
@@ -233,7 +233,7 @@ def miperfil():
             if respuestaMascotas.status_code == 200:
                 listaDeMascotas = respuestaMascotas.json()
                 #infoUsuario = respuestaUsuario.json()
-                return render_template('miperfil.html', nombreDeUsuario="Prueba",listaDeMascotas=listaDeMascotas)
+                return render_template('miPerfil.html', nombreDeUsuario="Prueba",listaDeMascotas=listaDeMascotas)
             else:
                 return redirect(url_for('registro'))
         else:

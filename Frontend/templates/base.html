@@ -16,18 +16,19 @@
 
     <body>
         <header>
-            <div class="imagenes-header">
-                <img class="logo" src="{{ url_for('static', filename='/image/logo.png') }}">
-            </div>
-            <ul class="listaNavBar">
-                <li class="item"><a href="/">Inicio</a></li>
-                <li class="item"><a href="/buscadas">Buscar</a></li>
-                <li class="item"><a href="/registrar">Registrar una mascota</a></li>
-                <li class="item"><a href="/miperfil">Mi perfil</a></li>
-                <li class="item"><a href="/preguntasfrecuentes">Preguntas frecuentes</a></li>
-            </ul>
-            <a href="{{url_for('login')}}" ><button>Iniciar sesión</button></a>
-            <a href="{{url_for('registro')}}"><button>Registrar</button></a>
+                <div class="imagenes-header">
+                    <img class="logo" src="{{ url_for('static', filename='/image/logo.png') }}">
+                </div>
+                <ul class="listaNavBar">
+                    <li class="item"><a href="/">Inicio</a></li>
+                    <li class="item"><a href="/buscadas">Buscar</a></li>
+                    <li class="item"><a href="/registrar">Registrar una mascota</a></li>
+                    <li class="item"><a href="/miperfil">Mi perfil</a></li>
+                    <li class="item"><a href="/preguntasfrecuentes">Preguntas frecuentes</a></li>
+                </ul>
+                <a href="{{url_for('login')}}" ><button>Iniciar sesión</button></a>
+                <a href="{{url_for('registro')}}"><button>Registrar</button></a>
+
         </header>
         
         {% block main %}
