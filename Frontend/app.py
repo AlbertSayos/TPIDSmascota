@@ -259,6 +259,10 @@ def conseguirScript():
     if scriptDeMapa.status_code == 200:
         return scriptDeMapa.text
 
+@app.route('/faq', methods=['GET'])
+def faq():
+    return render_template ('faq.html')
+
 @app.route('/login2', methods=['GET','POST'])
 def login2():
 
