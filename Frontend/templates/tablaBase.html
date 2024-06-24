@@ -1,0 +1,20 @@
+{% for mascota in tablaDeMascotas %}
+    <div id="{{ mascota.mascotaid }}" class="fila"
+        {% if not miperfil %}
+            data="{{ mascota.calle }} {{ mascota.altura }}, {{ mascota.zona }}" 
+            onclick="irADireccion(this.getAttribute('data'))"
+        {% endif %}>
+        <p class="tipo">{{ mascota.especie }}</p>
+        <p class="raza">{{ mascota.raza }}</p>
+        <p class="sexo">{{ mascota.sexo }}</p>
+        <p class="descripcion">{{ mascota.descripcion }}</p>
+        <a class="ver" href="/PerfilMascota/{{ mascota.mascotaid }}">Ver</a>
+        {% if miperfil %}
+            <form id="eliminarForm-{{ mascota.mascotaid }}" action="/eliminarMascota" method="POST">
+                <input type="hidden" id="eliminar-mascota-{{ mascota.mascotaid }}" name="fmascotaid" value="{{ mascota.mascotaid }}">
+                <button type="submit">Eliminar</button>
+            </form>
+        {% endif %}
+    </div>
+{% endfor %}
+

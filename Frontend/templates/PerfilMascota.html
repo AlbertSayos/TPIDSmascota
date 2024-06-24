@@ -5,13 +5,12 @@
         
         <main>
                     
-            <h2>{{ mascota.especie }} {{ mascota.raza }} : [{{ mascota.estado }}]</h2>
-            <p>Sexo: {{ mascota.sexo }}</p>
+            <h2>Soy un {{ mascota.especie }} {{ mascota.raza }} {{ mascota.sexo }}</h2>
             <p>{{ mascota.descripcion }}</p>
-            <p>Ubicación:
+            <p>Me perdi en: 
                 {{ mascota.zona }}, {{ mascota.calle }} {{ mascota.altura }}
             </p>
-            <p>Contacto:
+            <p>Podes contactarme en:
                 {{ mascota.contacto }}
             </p>
         </main>

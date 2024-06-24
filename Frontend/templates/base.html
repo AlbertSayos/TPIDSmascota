@@ -16,28 +16,19 @@
 
     <body>
         <header>
-            <div class="imagenes-header">
-                <img class="logo" src="{{ url_for('static', filename='/image/logo.png') }}">
-                <div class="sub-imagenes-header">
-                    <img class="banner" src="{{ url_for('static', filename='/image/banner.png') }}">
-                    
+                <div class="imagenes-header">
+                    <img class="logo" src="{{ url_for('static', filename='/image/logo.png') }}">
                 </div>
-                <div >
-                    <a
-                      id="petbutton"
-                      class="boton-mascotas"
-                      href="{{ url_for('login') }}">
-                      Iniciar sesión
-                    </a>
-                  </div>
-            </div>
-            <ul class="listaNavBar">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/buscadas">Buscar</a></li>
-                <li><a href="/registrar">Registrar</a></li>
-                <li><a href="/miperfil">Mi perfil</a></li>
-            </ul>
-            <br>
+                <ul class="listaNavBar">
+                    <li class="item"><a href="/">Inicio</a></li>
+                    <li class="item"><a href="/buscadas">Buscar</a></li>
+                    <li class="item"><a href="/registrar">Registrar una mascota</a></li>
+                    <li class="item"><a href="/miperfil">Mi perfil</a></li>
+                    <li class="item"><a href="/preguntasfrecuentes">Preguntas frecuentes</a></li>
+                </ul>
+                <a href="{{url_for('login')}}" ><button>Iniciar sesión</button></a>
+                <a href="{{url_for('registro')}}"><button>Registrar</button></a>
+
         </header>
         
         {% block main %}
@@ -45,6 +36,4 @@
         <footer>
             <p class="info_del_sitio">acá va a haber info a cerca de los creadores del sitio, contactar por si hay errores, etc</p>
         </footer>
-
-
     </body>

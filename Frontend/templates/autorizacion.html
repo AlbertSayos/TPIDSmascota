@@ -8,20 +8,20 @@
 
 <!-- Formulario con el token oculto -->
  <h1>Redirigiendo a MiPerfil...</h1>
-<form id="tokenForm" action="/miperfil" method="POST">
-    <input type="hidden" id="tokenField" name="token" value="">
+<form id="usuarioidForm" action="/miperfil" method="POST">
+    <input type="hidden" id="usuarioid" name="usuarioid" value="">
     <button type="submit" style="display: none;">Enviar Token</button>
 </form>
 
 <script>
     // Obtener el token desde localStorage
-    var token = localStorage.getItem('token');
+    var token = localStorage.getItem('usuarioid');
 
     // Asignar el token al campo oculto del formulario
-    document.getElementById('tokenField').value = token;
+    document.getElementById('usuarioid').value = token;
 
     // Enviar automáticamente el formulario
-    document.getElementById('tokenForm').submit();
+    document.getElementById('usuarioidForm').submit();
 </script>
 
 </body>
