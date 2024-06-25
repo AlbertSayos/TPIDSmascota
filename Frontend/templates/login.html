@@ -22,6 +22,7 @@
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 var usuarioid = "{{ usuarioid }}";
+                console.log(usuarioid);
                 if (usuarioid && usuarioid !== "") {
                     localStorage.setItem('usuarioid', usuarioid);
                     window.location.href = "/";
