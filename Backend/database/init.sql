@@ -25,12 +25,12 @@ DROP TABLE IF EXISTS `centros`;
 CREATE TABLE `centros` (
   `centroid` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(75) NOT NULL,
-  `descripcion` varchar(200) NOT NULL,
+  `descripcion` varchar(250) NOT NULL,
   `calle` varchar(50) NOT NULL,
   `altura` int NOT NULL,
   `zona` varchar(75) NOT NULL,
   PRIMARY KEY (`centroid`)
-) ENGINE=InnoDB AUTO_INCREMENT=30003 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,6 @@ CREATE TABLE `centros` (
 
 LOCK TABLES `centros` WRITE;
 /*!40000 ALTER TABLE `centros` DISABLE KEYS */;
-INSERT INTO `centros` VALUES (30000,'Refugio El Gran Pirincho','Descripción breve','Lavalle',3000,'CABA'),(30001,'Ayudacan','Descripción breve','Jerónimo Salguero',151,'CABA'),(30002,'Hogar de Proteccion Lourdes','Descripción breve','Chile',1393,'C1098 Buenos Aires');
 /*!40000 ALTER TABLE `centros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,14 +55,14 @@ CREATE TABLE `mascotas` (
   `especie` varchar(50) NOT NULL,
   `raza` varchar(50) NOT NULL,
   `sexo` varchar(50) NOT NULL,
-  `descripcion` varchar(200) NOT NULL,
+  `descripcion` varchar(250) NOT NULL,
   `calle` varchar(50) NOT NULL,
   `altura` int NOT NULL,
   `zona` varchar(75) NOT NULL,
   `usuarioid` int NOT NULL,
   `contacto` varchar(75) NOT NULL,
   PRIMARY KEY (`mascotaid`)
-) ENGINE=InnoDB AUTO_INCREMENT=20003 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +71,6 @@ CREATE TABLE `mascotas` (
 
 LOCK TABLES `mascotas` WRITE;
 /*!40000 ALTER TABLE `mascotas` DISABLE KEYS */;
-INSERT INTO `mascotas` VALUES (20000,'Luna','Perro','Pitbull','Hembra','Descripción breve','Av. Paseo Colón',850,'CABA',10000,'marcos@gmail.com'),(20001,'Lola','Gato','Siamés','Hembra','Descripción breve','Av. San Juan',1340,'CABA',10002,'bruno@gmail.com'),(20002,'Blue','Perro','Beagle','Macho','Descripción breve','Av. Santa Fe',500,'CABA',10004,'enzo@hotmail.com');
 /*!40000 ALTER TABLE `mascotas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,9 +86,8 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(50) NOT NULL,
   `contraseña` varchar(50) NOT NULL,
   `contacto` varchar(75) NOT NULL,
-  `token` varchar(75) NOT NULL,
   PRIMARY KEY (`usuarioid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10005 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +96,6 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (10000,'Marcos','xa24dvxs','marcos@gmail.com','HcDsJarXAC'),(10001,'Mauro','ve32hZX2','mauro@hotmail.com','Xsfd43Jb45'),(10002,'Bruno','GH4x73hd','bruno@gmail.com','3CKn3gj4cx'),(10003,'Valentina','Ck6x53Ax','valentina@hotmail.com','l32cScCG2x'),(10004,'Enzo','xa24dvxs','enzo@hotmail.com','D2fXF3v2pl');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -112,4 +108,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-12  7:20:13
+-- Dump completed on 2024-06-25  8:07:54
