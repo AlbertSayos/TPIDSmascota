@@ -229,13 +229,16 @@ def miperfil():
             user_id = usuarioid
             datos = {"id":user_id}
             respuestaMascotas = requests.get(f'{BackendLink}/mascotaDeUsuario', json=datos)
-            #respuestaUsuario = requests.get(f'{BackendLink}/usuario', json=datos)
+            respuestaUsuario = requests.get(f'{BackendLink}/datosDeUsuario', json=datos)
+
             if respuestaMascotas.status_code == 200:
                 listaDeMascotas = respuestaMascotas.json()
-                #infoUsuario = respuestaUsuario.json()
-                return render_template('miPerfil.html', nombreDeUsuario="Prueba",listaDeMascotas=listaDeMascotas)
+                infoUsuario = respuestaUsuario.json()
+                return render_template('miPerfil.html', infoUsuario=infoUsuario ,listaDeMascotas=listaDeMascotas)
             else:
-                return redirect(url_for('registro'))
+                listaDeMascotas = []
+                infoUsuario = respuestaUsuario.json()
+                return render_template('miPerfil.html', infoUsuario=infoUsuario ,listaDeMascotas=listaDeMascotas)
         else:
             return redirect(url_for('login'))
     return render_template('autorizacion.html') 
@@ -263,10 +266,7 @@ def conseguirScript():
 def faq():
     return render_template ('faq.html')
 
-@app.route('/login2', methods=['GET','POST'])
-def login2():
 
-    return render_template ('login.html')
 
 @app.errorhandler(404)
 def pagina_no_encontrada(e):

@@ -26,11 +26,23 @@
                     <li class="item"><a href="/miperfil">Mi perfil</a></li>
                     <li class="item"><a href="/faq">Preguntas frecuentes</a></li>
                 </ul>
-                <a href="{{url_for('login')}}" ><button>Iniciar sesión</button></a>
-                <a href="{{url_for('registro')}}"><button>Registrar</button></a>
+                <a id="primer-boton" href="{{url_for('login')}}" ><button>Iniciar sesión</button></a>
+                <a id="segundo-boton" href="{{url_for('registro')}}"><button>Registrar</button></a>
 
         </header>
         
+        <script>
+            if (localStorage.getItem('usuarioid')) {
+                primerBoton = document.getElementById("primer-boton");
+                primerBoton.href = "{{ url_for('miperfil') }}";
+                primerBoton.innerHTML  = "<button>Mi perfil </button>"
+                segundoBoton = document.getElementById("segundo-boton");
+                segundoBoton.href = "{{ url_for('logout') }}";
+                segundoBoton.innerHTML  = "<button>cerrar sesion</button>"
+            }
+
+        </script>
+    
         {% block main %}
         {% endblock %}
         <footer>
