@@ -1,4 +1,4 @@
-from flask import Flask, jsonify,request
+from flask import Flask, jsonify, request
 import os
 from flask_sqlalchemy import SQLAlchemy 
 from sqlalchemy import create_engine, text,inspect
@@ -46,7 +46,7 @@ def mostrar_tabla_de_mascotas():
        mascota['calle']=fila.calle
        mascota['altura']=fila.altura
        mascota['contacto'] = fila.contacto
-       #mascota['estado'] = fila.estado
+       mascota['estado'] = fila.estado
        mascota['usuarioid'] = fila.usuarioid
        mascotas.append(mascota)
     return jsonify(mascotas)
@@ -152,7 +152,11 @@ la base de datos para guadar la informacion
 """
 @app.route('/registrarMascota', methods=['POST'])
 def registrarMascota():
+   print("hola")
    conexion = engine.connect() #establezco la conexion con la base de datos
+   #imagen_mascota = request.files.get('fimagen')
+
+   print("hola 2")
    data = request.json
    
    if not data:
@@ -165,6 +169,7 @@ def registrarMascota():
    zona = data.get('zona')
    calle = data.get('calle')
    altura = data.get('altura')
+   estado = data.get('estado')
 
    query_contacto = f"SELECT contacto FROM usuarios WHERE usuarioid ={id_usuario};"
    
@@ -174,16 +179,26 @@ def registrarMascota():
       conexion.close()
       return jsonify({'error': str(error.__cause__)}),500
 
-   query = f"INSERT INTO mascotas (especie, raza, sexo, descripcion, zona, calle, altura, contacto,usuarioid) VALUES ('{especie}', '{raza}', '{sexo}', '{detalles}', '{zona}', '{calle}', {altura}, '{contacto[0]}', {id_usuario})"
+   query = f"INSERT INTO mascotas (especie, raza, sexo, descripcion, zona, calle, altura, contacto,usuarioid, estado) VALUES ('{especie}', '{raza}', '{sexo}', '{detalles}', '{zona}', '{calle}', {altura}, '{contacto[0]}', {id_usuario}, '{estado}')"
    print(query)
    try: 
       conexion.execute(text(query))
       conexion.commit()
+      result = conexion.execute(text("SELECT LAST_INSERT_ID()"))
+      
+      mascota_id = result.fetchone()[0]
+      print(mascota_id)
+      """
+      if imagen_mascota:
+         nombreArchivo = f"{mascota_id}_mascota.jpg"
+         print("llegue aca")
+         imagen_mascota.save(os.path.join("static","image", nombreArchivo))
+         """
       conexion.close()
    except SQLAlchemyError as error:
       conexion.close()
       return jsonify({'error': str(error.__cause__)}),500
-   return jsonify({'mensaje': 'La mascota se ha registrado correctamente'}),201
+   return jsonify({'mascota_id': mascota_id}),201
 
 """
 Recibe un json con la informacion de la mascota: mascotaid,especie, raza, sexo. y busca en la tabla mascota que cumplan con esas caracteristicas
@@ -197,6 +212,7 @@ def buscar_mascotas():
    especie = busqueda_mascota.get('especie') if 'especie' in busqueda_mascota else ""
    raza = busqueda_mascota.get('raza') if 'raza' in busqueda_mascota else ""
    sexo = busqueda_mascota.get('sexo') if 'sexo' in busqueda_mascota else ""
+   estado = busqueda_mascota.get('estado') if 'estado' in busqueda_mascota else ""
 
    if id_mascota:
       parametros.append(f"mascotaid = {id_mascota}")
@@ -206,6 +222,8 @@ def buscar_mascotas():
       parametros.append(f"raza = '{raza}'")
    if sexo:
       parametros.append(f"sexo = '{sexo}'")
+   if estado:
+      parametros.append(f"estado = '{estado}'")
    print(parametros)
    if len(parametros) == 0:
       query_mascotas = 'SELECT * FROM mascotas;'
@@ -230,8 +248,8 @@ def buscar_mascotas():
             'calle' : fila.calle,
             'altura': fila.altura,
             'contacto' : fila.contacto,
-            'mascotaid' : fila.mascotaid
-            #'estado' : fila.estado,
+            'mascotaid' : fila.mascotaid,
+            'estado' : fila.estado,
       })
       
       return jsonify(mascotas_buscadas),200
@@ -348,6 +366,13 @@ def datosDeUsuario():
       return jsonify(datosDeUsuario),200
    return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
 
+@app.route('/guardar_imagen', methods=['POST'])
+def guardar_imagen():
+   imagen_mascota = request.files
+   #mascota_id = request.form['mascota_id']
+   print(imagen_mascota)
+   #print(mascota_id)
+   return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
 
 if __name__ == '__main__':
   app.run(debug=True, port=PORT)

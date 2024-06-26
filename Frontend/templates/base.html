@@ -34,7 +34,7 @@
         <script>
             if (localStorage.getItem('usuarioid')) {
                 primerBoton = document.getElementById("primer-boton");
-                primerBoton.href = "{{ url_for('miperfil') }}";
+                primerBoton.href = "{{ url_for('mi_perfil') }}";
                 primerBoton.innerHTML  = "<button>Mi perfil </button>"
                 segundoBoton = document.getElementById("segundo-boton");
                 segundoBoton.href = "{{ url_for('logout') }}";

@@ -7,7 +7,7 @@
             <section class="registrarMascota">
                 <img class="banner" src="{{ url_for('static', filename='/image/banner.png') }}">
                 <h2>Registro de Mascotas</h2>
-                <form method="post" action="/registrar">
+                <form method="post" action="/registrar" enctype="multipart/form-data">
                     <div class="opciones">
                         <div class="input">
                             <label for="tipo">Tipo de Mascota</label>
@@ -31,7 +31,16 @@
                                 <option value="macho">Masculino</option>
                                 <option value="hembra">Femenino</option>
                             </select>
-                        </div>  
+                        </div>
+                          
+                        <div class="input">
+                            <label for="estado">Esta mascota esta...</label>
+                            <select name="festado" id="estado" required> 
+                                <option value="">Selecciona el tipo</option> 
+                                <option value="perdido">Perdida</option>
+                                <option value="encontrado">Encontrada</option>
+                            </select>
+                        </div>
                         <div class="input">
                             <label for="zona">Zona</label>
                             <input type="text" name="fzona" id="zona" required> 
@@ -43,6 +52,10 @@
                         <div class="input">
                             <label for="altura">Altura</label>
                             <input type="text" name="faltura" id="altura" required> </br>
+                        </div>
+                        <div class="input">
+                            <label for="imagen">Imagen de la mascota</label>
+                            <input type="file" name="fimagen" id="imagen" accept="image/*" required>
                         </div>
                     </div>     
                     <div class="input">
