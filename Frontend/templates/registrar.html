@@ -7,7 +7,7 @@
             <section class="registrarMascota">
                 <img class="banner" src="{{ url_for('static', filename='/image/banner.png') }}">
                 <h2>Registro de Mascotas</h2>
-                <form method="post" action="/registrar">
+                <form method="post" action="/registrar" enctype="multipart/form-data">
                     <div class="opciones">
                         <div class="input">
                             <label for="tipo">Tipo de Mascota</label>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="input">
                             <label for="imagen">Imagen de la mascota</label>
-                            <input type="file" name="fimagen" id="imagen" accept="image/*">
+                            <input type="file" name="fimagen" id="imagen" accept="image/*" required>
                         </div>
                     </div>     
                     <div class="input">

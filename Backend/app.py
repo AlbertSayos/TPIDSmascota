@@ -152,7 +152,11 @@ la base de datos para guadar la informacion
 """
 @app.route('/registrarMascota', methods=['POST'])
 def registrarMascota():
+   print("hola")
    conexion = engine.connect() #establezco la conexion con la base de datos
+   #imagen_mascota = request.files.get('fimagen')
+
+   print("hola 2")
    data = request.json
    
    if not data:
@@ -165,7 +169,7 @@ def registrarMascota():
    zona = data.get('zona')
    calle = data.get('calle')
    altura = data.get('altura')
-   imagen_mascota = request.files.get('fimagen')
+   
    query_contacto = f"SELECT contacto FROM usuarios WHERE usuarioid ={id_usuario};"
    
    try: 
@@ -179,16 +183,21 @@ def registrarMascota():
    try: 
       conexion.execute(text(query))
       conexion.commit()
-      mascota_id=conexion.lastrowid
+      result = conexion.execute(text("SELECT LAST_INSERT_ID()"))
       
+      mascota_id = result.fetchone()[0]
+      print(mascota_id)
+      """
       if imagen_mascota:
          nombreArchivo = f"{mascota_id}_mascota.jpg"
+         print("llegue aca")
          imagen_mascota.save(os.path.join("static","image", nombreArchivo))
+         """
       conexion.close()
    except SQLAlchemyError as error:
       conexion.close()
       return jsonify({'error': str(error.__cause__)}),500
-   return jsonify({'mensaje': 'La mascota se ha registrado correctamente'}),201
+   return jsonify({'mascota_id': mascota_id}),201
 
 """
 Recibe un json con la informacion de la mascota: mascotaid,especie, raza, sexo. y busca en la tabla mascota que cumplan con esas caracteristicas
@@ -353,6 +362,13 @@ def datosDeUsuario():
       return jsonify(datosDeUsuario),200
    return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
 
+@app.route('/guardar_imagen', methods=['POST'])
+def guardar_imagen():
+   imagen_mascota = request.files
+   #mascota_id = request.form['mascota_id']
+   print(imagen_mascota)
+   #print(mascota_id)
+   return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
 
 if __name__ == '__main__':
   app.run(debug=True, port=PORT)

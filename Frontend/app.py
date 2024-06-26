@@ -32,6 +32,8 @@ def registrar():
 
         usuarioid = request.form.get('fusuarioid')
         imagen_mascota=request.files.get("fimagen")
+        print("************IMAGEN**********************")
+        print(imagen_mascota)
         #print("verifico token" + str(tokenDeUsuario))
         if usuarioid:
             especie = request.form.get('ftipo')
@@ -50,17 +52,26 @@ def registrar():
                 'detalles': detalles,
                 'zona': zona,
                 'calle': calle,
-                'altura': altura
+                'altura': altura,
+                #'fimagen': imagen_mascota
             }
 
             # Imprimir la URL y los datos para depuración
             print(f'{BACKEND_LINK}/registrarmascota')
             print(datos)
-            if imagen_mascota:
-                response = requests.post(f'{BACKEND_LINK}/registrarMascota', json=datos, files={'fimagen': imagen_mascota})
-            else:
+            print(imagen_mascota)
+            #if imagen_mascota:
+                #response = requests.post(f'{BACKEND_LINK}/registrarMascota', json=datos)
+            #    response = requests.post(f'{BACKEND_LINK}/registrarMascota', json=datos, files={'fimagen': imagen_mascota})
+            #else:
                 # Realizar la solicitud POST
-                response = requests.post(f'{BACKEND_LINK}/registrarmascota', json=datos)
+            response = requests.post(f'{BACKEND_LINK}/registrarMascota', json=datos)
+            mascota_id = response.json().get("mascota_id")
+            print(mascota_id)
+            
+            if imagen_mascota and response.status_code == 201:
+                nombreArchivo = f"{mascota_id}_mascota.jpg"
+                imagen_mascota.save(os.path.join("static","image", nombreArchivo))
             
             # Verificar la respuesta del servidor
             if response.status_code == 201:
@@ -80,6 +91,7 @@ def perfil_mascota(id):
     
     if response.status_code == 200:
         mascota = response.json()[0]
+        print(mascota)
         return render_template("PerfilMascota.html", mascota=mascota)
     return render_template("404.html")
 

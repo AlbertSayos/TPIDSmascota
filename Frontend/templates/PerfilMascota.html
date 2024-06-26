@@ -1,6 +1,6 @@
 {% extends "base.html" %}
     
-    {% block title %}<title>Perfil mascota/title>{% endblock %}
+    {% block title %}<title>Perfil mascota</title>{% endblock %}
     {% block main %}
         
         <main>
@@ -12,7 +12,9 @@
             </p>
             <p>Podes contactarme en:
                 {{ mascota.contacto }}
+                {{ mascota.mascotaid }}
             </p>
-            <img src="../Backend/static/image/{{ mascota.mascotaid }}_mascota.jpg" style="width: 45%;position:absolute;top:170px;right: 10px;">
+            <img src="{{ url_for('static', filename='image/mascotas/' + mascota.mascotaid ~ '_mascota.jpg') }}" style="max-width: 500px;width: 45%; position:absolute; top: 170px; right: 10px;">
+            
         </main>
     {% endblock %}
