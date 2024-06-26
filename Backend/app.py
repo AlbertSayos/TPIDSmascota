@@ -1,4 +1,4 @@
-from flask import Flask, jsonify,request
+from flask import Flask, jsonify, request
 import os
 from flask_sqlalchemy import SQLAlchemy 
 from sqlalchemy import create_engine, text,inspect
@@ -46,7 +46,7 @@ def mostrar_tabla_de_mascotas():
        mascota['calle']=fila.calle
        mascota['altura']=fila.altura
        mascota['contacto'] = fila.contacto
-       #mascota['estado'] = fila.estado
+       mascota['estado'] = fila.estado
        mascota['usuarioid'] = fila.usuarioid
        mascotas.append(mascota)
     return jsonify(mascotas)
@@ -169,7 +169,8 @@ def registrarMascota():
    zona = data.get('zona')
    calle = data.get('calle')
    altura = data.get('altura')
-   
+   estado = data.get('estado')
+
    query_contacto = f"SELECT contacto FROM usuarios WHERE usuarioid ={id_usuario};"
    
    try: 
@@ -178,7 +179,7 @@ def registrarMascota():
       conexion.close()
       return jsonify({'error': str(error.__cause__)}),500
 
-   query = f"INSERT INTO mascotas (especie, raza, sexo, descripcion, zona, calle, altura, contacto,usuarioid) VALUES ('{especie}', '{raza}', '{sexo}', '{detalles}', '{zona}', '{calle}', {altura}, '{contacto[0]}', {id_usuario})"
+   query = f"INSERT INTO mascotas (especie, raza, sexo, descripcion, zona, calle, altura, contacto,usuarioid, estado) VALUES ('{especie}', '{raza}', '{sexo}', '{detalles}', '{zona}', '{calle}', {altura}, '{contacto[0]}', {id_usuario}, '{estado}')"
    print(query)
    try: 
       conexion.execute(text(query))
@@ -211,6 +212,7 @@ def buscar_mascotas():
    especie = busqueda_mascota.get('especie') if 'especie' in busqueda_mascota else ""
    raza = busqueda_mascota.get('raza') if 'raza' in busqueda_mascota else ""
    sexo = busqueda_mascota.get('sexo') if 'sexo' in busqueda_mascota else ""
+   estado = busqueda_mascota.get('estado') if 'estado' in busqueda_mascota else ""
 
    if id_mascota:
       parametros.append(f"mascotaid = {id_mascota}")
@@ -220,6 +222,8 @@ def buscar_mascotas():
       parametros.append(f"raza = '{raza}'")
    if sexo:
       parametros.append(f"sexo = '{sexo}'")
+   if estado:
+      parametros.append(f"estado = '{estado}'")
    print(parametros)
    if len(parametros) == 0:
       query_mascotas = 'SELECT * FROM mascotas;'
@@ -244,8 +248,8 @@ def buscar_mascotas():
             'calle' : fila.calle,
             'altura': fila.altura,
             'contacto' : fila.contacto,
-            'mascotaid' : fila.mascotaid
-            #'estado' : fila.estado,
+            'mascotaid' : fila.mascotaid,
+            'estado' : fila.estado,
       })
       
       return jsonify(mascotas_buscadas),200

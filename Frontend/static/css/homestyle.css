@@ -72,7 +72,7 @@ header button:hover{
   position: relative;
 }
 .listaNavBar a{
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif, ;
   color: #FFFFFF;
   font-weight: bold;
   text-shadow: 1px 1px 1px #201d47;
@@ -99,10 +99,12 @@ header button:hover{
 
 .boton_buscar_registrar {
     background-color: #e77e38;
-    padding: 1rem;
+    padding: 1rem;  
 }
 
 .info_del_sitio {
+    position: relative;
+    top: 10px;
     text-align: center;
     background-color:#b1d7c5;
     width: fit-content;
