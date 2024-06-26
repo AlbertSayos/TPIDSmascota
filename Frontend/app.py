@@ -152,17 +152,20 @@ def buscadas():
         "id": "",
         "especie": "",
         "raza": "",
-        "sexo": ""
+        "sexo": "",
+        "estado": ""
     }
     if request.method == "POST":
         especie = request.form.get("mespecie")
         raza = request.form.get("mraza")
         sexo = request.form.get("msexo")
+        estado = request.form.get("mestado")
 
         datos = {
             "especie": especie,
             "raza": raza,
-            "sexo": sexo
+            "sexo": sexo,
+            "estado":estado
         }
     tabla = requests.post(f'{BACKEND_LINK}/buscarmascotas', json=datos)
     if tabla.status_code == 200:
