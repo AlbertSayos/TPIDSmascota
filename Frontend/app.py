@@ -72,7 +72,7 @@ def registrar():
             
             if imagen_mascota and response.status_code == 201:
                 nombreArchivo = f"{mascota_id}_mascota.jpg"
-                imagen_mascota.save(os.path.join("static","image", nombreArchivo))
+                imagen_mascota.save(os.path.join("static","image/mascotas", nombreArchivo))
             
             # Verificar la respuesta del servidor
             if response.status_code == 201:
