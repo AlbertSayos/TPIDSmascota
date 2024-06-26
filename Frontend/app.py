@@ -32,7 +32,6 @@ def registrar():
     elif request.method == 'POST':
 
         usuarioid = request.form.get('fusuarioid')
-        imagen_mascota=request.files.get("fimagen")
         #print("verifico token" + str(tokenDeUsuario))
         if usuarioid:
             especie = request.form.get('ftipo')
@@ -57,11 +56,9 @@ def registrar():
             # Imprimir la URL y los datos para depuración
             print(f'{BackendLink}/registrarmascota')
             
-            if imagen_mascota:
-                response = requests.post(f'{BackendLink}/registrarMascota', json=datos, files={'fimagen': imagen_mascota})
-            else:
-                # Realizar la solicitud POST
-                response = requests.post(f'{BackendLink}/registrarMascota', json=datos)
+
+            # Realizar la solicitud POST
+            response = requests.post(f'{BackendLink}/registrarMascota', json=datos)
             
             # Verificar la respuesta del servidor
             if response.status_code == 201:
