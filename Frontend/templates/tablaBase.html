@@ -7,6 +7,13 @@
                 data="{{ mascota.calle }} {{ mascota.altura }}, {{ mascota.zona }}" 
                 onclick="irADireccion(this.getAttribute('data'))"
             {% endif %}>
+            <p class="tipo">
+                {% if mascota.estado=="perdido" %}
+                X
+                {% else %}
+                V
+                {% endif %}
+            </p>
             <p class="tipo">{{ mascota.especie }}</p>
             <p class="raza">{{ mascota.raza }}</p>
             <p class="sexo">{{ mascota.sexo }}</p>
