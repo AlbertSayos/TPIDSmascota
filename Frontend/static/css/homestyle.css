@@ -72,7 +72,7 @@ header button:hover{
   position: relative;
 }
 .listaNavBar a{
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif, ;
   color: #FFFFFF;
   font-weight: bold;
   text-shadow: 1px 1px 1px #201d47;

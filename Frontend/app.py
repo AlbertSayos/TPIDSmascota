@@ -41,6 +41,7 @@ def registrar():
             zona = request.form.get('fzona')
             calle = request.form.get('fcalle')
             altura = request.form.get('faltura')
+            estado = request.form.get('festado')
 
             datos= {
                 'usuarioid': usuarioid,
@@ -50,9 +51,10 @@ def registrar():
                 'detalles': detalles,
                 'zona': zona,
                 'calle': calle,
-                'altura': altura
+                'altura': altura,
+                'estado': estado
             }
-
+            print('datos')
             # Imprimir la URL y los datos para depuración
             print(f'{BackendLink}/registrarmascota')
             print(datos)
