@@ -3,14 +3,12 @@ import requests  # Se utiliza para hacer consultas a APIs externas
 import os  # Se utiliza para interactuar con variables de entorno
 from dotenv import load_dotenv  # Se utiliza para cargar variables de entorno desde un archivo .env
 
-BackendLink = os.getenv('backend_link')  # Obtiene el valor de la variable de entorno 'backend_link'
+load_dotenv()  # Carga las variables de entorno desde el archivo .env si existe
+BackendLink = os.getenv('BACKEND_LINK')  # Obtiene el valor de la variable de entorno 'backend_link'
 api_key = os.getenv('APIKEY') #api de google cloud
 PORT = 8080
 
-load_dotenv()  # Carga las variables de entorno desde el archivo .env si existe
 app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = os.getenv('contraseña')
-app.config['SECRET_KEY'] = os.getenv('contraseña')
 
 
 """
