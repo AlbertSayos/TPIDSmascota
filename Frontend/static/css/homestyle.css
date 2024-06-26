@@ -1,6 +1,7 @@
 body {
     background-image: url('../image/imagenfondo.png');
     color: #000000;
+    font-family: "Playwrite DE Grund", cursive;
     font-size: 1.0rem;
     font-weight: bold;
     background-position: center center;

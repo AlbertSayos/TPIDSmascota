@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, Response,request,redirect,url_for
 import requests  # Se utiliza para hacer consultas a APIs externas
 import os  # Se utiliza para interactuar con variables de entorno
-from dotenv import load_dotenv  # Se utiliza para cargar variables de entorno desde un archivo .env
+from dotenv import load_dotenv  # type: ignore # Se utiliza para cargar variables de entorno desde un archivo .env
 
 load_dotenv()  # Carga las variables de entorno desde el archivo .env si existe
 BACKEND_LINK = os.getenv('BACKEND_LINK')  # Obtiene el valor de la variable de entorno 'backend_link'
