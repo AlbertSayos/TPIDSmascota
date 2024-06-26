@@ -147,7 +147,7 @@ def registrarMascota():
    zona = data.get('zona')
    calle = data.get('calle')
    altura = data.get('altura')
-
+   imagen_mascota = request.files.get('fimagen')
    query_contacto = f"SELECT contacto FROM usuarios WHERE usuarioid ={id_usuario};"
    
    try: 
@@ -161,6 +161,11 @@ def registrarMascota():
    try: 
       conexion.execute(text(query))
       conexion.commit()
+      mascota_id=conexion.lastrowid
+      
+      if imagen_mascota:
+         nombreArchivo = f"{mascota_id}_mascota.jpg"
+         imagen_mascota.save(os.path.join("static","image", nombreArchivo))
       conexion.close()
    except SQLAlchemyError as error:
       conexion.close()
