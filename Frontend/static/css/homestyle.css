@@ -415,21 +415,18 @@ h3{
   color: black;
   overflow: auto;
   width: 100%;
-  height: 100vh;
-  border: 1px solid #b1d7c5;
-  padding: 5px;
+  height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .tabla-de-mascotas{
-  width: 80%;
-  height: 80%;
+  width: 70%;
+  height: 70%;
   overflow: auto;
   border: 1px solid #000;
   border-radius: 2%;
-  padding: 5px;
 }
 
 .contenido-tabla-de-mascotas{
@@ -440,7 +437,7 @@ h3{
 
 .contenedor-mapa{
   width: 100%;
-  height: 100vh;
+  height: 85vh;
   border: 1px solid #000;
   display: flex;
   justify-content: center;
@@ -489,6 +486,7 @@ main{
 .descripcion {
   width: calc(100% / 3); /* Un cuarto del ancho total */
 }
+
 .ver {
   width: 10%; /* Un cuarto del ancho total */
   background: #0a667f;
