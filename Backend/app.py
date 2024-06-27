@@ -349,13 +349,13 @@ def datosDeUsuario():
    usuario = request.json
    usuario_id= usuario.get('usuarioid')
    query = f'SELECT * from usuarios WHERE usuarioid = {usuario_id};'
-
+   print(query)
    try:
       resultado= conexion.execute(text(query))
       conexion.close()
    except SQLAlchemyError as error:
       return jsonify({'error': str(error.__cause__)})
-
+   
    if resultado.rowcount !=0:
       datosDeUsuario=[]
       for fila in resultado:

@@ -25,6 +25,7 @@
                 console.log(usuarioid);
                 if (usuarioid && usuarioid !== "") {
                     localStorage.setItem('usuarioid', usuarioid);
+                    window.location.href = "/";
                 }
                 console.log(localStorage.getItem('usuarioid'));
             });

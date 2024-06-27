@@ -16,9 +16,13 @@
             <div class="alinear">
                 <div class="tabla-de-mascotas">
                     <div class="contenido-tabla-de-mascotas">
-                        {% set tablaDeMascotas = listaDeMascotas %}
-                        {% set miperfil = True %}
-                        {% include "tablaBase.html" %}
+                        {% if tablaDeMascotas|length == 0 %}
+                            <h2>No hay mascotas registradas</h2>
+                        {% else %}
+                            {% set tablaDeMascotas = tablaDeMascotas %}
+                            {% set miperfil = True %}
+                            {% include "tablaBase.html" %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

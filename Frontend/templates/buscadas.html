@@ -61,7 +61,7 @@
                             </thead>
                             <tbody>
                                 {% for mascota in tablaDeMascotas %}
-                                    <tr>
+                                    <tr data="{{ mascota.calle }} {{ mascota.altura }}, {{ mascota.zona }}" onclick="irADireccion(this.getAttribute('data'))" style="cursor: pointer;">
                                         <td>{{ mascota.especie }} </td>
                                         <td>{{ mascota.raza }}</td>
                                         <td>{{ mascota.sexo }}</td>

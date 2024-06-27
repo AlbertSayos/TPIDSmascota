@@ -292,11 +292,12 @@ h3{
     }
 
     .boton{
-      background-color: green;
+      background-color: #0a667f;
       border: 1px solid black;
       border-radius: 5px;
       padding: 2px;
       text-decoration: none;
+      color: white;
     }
 
     .boton:hover{
@@ -420,6 +421,8 @@ h3{
   padding: 5px;
   background: white;
   border-radius: 1%;
+  width: 100%;
+  margin-bottom: 30px;
 }
 
 .contenedor-mapa{
@@ -440,7 +443,7 @@ main{
 }
 
 .sec-map{
-  width: 45%;
+  width: 90%;
   border: 1px solid #b1d7c5;
 }
 
@@ -465,6 +468,15 @@ main{
   font-weight: 150;
   text-align: center;
 }
+
+.fila{
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .buscador{
   width: 100%;
   display: flex;
@@ -756,4 +768,8 @@ button{
 }
 .faq.active {
     border: none;
+}
+
+.gm-style-iw, .gm-style-iw-c{
+  padding: 0px !important;
 }

@@ -244,23 +244,22 @@ def mi_perfil():
             respuesta_usuario = requests.get(f'{BACKEND_LINK}/datosDeUsuario', json=datos)
         user_id = request.form.get('usuarioid') 
         if user_id:
-            datos = {"id":user_id}
+            datos = {"usuarioid":user_id}
             respuesta_mascotas = requests.get(f'{BACKEND_LINK}/mascotaDeUsuario', json=datos)
             respuesta_usuario = requests.get(f'{BACKEND_LINK}/datosDeUsuario', json=datos)
+            print(respuesta_mascotas)
+            print(respuesta_usuario)
+            if respuesta_mascotas.status_code == 200:
+                lista_de_mascotas = respuesta_mascotas.json()
+                info_usuario = respuesta_usuario.json()
+                print(lista_de_mascotas)
+                
+                return render_template('miperfil.html', infoUsuario=info_usuario ,tablaDeMascotas=lista_de_mascotas)
 
-            if respuesta_mascotas.status_code == 200:
-                lista_de_mascotas = respuesta_mascotas.json()
-                info_usuario = respuesta_usuario.json()
-                print(info_usuario)
-                return render_template('miperfil.html', infoUsuario=info_usuario ,listaDeMascotas=lista_de_mascotas)
-            if respuesta_mascotas.status_code == 200:
-                lista_de_mascotas = respuesta_mascotas.json()
-                info_usuario = respuesta_usuario.json()
-                return render_template('miperfil.html', infoUsuario=info_usuario ,listaDeMascotas=lista_de_mascotas)
             else:
                 lista_de_mascotas = []
                 info_usuario = respuesta_usuario.json()
-                return render_template('miperfil.html', infoUsuario=info_usuario ,listaDeMascotas=lista_de_mascotas)
+                return render_template('miperfil.html', infoUsuario=info_usuario ,tablaDeMascotas=lista_de_mascotas)
         else:
             return redirect(url_for('login'))
     return render_template('autorizacion.html') 
@@ -284,9 +283,10 @@ def conseguir_script():
     if script_de_mapa.status_code == 200:
         return script_de_mapa.text
 
-@app.route('/faq', methods=['GET'])
+@app.route('/preguntasfrecuentes', methods=['GET'])
 def faq():
     respuesta = requests.get(f'{BACKEND_LINK}/tabla_faq')
+    print(respuesta)
     if(respuesta.status_code == 200):
         tabla_faq= respuesta.json()
         print(tabla_faq)
