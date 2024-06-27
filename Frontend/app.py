@@ -216,7 +216,7 @@ def login():
             "nombre": nombre,
             "contraseña": contraseña
         }
-        respuesta = requests.get(f'{BACKEND_LINK}/login', json=datos)
+        respuesta = requests.post(f'{BACKEND_LINK}/login', json=datos)
         if respuesta.status_code == 200:
             usuarioid = respuesta.json().get('usuarioid')
     return render_template ('login.html', usuarioid = usuarioid)
