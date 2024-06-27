@@ -13,10 +13,7 @@ app.config['SECRET_KEY'] = os.getenv('contraseña')
 
 
 
-engine = create_engine('mysql+mysqlconnector://root:@localhost/mascotas') 
-#engine = create_engine('mysql+mysqlconnector://root:@localhost/mascotas')
-#engineUsuarios = create_engine('mysql+mysqlconnector://root:@localhost/usuarios')
-#engineCentros = create_engine('mysql+mysqlconnector://root:@localhost/centros')
+engine = create_engine('mysql+mysqlconnector://root:tp@localhost/tp') 
 #reemplazar 'user', 'pass', 'host' y 'DBname' con los datos correspondientes
 
 #**************************************************endpoind de mascotas*************************************************************#
@@ -297,13 +294,19 @@ def registrarUsuario():
    nombre = nuevo_usuario.get('nombre')
    contraseña = nuevo_usuario.get('contraseña')
    contacto = nuevo_usuario.get('contacto')
-
-   query_nuevo_usuario= f"INSERT INTO usuarios (nombre, contraseña, contacto) VALUES ('{nombre}', '{contraseña}', '{contacto}');"
    
+   query_nombre=f"SELECT * FROM usuarios where nombre='{nombre}'"
    try:
+      resultado_nombre = conexion.execute(text(query_nombre)).fetchone()
+
+      if resultado_nombre:
+         conexion.close()
+         return jsonify({"mensaje": "Nombre de usuario no disponible"}), 409
+      
+      query_nuevo_usuario= f"INSERT INTO usuarios (nombre, contraseña, contacto) VALUES ('{nombre}', '{contraseña}', '{contacto}');"
       resultado= conexion.execute(text(query_nuevo_usuario))
       conexion.commit()
-      conexion.close()
+      conexion.close()   
    except SQLAlchemyError as error:
         return jsonify({'error': 'No se pudo registrar el usuario' + str(error.__cause__)}),404
    return jsonify({'mensaje': 'Se ha registrado el usuario con exito'}), 201
