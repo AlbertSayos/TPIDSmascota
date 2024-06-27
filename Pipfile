@@ -14,6 +14,7 @@ requests = "*"
 pip = "*"
 install = "*"
 python-dotenv = "*"
+mysq = "*"
 
 [dev-packages]
 

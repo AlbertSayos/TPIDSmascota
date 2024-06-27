@@ -1,11 +1,13 @@
+init.sh back
 #!/bin/bash
 
 # Actualizar el índice de paquetes e instalar Python 3.10 si es necesario
-sudo apt update
-sudo apt install -y python3.10 python3.10-venv python3.10-dev
+# Detectar la versión de Python 3 instalada
+PYTHON_VERSION=$(python3 --version | awk '{print $2}')
+PYTHON_MAJOR_MINOR=$(echo $PYTHON_VERSION | cut -d. -f1,2)
 
-# Crear y activar el entorno virtual con pipenv usando Python 3.10
-pipenv --python 3.10
+# Instalar Python 3 y los paquetes necesarios
+sudo apt install -y python${PYTHON_MAJOR_MINOR} python${PYTHON_MAJOR_MINOR}-venv python${PYTHON_MAJOR_MINOR}-dev
 
 # Instalar Flask y las demás dependencias
 pipenv install flask
