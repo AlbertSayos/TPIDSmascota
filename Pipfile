@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 flask = "*"
+requests = "*"
+pip = "*"
+install = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

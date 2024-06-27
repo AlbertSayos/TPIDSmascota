@@ -13,7 +13,7 @@ app.config['SECRET_KEY'] = os.getenv('contraseña')
 
 
 
-engine = create_engine('mysql+mysqlconnector://root:tp@localhost/tp') 
+engine = create_engine('mysql+mysqlconnector://root:tp@localhost:3300/tp')
 #reemplazar 'user', 'pass', 'host' y 'DBname' con los datos correspondientes
 
 #**************************************************endpoind de mascotas*************************************************************#
