@@ -30,7 +30,7 @@ CREATE TABLE `centros` (
   `altura` int NOT NULL,
   `zona` varchar(75) NOT NULL,
   PRIMARY KEY (`centroid`)
-) ENGINE=InnoDB AUTO_INCREMENT=30000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30003 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `centros` (
 
 LOCK TABLES `centros` WRITE;
 /*!40000 ALTER TABLE `centros` DISABLE KEYS */;
+INSERT INTO `centros` VALUES (30000,'Refugio El Gran Pirincho','Descripción breve','Lavalle',3000,'CABA'),(30001,'Ayudacan','Descripción breve','Jerónimo Salguero',151,'CABA'),(30002,'Hogar de Proteccion Lourdes','Descripción breve','Chile',1393,'C1098 Buenos Aires');
 /*!40000 ALTER TABLE `centros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +63,7 @@ CREATE TABLE `mascotas` (
   `contacto` varchar(75) NOT NULL,
   `estado` varchar(50) NOT NULL,
   PRIMARY KEY (`mascotaid`)
-) ENGINE=InnoDB AUTO_INCREMENT=20000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20003 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,6 +72,7 @@ CREATE TABLE `mascotas` (
 
 LOCK TABLES `mascotas` WRITE;
 /*!40000 ALTER TABLE `mascotas` DISABLE KEYS */;
+INSERT INTO `mascotas` VALUES (20000,'Perro','Pitbull','hembra','Descripción breve','Av. Paseo Colón',850,'CABA',10000,'albert@gmail.com','perdido'),(20001,'Gato','Siamés','hembra','Descripción breve','Av. San Juan',1340,'CABA',10002,'bruno@gmail.com','encontrado'),(20002,'Perro','Beagle','macho','Descripción breve','Av. Santa Fe',500,'CABA',10000,'enzo@hotmail.com','encontrado');
 /*!40000 ALTER TABLE `mascotas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,10 +111,10 @@ DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
   `usuarioid` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `contraseña` varchar(50) NOT NULL,
+  `contra` varchar(50) NOT NULL,
   `contacto` varchar(75) NOT NULL,
   PRIMARY KEY (`usuarioid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10004 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,6 +123,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (10000,'albert','1234','albert@gmail.com'),(10001,'franco','1234','franco@hotmail.com'),(10002,'agustina','1234','agustina@gmail.com'),(10003,'matias','1234','matias@hotmail.com');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
