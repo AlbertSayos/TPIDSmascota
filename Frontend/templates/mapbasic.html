@@ -10,7 +10,7 @@
         <!-- Incluye el script generado dinámicamente -->
         <script src="{{ url_for('static', filename='/script/utilMap.js') }}"></script>
         <script src="{{ url_for('static', filename='/script/cargarMap.js') }}" defer></script>
-        <!--<script>
+        <script>
             async function loadScript() {
             try {
                 let respuesta = await fetch('/script');
@@ -25,7 +25,7 @@
         }
 
         loadScript();
-        //initMap();
-        </script>-->
+        initMap();
+        </script>
     </section>
 

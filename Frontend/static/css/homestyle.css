@@ -1,6 +1,11 @@
 body {
+    font-family: "Playwrite DE Grund", cursive;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
     background-image: url('../image/imagenfondo.png');
     color: #000000;
+    font-family: "Playwrite DE Grund", cursive;
     font-size: 1.0rem;
     font-weight: bold;
     background-position: center center;
@@ -72,7 +77,7 @@ header button:hover{
   position: relative;
 }
 .listaNavBar a{
-  font-family: Verdana, Geneva, Tahoma, sans-serif, ;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #FFFFFF;
   font-weight: bold;
   text-shadow: 1px 1px 1px #201d47;
@@ -99,12 +104,10 @@ header button:hover{
 
 .boton_buscar_registrar {
     background-color: #e77e38;
-    padding: 1rem;  
+    padding: 1rem;
 }
 
 .info_del_sitio {
-    position: relative;
-    top: 10px;
     text-align: center;
     background-color:#b1d7c5;
     width: fit-content;
@@ -289,11 +292,12 @@ h3{
     }
 
     .boton{
-      background-color: green;
+      background-color: #0a667f;
       border: 1px solid black;
       border-radius: 5px;
       padding: 2px;
       text-decoration: none;
+      color: white;
     }
 
     .boton:hover{
@@ -410,103 +414,167 @@ h3{
         
 }
 
-.contenedor{
+.tabla-de-mascotas{
   max-height: 600px;
   color: black;
   overflow: auto;
-  width: 100%;
-  height: 70vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.tabla-de-mascotas{
-  width: 70%;
-  height: 70%;
-  overflow: auto;
-  border: 1px solid #000;
-  border-radius: 2%;
-}
-
-.contenido-tabla-de-mascotas{
-  height: 200%;
+  padding: 5px;
   background: white;
   border-radius: 1%;
+  width: 100%;
+  margin-bottom: 30px;
 }
 
 .contenedor-mapa{
   width: 100%;
-  height: 85vh;
-  border: 1px solid #000;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 5%;
+
 }
 
 main{
   width: 90%;
   max-width: 1100px;
   color: black;
-  
-  min-height: 75vh;
-
 }
 
 .sec-map{
-  width: 75%;
+  width: 90%;
   border: 1px solid #b1d7c5;
 }
 
 
-.fila {
+.tabla-de-mascotas table{
+  margin-left:auto; 
+  margin-right:auto;
+  background-color: #FFFFFF;
+}
+.tabla-de-mascotas table, th, td{
+  border:1px solid #6fa38c;
+  border-collapse: collapse;
+}
+.tabla-de-mascotas th, td{
+  padding:10px;
+  margin: 5px;
+  width: 150px;
+  position:center;
+}
+.tabla-de-mascotas table tbody tr td{
+  font-size:14px;
+  font-weight: 150;
+  text-align: center;
+}
+
+.fila{
   display: flex;
-  width: 100%;
-  justify-content: space-between;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-around;
   align-items: center;
-}
-
-.fila p {
-  margin: 0;
-  padding: 10px;
-  text-align: center;
-}
-
-.tipo {
-  width: calc(100% / 3); /* Un cuarto del ancho total */
-}
-
-.raza {
-  width: calc(100% / 3); /* Un cuarto del ancho total */
-}
-
-.sexo {
-  width: calc(100% / 3); /* Un cuarto del ancho total */
-}
-.descripcion {
-  width: calc(100% / 3); /* Un cuarto del ancho total */
-}
-
-.ver {
-  width: 10%; /* Un cuarto del ancho total */
-  background: #0a667f;
-  color: white;
-  text-align: center;
-  padding: 2px;
-  border-radius: 20px;
 }
 
 .buscador{
   width: 100%;
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: space-around;
-
+  gap: 10px;
+  margin-bottom: 20px;
+  float: left;
+}
+.buscador button{
+  border:none;
+  background-color: #b8daca;
+  color: #222238;
+  cursor:pointer;
+  width: 70px;
+  height: 30px;
+  font-weight: 600;
+}
+.tabla-de-mascotas table button{
+  border:none;
+  background-color: #0a667f;
+  cursor:pointer;
+  width: 40px;
+  height: 30px;
+  font-weight: 600;
+}
+.tabla-de-mascotas table button a{
+  color: white;
+  font-size:bold;
+}
+.registrarMascota .registrarMascotah2 {
+  text-align: center;
+  font-size: 30px;
+}
+.petprof, .petprofh1 {
+  text-decoration: underline double;
+  font: 40px;
+  position: relative;
+  text-align: center;
+}
+.petprof, .petzone {
+  position: relative;
+  text-align: left;
+  display: grid;
+  top: 20px;
+  left: 50px;
+}
+.petprof, .petdescr {
+  position: relative;
+  text-align: left;
+  display: grid;
+  top: 20px;
+  left: 50px;
+}
+.petcontact{
+  text-align: left;
+  position: relative;
+  top: 20px;
+  left: 50px;
+}
+.imagen_mascota {
+  max-width:40%;
 }
 
-.tipo .raza .sexo .btn-buscar{
-  width: calc(100% / 2);
+.contenedor{
+  display: flex;
+  justify-content: left;
+  padding: 50px;
+}
+
+.miperfil {
+  position: relative;
+}
+.miperfil .subtitulo {
+  font-size: 30px;
+  text-decoration: underline double;
+}
+.miperfil .contacto {
+  color: rgb(92, 92, 92);
+  position: relative;
+  display: grid;
+  top: -50px;
+}
+.miperfil .subtituloh4 {
+  font-size: 30px;
+  display: grid;
+  text-align: center;
+  top: -150px;
+  text-decoration: underline;
+}
+.miperfil .nombre {
+  position: relative;
+  display: grid;
+  text-align: left;
+  top: -50px;
+  right: -850px; 
+  text-decoration: underline;
 }
 /* estilos de los formularios de login, registro de usuario y registro de mascotas*/
 button{
@@ -525,6 +593,7 @@ button{
   width: 350px;
   font-weight: 400;
   margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .formulario form h2{
@@ -538,7 +607,7 @@ button{
   color: black;
 }
 .formulario input{
-  font-size: 18px;
+  font-size: 13px;
   padding: 5px 5px 5px 5px;
   color: black;
   display: flex;
@@ -656,6 +725,7 @@ button{
 .wrapper > h1 {
     margin: 1.5rem 0;
     text-align: center;
+    color:black;
 }
 
 .wrapper > h1 {
@@ -708,4 +778,8 @@ button{
 }
 .faq.active {
     border: none;
+}
+
+.gm-style-iw, .gm-style-iw-c{
+  padding: 0px !important;
 }

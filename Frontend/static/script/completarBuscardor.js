@@ -21,7 +21,7 @@ var razaDeGatos = ["Siamés",
     "Sphynx",
     "Scottish Fold",
     "Munchkin",
-     "nose/mestizo"
+     "Nose/mestizo"
     ];
 
 var tipoHTML = document.getElementById("tipo");
@@ -44,9 +44,9 @@ tipoHTML.addEventListener('change', function () {
     }
 
     // Agrego nuevas opciones
-    if (tipo === 'perro') {
+    if (tipo === 'Perro') {
         agregarOpciones(razaDePerros);
-    } else if (tipo === 'gato') {
+    } else if (tipo === 'Gato') {
         agregarOpciones(razaDeGatos);
     } else {
         // Si el tipo no es ni "perro" ni "gato", agregar opciones personalizadas

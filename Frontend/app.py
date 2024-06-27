@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, Response,request,redirect,url_for
 import requests  # Se utiliza para hacer consultas a APIs externas
 import os  # Se utiliza para interactuar con variables de entorno
-from dotenv import load_dotenv  # Se utiliza para cargar variables de entorno desde un archivo .env
+from dotenv import load_dotenv  # type: ignore # Se utiliza para cargar variables de entorno desde un archivo .env
 
 load_dotenv()  # Carga las variables de entorno desde el archivo .env si existe
 BACKEND_LINK = 'https://albertosayos.pythonanywhere.com'  # Obtiene el valor de la variable de entorno 'backend_link'
@@ -32,31 +32,31 @@ def registrar():
 
         usuarioid = request.form.get('fusuarioid')
         imagen_mascota=request.files.get("fimagen")
-        print("************IMAGEN**********************")
-        print(imagen_mascota)
+       
         #print("verifico token" + str(tokenDeUsuario))
+        print(usuarioid, imagen_mascota)
         if usuarioid:
             especie = request.form.get('ftipo')
             sexo = request.form.get('fsexo')
+            estado = request.form.get('festado')
             raza = request.form.get('fraza')
             detalles = request.form.get('fdetalles')
             zona = request.form.get('fzona')
             calle = request.form.get('fcalle')
             altura = request.form.get('faltura')
-            estado = request.form.get('festado')
 
             datos= {
                 'usuarioid': usuarioid,
                 'especie': especie,
                 'sexo': sexo,
+                'estado':estado,
                 'raza': raza,
                 'detalles': detalles,
                 'zona': zona,
                 'calle': calle,
-                'altura': altura,
-                'estado': estado
+                'altura': altura
             }
-            print('datos')
+
             # Imprimir la URL y los datos para depuración
             print(f'{BACKEND_LINK}/registrarmascota')
             print(datos)
@@ -68,7 +68,6 @@ def registrar():
                 # Realizar la solicitud POST
             response = requests.post(f'{BACKEND_LINK}/registrarMascota', json=datos)
             mascota_id = response.json().get("mascota_id")
-            print(mascota_id)
             
             if imagen_mascota and response.status_code == 201:
                 nombreArchivo = f"{mascota_id}_mascota.jpg"
@@ -220,7 +219,7 @@ def login():
             "nombre": nombre,
             "contraseña": contraseña
         }
-        respuesta = requests.get(f'{BACKEND_LINK}/login', json=datos)
+        respuesta = requests.post(f'{BACKEND_LINK}/login', json=datos)
         if respuesta.status_code == 200:
             usuarioid = respuesta.json().get('usuarioid')
     return render_template ('login.html', usuarioid = usuarioid)
@@ -243,18 +242,27 @@ def mi_perfil():
     if request.method == 'POST':
         user_id = request.form.get('usuarioid') 
         if user_id:
-            datos = {"id":user_id}
+            datos = {"usuarioid":user_id}
             respuesta_mascotas = requests.get(f'{BACKEND_LINK}/mascotaDeUsuario', json=datos)
             respuesta_usuario = requests.get(f'{BACKEND_LINK}/datosDeUsuario', json=datos)
-
+        user_id = request.form.get('usuarioid') 
+        if user_id:
+            datos = {"usuarioid":user_id}
+            respuesta_mascotas = requests.get(f'{BACKEND_LINK}/mascotaDeUsuario', json=datos)
+            respuesta_usuario = requests.get(f'{BACKEND_LINK}/datosDeUsuario', json=datos)
+            print(respuesta_mascotas)
+            print(respuesta_usuario)
             if respuesta_mascotas.status_code == 200:
                 lista_de_mascotas = respuesta_mascotas.json()
                 info_usuario = respuesta_usuario.json()
-                return render_template('miperfil.html', infoUsuario=info_usuario ,listaDeMascotas=lista_de_mascotas)
+                print(lista_de_mascotas)
+                
+                return render_template('miperfil.html', infoUsuario=info_usuario ,tablaDeMascotas=lista_de_mascotas)
+
             else:
                 lista_de_mascotas = []
                 info_usuario = respuesta_usuario.json()
-                return render_template('miperfil.html', infoUsuario=info_usuario ,listaDeMascotas=lista_de_mascotas)
+                return render_template('miperfil.html', infoUsuario=info_usuario ,tablaDeMascotas=lista_de_mascotas)
         else:
             return redirect(url_for('login'))
     return render_template('autorizacion.html') 
@@ -278,10 +286,16 @@ def conseguir_script():
     if script_de_mapa.status_code == 200:
         return script_de_mapa.text
 
-@app.route('/faq', methods=['GET'])
+@app.route('/preguntasfrecuentes', methods=['GET'])
 def faq():
-    return render_template ('faq.html')
-
+    respuesta = requests.get(f'{BACKEND_LINK}/tabla_faq')
+    print(respuesta)
+    if(respuesta.status_code == 200):
+        tabla_faq= respuesta.json()
+        print(tabla_faq)
+        return render_template ('faq.html', tabla_faq=tabla_faq)
+    return render_template("404.html")
+    
 
 
 @app.errorhandler(404)

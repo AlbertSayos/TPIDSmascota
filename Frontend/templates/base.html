@@ -8,8 +8,12 @@
         <meta property="og:title" content="El mejor lugar para hallar a tu mascota perdida">
         <meta property="og:type" content="website">
         <meta property="og:locate" content="es_ES">
+        <link rel="icon" href="{{ url_for('static', filename='/icons/favicon.ico') }}">
         <link rel="stylesheet" href="/static/css/homestyle.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap" rel="stylesheet">
     </head> 
 
     
@@ -24,7 +28,7 @@
                     <li class="item"><a href="/buscadas">Buscar</a></li>
                     <li class="item"><a href="/registrar">Registrar una mascota</a></li>
                     <li class="item"><a href="/miperfil">Mi perfil</a></li>
-                    <li class="item"><a href="/faq">Preguntas frecuentes</a></li>
+                    <li class="item"><a href="/preguntasfrecuentes">Preguntas frecuentes</a></li>
                 </ul>
                 <a id="primer-boton" href="{{url_for('login')}}" ><button>Iniciar sesión</button></a>
                 <a id="segundo-boton" href="{{url_for('registro')}}"><button>Registrar</button></a>
@@ -35,10 +39,10 @@
             if (localStorage.getItem('usuarioid')) {
                 primerBoton = document.getElementById("primer-boton");
                 primerBoton.href = "{{ url_for('mi_perfil') }}";
-                primerBoton.innerHTML  = "<button>Mi perfil </button>"
+                primerBoton.innerHTML  = "<button>Mi perfil</button>"
                 segundoBoton = document.getElementById("segundo-boton");
                 segundoBoton.href = "{{ url_for('logout') }}";
-                segundoBoton.innerHTML  = "<button>cerrar sesion</button>"
+                segundoBoton.innerHTML  = "<button>Cerrar sesion</button>"
             }
 
         </script>
@@ -46,6 +50,8 @@
         {% block main %}
         {% endblock %}
         <footer>
+            <p class="info_del_sitio">Nuestro correo: ENMA@fi.uba.ar</p>
+            <p class="info_del_sitio">Nuestras instagram:  @ENMA_ig</p>
             <p class="info_del_sitio">ENMA 2024 © Derechos Reservados</p>
         </footer>
     </body>
