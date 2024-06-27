@@ -3,56 +3,103 @@
     {% block title %}<title>Busca tu mascota</title>{% endblock %}
 
     {% block main %}
+
+    {% set tablaDeMascotas = listaDeMascotas %}
+    {% set miperfil = False %}
         <main>
-            
-            <div class="contenedor">
-                <section class="tabla-de-mascotas" >
-                    <div class="buscador">
-                        <!--Acá se va a encontrar la tabla de mascotas buscadas con un buscador-->
-                        <form method="post" action="/buscadas" class="buscador">
-                            <div class="tipo">
-                                <label for="tipo">Tu mascota es:</label>
-                                <select name="mespecie" id="tipo">
-                                    <option value="">Selecciona el tipo</option>
-                                    <option value="perro">Perro</option>
-                                    <option value="gato">Gato</option>
-                                </select>
-                             </div>
-                             <div class="raza">
-                                <label for="tipo"> de Raza</label>
-                                <select name="mraza" id="razas" >
-                                    <option value="">Selecciona la raza</option>
-                                </select>
-                            </div>
-                            <div class="tipo">
-                                <label for="sexo">Su sexo es:</label>
-                                <select name="msexo" id="sexo">
-                                    <option value=""></option>
-                                    <option value="macho">macho</option>
-                                    <option value="hembra">hembra</option>
-                                </select>
-                            </div> 
-                            <button type="submit" class="btn-buscar">Buscar</button>
-                        </form>
-                    </div>
-                    <div id="" class="fila" data="">
-                        <p class="tipo">tipo</p>
-                        <p class="raza">raza</p>
-                        <p class="sexo">sexo</p>
-                        <p class="ver" style="visibility: hidden;">Ver</p>
-                    </div>
-                    {% for mascota in tablaDeMascotas %}
-                        <div id="{{ mascota.mascotaid }}" class="fila" data="{{ mascota.calle }} {{ mascota.altura }}, {{ mascota.zona }}" onclick="irADireccion(this.getAttribute('data'))">
-                            <p class="tipo">{{ mascota.especie }}</p>
-                            <p class="raza">{{ mascota.raza }}</p>
-                            <p class="sexo">{{ mascota.sexo }}</p>
-                            <a class="ver" href="/PerfilMascota/{{ mascota.mascotaid }}">Ver</a>
+        
+            <section class="contenedor">
+                <h1>Busca tu mascota</h1>
+                <div class="tabla-de-mascotas">
+                    <div class="contenido-tabla-de-mascotas">
+                        <div class="buscador">
+                            <!--Acá se va a encontrar la tabla de mascotas buscadas con un buscador-->
+                            <form method="post" action="/buscadas" class="buscador">
+                                <div class="tipo">
+                                    <label for="tipo">Mascota:</label>
+                                    <select name="mespecie" id="tipo">
+                                        <option value="">Selecciona el tipo</option>
+                                        <option value="perro">Perro</option>
+                                        <option value="gato">Gato</option>
+                                    </select>
+                                </div>
+                                <div class="raza">
+                                    <label for="tipo">Raza:</label>
+                                    <select name="mraza" id="razas" >
+                                        <option value="">Selecciona la raza</option>
+                                    </select>
+                                </div>
+                                <div class="tipo">
+                                    <label for="sexo">Sexo:</label>
+                                    <select name="msexo" id="sexo">
+                                        <option value="macho">Macho</option>
+                                        <option value="hembra">Hembra</option>
+                                    </select>
+                                </div> 
+                                <div class="input">
+                                    <label for="estado">Estado</label>
+                                    <select name="mestado" id="estado" required> 
+                                        <option value="">Selecciona el tipo</option> 
+                                        <option value="perdido">Perdida</option>
+                                        <option value="encontrado">Encontrada</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn-buscar">Buscar</button>
+                            </form>
                         </div>
-                    {% endfor %}
-                    
-                <script src="{{ url_for('static', filename='/script/completarBuscardor.js') }}"></script>
-            
-                </section>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Especie</th>
+                                    <th>Raza</th>
+                                    <th>Sexo</th>
+                                    <th>Descripción</th>
+                                    <th>Estado</th>
+                                    <th>Informacion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mascota in tablaDeMascotas %}
+                                    <tr>
+                                        <td>{{ mascota.especie }} </td>
+                                        <td>{{ mascota.raza }}</td>
+                                        <td>{{ mascota.sexo }}</td>
+                                        <td>{{ mascota.descripcion }}</td>
+                                        <td>{{ mascota.estado }}</td>
+                                        <td><button><a href="/PerfilMascota/{{ mascota.mascotaid }}">Ver</a></button></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        
+                         <!--
+                        <div id="" class="fila" data="">
+                            <p class="estado">Estado</p>
+                            <p class="tipo">Especie</p>
+                            <p class="raza">Raza</p>
+                            <p class="sexo">Sexo</p>
+                            <p class="descripcion">Descripcion</p>
+                            <p class="ver" style="visibility: hidden;">Ver</p>
+                        </div>
+                        {% set tablaDeMascotas = listaDeMascotas %}
+                        {% set miperfil = False %}
+                        {% include "tablaBase.html" %}
+                        {% for mascota in tablaDeMascotas %}
+                            <div id="{{ mascota.mascotaid }}" class="fila" data="{{ mascota.calle }} {{ mascota.altura }}, {{ mascota.zona }}" onclick="irADireccion(this.getAttribute('data'))">
+                                <p class="tipo">{{ mascota.especie }}</p>
+                                <p class="raza">{{ mascota.raza }}</p>
+                                <p class="sexo">{{ mascota.sexo }}</p>
+                                <a class="ver" href="/PerfilMascota/{{ mascota.mascotaid }}">Ver</a>
+                            </div>
+                        {% endfor %}
+                        -->
+                        
+                    <script src="{{ url_for('static', filename='/script/completarBuscardor.js') }}"></script>
+                    </div>
+                </div> 
+            </section>
+            <section class="contenedor-mapa">
                 <div class="sec-map">
                     {% include "mapbasic.html" %}
                 </div>

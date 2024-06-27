@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+    {% block title %}<title>Preguntas frecuentes</title>{% endblock %}
+    
+    {% block main %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+            integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <body>
+            <div class="wrapper">
+                <h1>Preguntas frecuentes</h1>
+
+                <div class="faq">
+                    <button class="accordion"> ¿Qué es ENMA? <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="pannel">
+                    <p> "Encuentra tu Mascota" es una plataforma diseñada para ayudar a reunir a las mascotas perdidas con sus dueños.
+                        Funciona como una base de datos en línea donde puedes registrar una mascota perdida y buscar mascotas encontradas por otros usuarios.</p>
+                    </div>
+                </div>
+
+                <div class="faq">
+                    <button class="accordion"> ¿Cómo puedo encontrar mi mascota? <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="pannel">
+                        <p> Desde la página de <a href="buscadas">búsqueda</a>, nuestra plataforma permite ver una lista de todas las mascotas registradas, así como filtrar por sus características.
+                            También puedes buscar mascotas perdidas dentro de tu barrio o en zonas donde crees que tu mascota podría estar.</p>
+                    </div>
+                </div>
+
+                <div class="faq">
+                    <button class="accordion"> ¿Dónde puedo hallar refugios de mascotas perdidas? <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="pannel">
+                        <p> En nuestra página de <a href="buscadas">búsqueda</a> puedes interactuar con el mapa y encontrar las distintas casas y refugios de mascotas perdidas cercanas a tu barrio o zona.</p>
+                    </div>
+                </div>
+
+                <div class="faq">
+                    <button class="accordion"> ¿Qué debo hacer si encuentro una mascota perdida? <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="pannel">
+                        <p> Si encuentras una mascota perdida, puedes <a href="registrar">registrarla</a> en nuestra plataforma.
+                            Completa el formulario con la información básica y proporciona detalles para que podamos ayudar a reunirla con su dueño.</p>
+                    </div>
+                </div>
+
+                <div class="faq">
+                    <button class="accordion"> ¿Cómo puedo contribuir a mejorar ENMA? <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="pannel">
+                        <p> Puedes ayudar difundiendo la página entre amigos y familiares, compartiendo publicaciones en redes sociales y registrando mascotas que estén perdidas.
+                            También puedes enviar tus ideas a nuestro correo electrónico de soporte.</p>
+                    </div>
+                </div>
+
+                <div class="faq">
+                    <button class="accordion"> ¿Cómo puedo evitar que mi mascota se pierda? <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="pannel">
+                        <p> Asegúrate de que tu mascota lleve un collar con identificación clara y la información de contacto actualizada.
+                            También puedes considerar la posibilidad de un microchip, que proporciona una forma adicional de identificar a tu mascota si se pierde y se encuentra sin su collar.</p>
+                    </div>
+                </div>
+            </div>
+
+        <script>
+        var acc = document.getElementsByClassName("accordion");
+      var i;
+
+      for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          this.parentElement.classList.toggle("active");
+
+          var pannel = this.nextElementSibling;
+
+          if (pannel.style.display === "block") {
+            pannel.style.display = "none";
+          } else {
+            pannel.style.display = "block";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
+{% endblock %}

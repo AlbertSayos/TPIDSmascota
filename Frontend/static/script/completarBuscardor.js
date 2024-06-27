@@ -21,7 +21,7 @@ var razaDeGatos = ["Siamés",
     "Sphynx",
     "Scottish Fold",
     "Munchkin",
-     "nose/mestizo"
+     "Nose/mestizo"
     ];
 
 var tipoHTML = document.getElementById("tipo");
