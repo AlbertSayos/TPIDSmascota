@@ -1,4 +1,8 @@
 body {
+    font-family: "Playwrite DE Grund", cursive;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
     background-image: url('../image/imagenfondo.png');
     color: #000000;
     font-size: 1.0rem;
@@ -509,6 +513,64 @@ main{
 
 .tipo .raza .sexo .btn-buscar{
   width: calc(100% / 2);
+}
+.registrarMascota .registrarMascotah2 {
+  text-align: center;
+  font-size: 30px;
+}
+.petprof .petprofh1 {
+  text-decoration: underline double;
+  font: 40px;
+  position: relative;
+  text-align: center;
+}
+.petprof .petzone {
+  position: relative;
+  text-align: left;
+  display: grid;
+  top: 20px;
+  left: 50px;
+}
+.petprof .petdescr {
+  position: relative;
+  text-align: left;
+  display: grid;
+  top: 20px;
+  left: 50px;
+}
+.petprof .petcontact {
+  text-align: left;
+  position: relative;
+  top: 20px;
+  left: 50px;
+}
+.miperfil {
+  position: relative;
+}
+.miperfil .subtitulo {
+  font-size: 30px;
+  text-decoration: underline double;
+}
+.miperfil .contacto {
+  color: rgb(92, 92, 92);
+  position: relative;
+  display: grid;
+  top: -50px;
+}
+.miperfil .subtituloh4 {
+  font-size: 30px;
+  display: grid;
+  text-align: center;
+  top: -150px;
+  text-decoration: underline;
+}
+.miperfil .nombre {
+  position: relative;
+  display: grid;
+  text-align: left;
+  top: -50px;
+  right: -850px; 
+  text-decoration: underline;
 }
 /* estilos de los formularios de login, registro de usuario y registro de mascotas*/
 button{

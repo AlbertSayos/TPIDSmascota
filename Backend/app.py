@@ -302,7 +302,7 @@ recibe por json el usuarioid y devuelve un json las mascotas que esten asociadas
 def mascotaDeUsuario():
    conexion = engine.connect()
    usuario = request.json
-   usuario_id= usuario.get('id')
+   usuario_id= usuario.get('usuarioid')
    query = f'SELECT * from mascotas WHERE usuarioid = {usuario_id};'
 
    try:
@@ -327,6 +327,37 @@ def mascotaDeUsuario():
             #'estado' : fila.estado
          })
       return jsonify(mascotaDeUsuario),200
+   return jsonify [{'mensaje': 'El usuario no tiene mascotas.'}], 404
+
+@app.route('/datosDeUsuario', methods=['GET'])
+def datosDeUsuario():
+   conexion = engine.connect()
+   usuario = request.json
+   usuario_id= usuario.get('usuarioid')
+   query = f'SELECT * from usuarios WHERE usuarioid = {usuario_id};'
+
+   try:
+      resultado= conexion.execute(text(query))
+      conexion.close()
+   except SQLAlchemyError as error:
+      return jsonify({'error': str(error.__cause__)})
+
+   if resultado.rowcount !=0:
+      datosDeUsuario=[]
+      for fila in resultado:
+         datosDeUsuario.append({
+            'nombre': fila.nombre,
+            'contacto': fila.contacto
+         })
+      return jsonify(datosDeUsuario),200
+   return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
+
+@app.route('/guardar_imagen', methods=['POST'])
+def guardar_imagen():
+   imagen_mascota = request.files
+   #mascota_id = request.form['mascota_id']
+   print(imagen_mascota)
+   #print(mascota_id)
    return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
 
 if __name__ == '__main__':

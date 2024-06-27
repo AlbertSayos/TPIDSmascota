@@ -6,19 +6,21 @@
 
 {% block main %}
     <main>
-        
-        <h1 class="subtitulo">Mi Perfil</h1>
-            
-        <h2 class="nombre">{{ nombreDeUsuario }} </h2>
-        <h4>Tus mascotas registradas:</h4>
-        <div class="alinear">
-            <div class="tabla-de-mascotas">
-                <div class="contenido-tabla-de-mascotas">
-                    {% set tablaDeMascotas = listaDeMascotas %}
-                    {% set miperfil = True %}
-                    {% include "tablaBase.html" %}
+        <div class="miperfil">
+            <h1 class="subtitulo">Mi Perfil</h1>
+                
+            <h2 class="nombre">Hola {{ infoUsuario[0].nombre }} </h2>
+            <h3 class="contacto">Tu contacto es: {{ infoUsuario[0].contacto }} </h3>
+            <h4 class="subtituloh4">Tus mascotas registradas son:</h4>
+        </div>
+            <div class="alinear">
+                <div class="tabla-de-mascotas">
+                    <div class="contenido-tabla-de-mascotas">
+                        {% set tablaDeMascotas = listaDeMascotas %}
+                        {% set miperfil = True %}
+                        {% include "tablaBase.html" %}
+                    </div>
                 </div>
             </div>
-        </div>
     </main>
 {% endblock %}

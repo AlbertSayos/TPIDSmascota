@@ -224,16 +224,17 @@ POST: Valida el token y dependiendo de la informacion del usuario traer la infor
 @app.route('/miperfil', methods=['GET', 'POST'])
 def miperfil():
     if request.method == 'POST':
-        usuarioid = request.form.get('usuarioid') 
-        if usuarioid:
-            user_id = usuarioid
-            datos = {"id":user_id}
-            respuestaMascotas = requests.get(f'{BackendLink}/mascotaDeUsuario', json=datos)
-            #respuestaUsuario = requests.get(f'{BackendLink}/usuario', json=datos)
-            if respuestaMascotas.status_code == 200:
-                listaDeMascotas = respuestaMascotas.json()
-                #infoUsuario = respuestaUsuario.json()
-                return render_template('miPerfil.html', nombreDeUsuario="Prueba",listaDeMascotas=listaDeMascotas)
+        user_id = request.form.get('usuarioid') 
+        if user_id:
+            datos = {"usuarioid":user_id}
+            respuesta_mascotas = requests.get(f'{BACKEND_LINK}/mascotaDeUsuario', json=datos)
+            respuesta_usuario = requests.get(f'{BACKEND_LINK}/datosDeUsuario', json=datos)
+
+            if respuesta_mascotas.status_code == 200:
+                lista_de_mascotas = respuesta_mascotas.json()
+                info_usuario = respuesta_usuario.json()
+                print(info_usuario)
+                return render_template('miperfil.html', infoUsuario=info_usuario ,listaDeMascotas=lista_de_mascotas)
             else:
                 return redirect(url_for('registro'))
         else:

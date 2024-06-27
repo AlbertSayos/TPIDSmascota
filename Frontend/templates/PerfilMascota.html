@@ -3,15 +3,17 @@
     {% block title %}<title>Busca tu mascota</title>{% endblock %}
     {% block main %}
         
-        <main>
+        <main class="petprof">
                     
-            <h2>Soy un {{ mascota.especie }} {{ mascota.raza }} {{ mascota.sexo }}</h2>
-            <p>{{ mascota.descripcion }}</p>
-            <p>Me perdi en: 
+            <h2 class="petprofh1">Soy un {{ mascota.especie }} {{ mascota.raza }} {{ mascota.sexo }}</h2>
+            <p class="petdescr">{{ mascota.descripcion }}</p>
+            <p class="petzone"><u>Me perdi en:</u> 
                 {{ mascota.zona }}, {{ mascota.calle }} {{ mascota.altura }}
             </p>
-            <p>Podes contactarme en:
+            <p class="petcontact"><u>Podes contactarme en:</u> <br>
                 {{ mascota.contacto }}
             </p>
+            <img src="{{ url_for('static', filename='image/mascotas/' + mascota.mascotaid ~ '_mascota.jpg') }}" style="max-width: 370px;width: 45%; position: relative; top: -190px; left: 33%;">
+            
         </main>
     {% endblock %}

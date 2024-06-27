@@ -6,15 +6,15 @@
         <main>
             <section class="registrarMascota">
                 <img class="banner" src="{{ url_for('static', filename='/image/banner.png') }}">
-                <h2>Registro de Mascotas</h2>
+                <h2 class="registrarMascotah2">Registro de Mascotas</h2>
                 <form method="post" action="/registrar">
                     <div class="opciones">
                         <div class="input">
                             <label for="tipo">Tipo de Mascota</label>
                             <select name="ftipo" id="tipo" required> 
                                 <option value="">Selecciona el tipo</option> 
-                                <option value="perro">Perro</option>
-                                <option value="gato">Gato</option>
+                                <option value="Perro">Perro</option>
+                                <option value="Gato">Gato</option>
                                 <option value="otro">Otro</option>
                             </select>
                         </div>
@@ -28,8 +28,8 @@
                             <label for="sexo">Sexo</label>
                             <select name="fsexo" id="sexo" required>
                                 <option value="">Selecciona el sexo</option> 
-                                <option value="macho">Masculino</option>
-                                <option value="hembra">Femenino</option>
+                                <option value="Macho">Masculino</option>
+                                <option value="Hembra">Femenino</option>
                             </select>
                         </div>  
                         <div class="input">
