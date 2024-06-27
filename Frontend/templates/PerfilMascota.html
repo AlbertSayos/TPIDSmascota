@@ -6,15 +6,20 @@
         <main class="petprof">
                     
             <h2 class="petprofh1">Soy un {{ mascota.especie }} {{ mascota.raza }} {{ mascota.sexo }}</h2>
-            <p class="petdescr">{{ mascota.descripcion }}</p>
-            <p class="petzone"><u>Me perdi en:</u> 
-                {{ mascota.zona }}, {{ mascota.calle }} {{ mascota.altura }}
-            </p>
-            <p class="petcontact"><u>Podes contactarme en:</u> <br>
-                {{ mascota.contacto }}
-                {{ mascota.mascotaid }}
-            </p>
-            <img src="{{ url_for('static', filename='image/mascotas/' + mascota.mascotaid ~ '_mascota.jpg') }}" style="max-width: 500px;width: 45%; position:absolute; top: 170px; right: 10px;">
+
+            <section class="contenedor">
+                <img src="{{ url_for('static', filename='image/mascotas/' + mascota.mascotaid ~ '_mascota.jpg') }}" class="imagen_mascota" >
+
+                <div class="info_mascota">
+                    <p class="petdescr">{{ mascota.descripcion }}</p>
+                    <p class="petzone"><u>Me perdi en:</u> 
+                        {{ mascota.zona }}, {{ mascota.calle }} {{ mascota.altura }}
+                    </p>
+                    <p class="petcontact"><u>Podes contactarme en:</u> <br>
+                        {{ mascota.contacto }}
+                    </p>
+                </div>
+            </section>
             
         </main>
     {% endblock %}

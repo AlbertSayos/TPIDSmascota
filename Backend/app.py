@@ -8,12 +8,10 @@ from sqlalchemy.exc import SQLAlchemyError
 PORT = 8081
 
 app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = os.getenv('contraseña')
-app.config['SECRET_KEY'] = os.getenv('contraseña')
 
 
 
-engine = create_engine('mysql+mysqlconnector://root:tp@localhost/tp') 
+engine = create_engine('mysql+mysqlconnector://root:tp@localhost:3300/tp')
 #reemplazar 'user', 'pass', 'host' y 'DBname' con los datos correspondientes
 
 #**************************************************endpoind de mascotas*************************************************************#
@@ -102,45 +100,7 @@ def mostrar_tabla_de_centros():
       centros.append(centro)
    return jsonify(centros)
 
-"""
-@app.route('/cargarzona/<zona>', methods=["GET"])
-def cargar_zona(zona):
-   conexion = engine.connect()
-   query_mascotas = f'SELECT * FROM mascotas WHERE zona = {zona};'
-   query_centros =  f'SELECT * FROM centros WHERE zona = {zona};'
 
-   try: 
-       resultado_mascotas=conexion.execute(text(query_mascotas))
-       resultado_centros=conexion.execute(text(query_centros))
-       conexion.close()
-   except SQLAlchemyError as error:
-       return jsonify({'error': str(error.__cause__)})
-   
-   if resultado_centros.rowcount!= 0 or resultado_mascotas.rowcount!= 0:
-      datos={
-         'centroTransito': [],
-         'mascotasPerdidas': [] 
-            }
-      for fila in resultado_mascotas:
-         datos['mascotasPerdidas'].append({
-            'especie':fila.especie,
-            'raza':fila.raza,
-            'zona':fila.zona,
-            'calle':fila.calle,
-            'altura':fila.altura
-         })
-      for fila in resultado_centros:
-         datos['centroTransito'].append({
-            'nombre':fila.nombre,
-            'zona':fila.zona,
-            'calle':fila.calle,
-            'altura': fila.altura,
-            'descripcion':fila.descripcion,
-            'contacto':fila.contacto
-         })
-      return jsonify(datos)
-   return jsonify({'mensaje': 'No hay animales ni centros de animales en transito por esta zona'}, 404)
-"""
 
 
 """
@@ -257,23 +217,24 @@ def buscar_mascotas():
 """
 recibe por un json un numbre de usuario "nombre" y una contraseña "contraseña" y devuelve el id del usuario si es correcto
 """
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['POST'])
 def login():
    conexion = engine.connect()
    
    login= request.json
 
    usuario = login.get('nombre')
-   contraseña = login.get('contraseña')
+   contra = login.get('contraseña')
    query_usuario = f"SELECT * FROM usuarios WHERE nombre = '{usuario}';"
-   
+   print(query_usuario)
    try: 
       resultado=conexion.execute(text(query_usuario)).fetchone()
-      if not resultado.nombre:
+      print(resultado)
+      if not resultado:
          conexion.close() 
          return jsonify({'error': 'No se encontraron usuarios'}), 404
       conexion.close()
-      if (contraseña == resultado.contraseña):
+      if (contra == resultado.contra):
          return jsonify({"usuarioid": resultado.usuarioid}), 200
       else:
          return jsonify({"mensaje": "Credenciales inválidas"}), 401
@@ -292,7 +253,7 @@ def registrarUsuario():
    nuevo_usuario =request.json #recibe los datos en formato json
 
    nombre = nuevo_usuario.get('nombre')
-   contraseña = nuevo_usuario.get('contraseña')
+   contra= nuevo_usuario.get('contraseña')
    contacto = nuevo_usuario.get('contacto')
    
    query_nombre=f"SELECT * FROM usuarios where nombre='{nombre}'"
@@ -303,7 +264,7 @@ def registrarUsuario():
          conexion.close()
          return jsonify({"mensaje": "Nombre de usuario no disponible"}), 409
       
-      query_nuevo_usuario= f"INSERT INTO usuarios (nombre, contraseña, contacto) VALUES ('{nombre}', '{contraseña}', '{contacto}');"
+      query_nuevo_usuario= f"INSERT INTO usuarios (nombre, contra, contacto) VALUES ('{nombre}', '{contra}', '{contacto}');"
       resultado= conexion.execute(text(query_nuevo_usuario))
       conexion.commit()
       conexion.close()   
@@ -340,8 +301,8 @@ def mascotaDeUsuario():
             'calle' : fila.calle,
             'altura' : fila.altura,
             'contacto' : fila.contacto,
-            'mascotaid': fila.mascotaid
-            #'estado' : fila.estado
+            'mascotaid': fila.mascotaid,
+            'estado' : fila.estado
          })
       return jsonify(mascotaDeUsuario),200
    return jsonify [{'mensaje': 'El usuario no tiene mascotas.'}], 404

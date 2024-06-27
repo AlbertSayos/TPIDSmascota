@@ -512,32 +512,42 @@ main{
   text-align: center;
   font-size: 30px;
 }
-.petprof .petprofh1 {
+.petprof, .petprofh1 {
   text-decoration: underline double;
   font: 40px;
   position: relative;
   text-align: center;
 }
-.petprof .petzone {
+.petprof, .petzone {
   position: relative;
   text-align: left;
   display: grid;
   top: 20px;
   left: 50px;
 }
-.petprof .petdescr {
+.petprof, .petdescr {
   position: relative;
   text-align: left;
   display: grid;
   top: 20px;
   left: 50px;
 }
-.petprof .petcontact {
+.petcontact{
   text-align: left;
   position: relative;
   top: 20px;
   left: 50px;
 }
+.imagen_mascota {
+  max-width:40%;
+}
+
+.contenedor{
+  display: flex;
+  justify-content: left;
+  padding: 50px;
+}
+
 .miperfil {
   position: relative;
 }
