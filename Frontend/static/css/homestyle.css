@@ -412,12 +412,11 @@ h3{
 }
 
 .contenedor{
-  max-height: 600px;
+  max-height: 500px;
   color: black;
   overflow: auto;
   width: 100%;
-  height: 100vh;
-  border: 1px solid #b1d7c5;
+  height: 50vh;
   padding: 5px;
   display: flex;
   justify-content: center;
@@ -441,8 +440,6 @@ h3{
 
 .contenedor-mapa{
   width: 100%;
-  height: 100vh;
-  border: 1px solid #000;
   display: flex;
   justify-content: center;
   align-items: center;

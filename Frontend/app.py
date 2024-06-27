@@ -280,8 +280,13 @@ def conseguir_script():
 
 @app.route('/faq', methods=['GET'])
 def faq():
-    return render_template ('faq.html')
-
+    respuesta = requests.get(f'{BACKEND_LINK}/tabla_faq')
+    if(respuesta.status_code == 200):
+        tabla_faq= respuesta.json()
+        print(tabla_faq)
+        return render_template ('faq.html', tabla_faq=tabla_faq)
+    return render_template("404.html")
+    
 
 
 @app.errorhandler(404)

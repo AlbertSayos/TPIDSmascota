@@ -366,13 +366,27 @@ def datosDeUsuario():
       return jsonify(datosDeUsuario),200
    return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
 
-@app.route('/guardar_imagen', methods=['POST'])
-def guardar_imagen():
-   imagen_mascota = request.files
-   #mascota_id = request.form['mascota_id']
-   print(imagen_mascota)
-   #print(mascota_id)
-   return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
+@app.route('/tabla_faq', methods=['GET'])
+def tabla_faq():
+   conexion = engine.connect() #establezco la conexion con la base de datos
+   query = 'SELECT * FROM preguntas_respuestas;'
+
+   try:
+      resultado=conexion.execute(text(query))
+      conexion.close()
+   except SQLAlchemyError as error:
+      return jsonify({'error': str(error.__cause__)})
+    
+   preguntas_respuestas = []
+   for fila in resultado:
+      pregunta_respuesta = {}
+      pregunta_respuesta['pregunta'] = fila.pregunta
+      pregunta_respuesta['respuesta'] = fila.respuesta
+      preguntas_respuestas.append(pregunta_respuesta)
+   return jsonify(preguntas_respuestas)
+
+
+
 
 if __name__ == '__main__':
   app.run(debug=True, port=PORT)
