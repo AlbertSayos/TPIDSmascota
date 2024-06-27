@@ -1,4 +1,4 @@
-from flask import Flask, jsonify,request
+from flask import Flask, jsonify, request
 import os
 from flask_sqlalchemy import SQLAlchemy 
 from sqlalchemy import create_engine, text,inspect
@@ -10,7 +10,9 @@ PORT = 8081
 app = Flask(__name__)
 
 
+
 engine = create_engine('mysql+mysqlconnector://root:tp@localhost:3300/tp')
+#reemplazar 'user', 'pass', 'host' y 'DBname' con los datos correspondientes
 
 #**************************************************endpoind de mascotas*************************************************************#
 """
@@ -98,45 +100,7 @@ def mostrar_tabla_de_centros():
       centros.append(centro)
    return jsonify(centros)
 
-"""
-@app.route('/cargarzona/<zona>', methods=["GET"])
-def cargar_zona(zona):
-   conexion = engine.connect()
-   query_mascotas = f'SELECT * FROM mascotas WHERE zona = {zona};'
-   query_centros =  f'SELECT * FROM centros WHERE zona = {zona};'
 
-   try: 
-       resultado_mascotas=conexion.execute(text(query_mascotas))
-       resultado_centros=conexion.execute(text(query_centros))
-       conexion.close()
-   except SQLAlchemyError as error:
-       return jsonify({'error': str(error.__cause__)})
-   
-   if resultado_centros.rowcount!= 0 or resultado_mascotas.rowcount!= 0:
-      datos={
-         'centroTransito': [],
-         'mascotasPerdidas': [] 
-            }
-      for fila in resultado_mascotas:
-         datos['mascotasPerdidas'].append({
-            'especie':fila.especie,
-            'raza':fila.raza,
-            'zona':fila.zona,
-            'calle':fila.calle,
-            'altura':fila.altura
-         })
-      for fila in resultado_centros:
-         datos['centroTransito'].append({
-            'nombre':fila.nombre,
-            'zona':fila.zona,
-            'calle':fila.calle,
-            'altura': fila.altura,
-            'descripcion':fila.descripcion,
-            'contacto':fila.contacto
-         })
-      return jsonify(datos)
-   return jsonify({'mensaje': 'No hay animales ni centros de animales en transito por esta zona'}, 404)
-"""
 
 
 """
@@ -145,7 +109,11 @@ la base de datos para guadar la informacion
 """
 @app.route('/registrarMascota', methods=['POST'])
 def registrarMascota():
+   print("hola")
    conexion = engine.connect() #establezco la conexion con la base de datos
+   #imagen_mascota = request.files.get('fimagen')
+
+   print("hola 2")
    data = request.json
    
    if not data:
@@ -158,25 +126,36 @@ def registrarMascota():
    zona = data.get('zona')
    calle = data.get('calle')
    altura = data.get('altura')
+   estado = data.get('estado')
 
    query_contacto = f"SELECT contacto FROM usuarios WHERE usuarioid ={id_usuario};"
-   print(query_contacto)
+   
    try: 
       contacto = conexion.execute(text(query_contacto)).fetchone()
    except SQLAlchemyError as error:
       conexion.close()
       return jsonify({'error': str(error.__cause__)}),500
 
-   query = f"INSERT INTO mascotas (especie, raza, sexo, descripcion, zona, calle, altura, contacto,usuarioid) VALUES ('{especie}', '{raza}', '{sexo}', '{detalles}', '{zona}', '{calle}', {altura}, '{contacto[0]}', {id_usuario})"
+   query = f"INSERT INTO mascotas (especie, raza, sexo, descripcion, zona, calle, altura, contacto,usuarioid, estado) VALUES ('{especie}', '{raza}', '{sexo}', '{detalles}', '{zona}', '{calle}', {altura}, '{contacto[0]}', {id_usuario}, '{estado}')"
    print(query)
    try: 
       conexion.execute(text(query))
       conexion.commit()
+      result = conexion.execute(text("SELECT LAST_INSERT_ID()"))
+      
+      mascota_id = result.fetchone()[0]
+      print(mascota_id)
+      """
+      if imagen_mascota:
+         nombreArchivo = f"{mascota_id}_mascota.jpg"
+         print("llegue aca")
+         imagen_mascota.save(os.path.join("static","image", nombreArchivo))
+         """
       conexion.close()
    except SQLAlchemyError as error:
       conexion.close()
       return jsonify({'error': str(error.__cause__)}),500
-   return jsonify({'mensaje': 'La mascota se ha registrado correctamente'}),201
+   return jsonify({'mascota_id': mascota_id}),201
 
 """
 Recibe un json con la informacion de la mascota: mascotaid,especie, raza, sexo. y busca en la tabla mascota que cumplan con esas caracteristicas
@@ -190,6 +169,7 @@ def buscar_mascotas():
    especie = busqueda_mascota.get('especie') if 'especie' in busqueda_mascota else ""
    raza = busqueda_mascota.get('raza') if 'raza' in busqueda_mascota else ""
    sexo = busqueda_mascota.get('sexo') if 'sexo' in busqueda_mascota else ""
+   estado = busqueda_mascota.get('estado') if 'estado' in busqueda_mascota else ""
 
    if id_mascota:
       parametros.append(f"mascotaid = {id_mascota}")
@@ -199,6 +179,8 @@ def buscar_mascotas():
       parametros.append(f"raza = '{raza}'")
    if sexo:
       parametros.append(f"sexo = '{sexo}'")
+   if estado:
+      parametros.append(f"estado = '{estado}'")
    print(parametros)
    if len(parametros) == 0:
       query_mascotas = 'SELECT * FROM mascotas;'
@@ -223,8 +205,8 @@ def buscar_mascotas():
             'calle' : fila.calle,
             'altura': fila.altura,
             'contacto' : fila.contacto,
-            'mascotaid' : fila.mascotaid
-            #'estado' : fila.estado,
+            'mascotaid' : fila.mascotaid,
+            'estado' : fila.estado,
       })
       
       return jsonify(mascotas_buscadas),200
@@ -235,23 +217,24 @@ def buscar_mascotas():
 """
 recibe por un json un numbre de usuario "nombre" y una contraseña "contraseña" y devuelve el id del usuario si es correcto
 """
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['POST'])
 def login():
    conexion = engine.connect()
    
    login= request.json
 
    usuario = login.get('nombre')
-   contraseña = login.get('contraseña')
+   contra = login.get('contraseña')
    query_usuario = f"SELECT * FROM usuarios WHERE nombre = '{usuario}';"
-   
+   print(query_usuario)
    try: 
       resultado=conexion.execute(text(query_usuario)).fetchone()
+      print(resultado)
       if not resultado:
          conexion.close() 
-         return jsonify({"mensaje": "No existe el usuario"}), 404
+         return jsonify({'error': 'No se encontraron usuarios'}), 404
       conexion.close()
-      if (contraseña == resultado.contra):
+      if (contra == resultado.contra):
          return jsonify({"usuarioid": resultado.usuarioid}), 200
       else:
          return jsonify({"mensaje": "Credenciales inválidas"}), 401
@@ -270,15 +253,21 @@ def registrarUsuario():
    nuevo_usuario =request.json #recibe los datos en formato json
 
    nombre = nuevo_usuario.get('nombre')
-   contraseña = nuevo_usuario.get('contraseña')
+   contra= nuevo_usuario.get('contraseña')
    contacto = nuevo_usuario.get('contacto')
-
-   query_nuevo_usuario= f"INSERT INTO usuarios (nombre, contra, contacto,token) VALUES ('{nombre}', '{contraseña}', '{contacto}','');"
-   print(query_nuevo_usuario)
+   
+   query_nombre=f"SELECT * FROM usuarios where nombre='{nombre}'"
    try:
+      resultado_nombre = conexion.execute(text(query_nombre)).fetchone()
+
+      if resultado_nombre:
+         conexion.close()
+         return jsonify({"mensaje": "Nombre de usuario no disponible"}), 409
+      
+      query_nuevo_usuario= f"INSERT INTO usuarios (nombre, contra, contacto) VALUES ('{nombre}', '{contra}', '{contacto}');"
       resultado= conexion.execute(text(query_nuevo_usuario))
       conexion.commit()
-      conexion.close()
+      conexion.close()   
    except SQLAlchemyError as error:
         return jsonify({'error': 'No se pudo registrar el usuario' + str(error.__cause__)}),404
    return jsonify({'mensaje': 'Se ha registrado el usuario con exito'}), 201
@@ -291,7 +280,7 @@ recibe por json el usuarioid y devuelve un json las mascotas que esten asociadas
 def mascotaDeUsuario():
    conexion = engine.connect()
    usuario = request.json
-   usuario_id= usuario.get('id')
+   usuario_id= usuario.get('usuarioid')
    query = f'SELECT * from mascotas WHERE usuarioid = {usuario_id};'
 
    try:
@@ -299,9 +288,9 @@ def mascotaDeUsuario():
       conexion.close()
    except SQLAlchemyError as error:
       return jsonify({'error': str(error.__cause__)})
-   
-   mascotaDeUsuario=[]
+
    if resultado.rowcount !=0:
+      mascotaDeUsuario=[]
       for fila in resultado:
          mascotaDeUsuario.append({
             'especie' : fila.especie,
@@ -312,8 +301,8 @@ def mascotaDeUsuario():
             'calle' : fila.calle,
             'altura' : fila.altura,
             'contacto' : fila.contacto,
-            'mascotaid': fila.mascotaid
-            #'estado' : fila.estado
+            'mascotaid': fila.mascotaid,
+            'estado' : fila.estado
          })
       return jsonify(mascotaDeUsuario),200
    return jsonify [{'mensaje': 'El usuario no tiene mascotas.'}], 404
@@ -322,24 +311,45 @@ def mascotaDeUsuario():
 def datosDeUsuario():
    conexion = engine.connect()
    usuario = request.json
-   usuario_id= usuario.get('id')
+   usuario_id= usuario.get('usuarioid')
    query = f'SELECT * from usuarios WHERE usuarioid = {usuario_id};'
-
+   print(query)
    try:
       resultado= conexion.execute(text(query))
       conexion.close()
    except SQLAlchemyError as error:
       return jsonify({'error': str(error.__cause__)})
-
+   
    if resultado.rowcount !=0:
       datosDeUsuario=[]
       for fila in resultado:
          datosDeUsuario.append({
-            'nombre' : fila.nombre,
-            'contacto' : fila.contacto
+            'nombre': fila.nombre,
+            'contacto': fila.contacto
          })
       return jsonify(datosDeUsuario),200
    return jsonify (({'mensaje': 'El usuario no existe.'}), 404)
+
+@app.route('/tabla_faq', methods=['GET'])
+def tabla_faq():
+   conexion = engine.connect() #establezco la conexion con la base de datos
+   query = 'SELECT * FROM preguntas_respuestas;'
+
+   try:
+      resultado=conexion.execute(text(query))
+      conexion.close()
+   except SQLAlchemyError as error:
+      return jsonify({'error': str(error.__cause__)})
+    
+   preguntas_respuestas = []
+   for fila in resultado:
+      pregunta_respuesta = {}
+      pregunta_respuesta['pregunta'] = fila.pregunta
+      pregunta_respuesta['respuesta'] = fila.respuesta
+      preguntas_respuestas.append(pregunta_respuesta)
+   return jsonify(preguntas_respuestas)
+
+
 
 
 if __name__ == '__main__':
