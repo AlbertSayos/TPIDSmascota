@@ -33,8 +33,6 @@ def registrar():
         usuarioid = request.form.get('fusuarioid')
         imagen_mascota=request.files.get("fimagen")
        
-        #print("verifico token" + str(tokenDeUsuario))
-        print(usuarioid, imagen_mascota)
         if usuarioid:
             especie = request.form.get('ftipo')
             sexo = request.form.get('fsexo')
@@ -58,9 +56,7 @@ def registrar():
             }
 
             # Imprimir la URL y los datos para depuración
-            print(f'{BACKEND_LINK}/registrarmascota')
-            print(datos)
-            print(imagen_mascota)
+            
             #if imagen_mascota:
                 #response = requests.post(f'{BACKEND_LINK}/registrarMascota', json=datos)
             #    response = requests.post(f'{BACKEND_LINK}/registrarMascota', json=datos, files={'fimagen': imagen_mascota})
@@ -91,7 +87,6 @@ def perfil_mascota(id):
     
     if response.status_code == 200:
         mascota = response.json()[0]
-        print(mascota)
         return render_template("PerfilMascota.html", mascota=mascota)
     return render_template("404.html")
 
@@ -250,12 +245,11 @@ def mi_perfil():
             datos = {"usuarioid":user_id}
             respuesta_mascotas = requests.get(f'{BACKEND_LINK}/mascotaDeUsuario', json=datos)
             respuesta_usuario = requests.get(f'{BACKEND_LINK}/datosDeUsuario', json=datos)
-            print(respuesta_mascotas)
-            print(respuesta_usuario)
+            
             if respuesta_mascotas.status_code == 200:
                 lista_de_mascotas = respuesta_mascotas.json()
                 info_usuario = respuesta_usuario.json()
-                print(lista_de_mascotas)
+                
                 
                 return render_template('miperfil.html', infoUsuario=info_usuario ,tablaDeMascotas=lista_de_mascotas)
 
@@ -289,10 +283,10 @@ def conseguir_script():
 @app.route('/preguntasfrecuentes', methods=['GET'])
 def faq():
     respuesta = requests.get(f'{BACKEND_LINK}/tabla_faq')
-    print(respuesta)
+    
     if(respuesta.status_code == 200):
         tabla_faq= respuesta.json()
-        print(tabla_faq)
+        
         return render_template ('faq.html', tabla_faq=tabla_faq)
     return render_template("404.html")
     
