@@ -1,4 +1,8 @@
 body {
+    font-family: "Playwrite DE Grund", cursive;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
     background-image: url('../image/imagenfondo.png');
     color: #000000;
     font-family: "Playwrite DE Grund", cursive;
@@ -508,6 +512,64 @@ main{
 .tipo .raza .sexo .btn-buscar{
   width: calc(100% / 2);
 }
+.registrarMascota .registrarMascotah2 {
+  text-align: center;
+  font-size: 30px;
+}
+.petprof .petprofh1 {
+  text-decoration: underline double;
+  font: 40px;
+  position: relative;
+  text-align: center;
+}
+.petprof .petzone {
+  position: relative;
+  text-align: left;
+  display: grid;
+  top: 20px;
+  left: 50px;
+}
+.petprof .petdescr {
+  position: relative;
+  text-align: left;
+  display: grid;
+  top: 20px;
+  left: 50px;
+}
+.petprof .petcontact {
+  text-align: left;
+  position: relative;
+  top: 20px;
+  left: 50px;
+}
+.miperfil {
+  position: relative;
+}
+.miperfil .subtitulo {
+  font-size: 30px;
+  text-decoration: underline double;
+}
+.miperfil .contacto {
+  color: rgb(92, 92, 92);
+  position: relative;
+  display: grid;
+  top: -50px;
+}
+.miperfil .subtituloh4 {
+  font-size: 30px;
+  display: grid;
+  text-align: center;
+  top: -150px;
+  text-decoration: underline;
+}
+.miperfil .nombre {
+  position: relative;
+  display: grid;
+  text-align: left;
+  top: -50px;
+  right: -850px; 
+  text-decoration: underline;
+}
 /* estilos de los formularios de login, registro de usuario y registro de mascotas*/
 button{
   border-radius: 10px;
@@ -647,65 +709,3 @@ button{
     flex-direction: column;
     align-items: center;
   }
-
-  .wrapper {
-    width: 65%;
-    margin: 0 20%;
-}
-
-.wrapper > h1 {
-    margin: 1.5rem 0;
-    text-align: center;
-}
-
-.wrapper > h1 {
-    letter-spacing: 3px;
-}
-
-.accordion {
-    background-color: white;
-    color: rgba(0, 0, 0, 0.8);
-    cursor: pointer;
-    font-size: 1.2rem;
-    width: 100%;
-    padding: 2rem 2.5rem;
-    border: none;
-    border-radius: 10px;
-    outline: none;
-    transition: 0.4s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-}
-
-.accordion i {
-    font-size: 1.6rem;
-}
-
-.active,
-.accordion:hover {
-    background-color: #f1f7f5;
-}
-.pannel {
-    padding: 0 2rem 2.5rem 2rem;
-    border-radius: 10px;
-    background-color: white;
-    overflow: hidden;
-    background-color: #f1f7f5;
-    display: none;
-}
-.pannel p {
-    color: rgba(0, 0, 0, 0.7);
-    font-size: 1.2rem;
-    line-height: 1.4;
-}
-
-.faq {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    margin: 0.5rem 0;
-}
-.faq.active {
-    border: none;
-}

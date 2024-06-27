@@ -274,7 +274,7 @@ def login():
       resultado=conexion.execute(text(query_usuario)).fetchone()
       if not resultado.nombre:
          conexion.close() 
-         return jsonify([]), 200
+         return jsonify({'error': 'No se encontraron usuarios'}), 404
       conexion.close()
       if (contraseña == resultado.contraseña):
          return jsonify({"usuarioid": resultado.usuarioid}), 200
@@ -316,7 +316,7 @@ recibe por json el usuarioid y devuelve un json las mascotas que esten asociadas
 def mascotaDeUsuario():
    conexion = engine.connect()
    usuario = request.json
-   usuario_id= usuario.get('id')
+   usuario_id= usuario.get('usuarioid')
    query = f'SELECT * from mascotas WHERE usuarioid = {usuario_id};'
 
    try:
@@ -324,9 +324,9 @@ def mascotaDeUsuario():
       conexion.close()
    except SQLAlchemyError as error:
       return jsonify({'error': str(error.__cause__)})
-   
-   mascotaDeUsuario=[]
+
    if resultado.rowcount !=0:
+      mascotaDeUsuario=[]
       for fila in resultado:
          mascotaDeUsuario.append({
             'especie' : fila.especie,
@@ -347,7 +347,7 @@ def mascotaDeUsuario():
 def datosDeUsuario():
    conexion = engine.connect()
    usuario = request.json
-   usuario_id= usuario.get('id')
+   usuario_id= usuario.get('usuarioid')
    query = f'SELECT * from usuarios WHERE usuarioid = {usuario_id};'
 
    try:
@@ -360,8 +360,8 @@ def datosDeUsuario():
       datosDeUsuario=[]
       for fila in resultado:
          datosDeUsuario.append({
-            'nombre' : fila.nombre,
-            'contacto' : fila.contacto
+            'nombre': fila.nombre,
+            'contacto': fila.contacto
          })
       return jsonify(datosDeUsuario),200
    return jsonify (({'mensaje': 'El usuario no existe.'}), 404)

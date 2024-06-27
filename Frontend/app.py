@@ -243,10 +243,20 @@ def mi_perfil():
     if request.method == 'POST':
         user_id = request.form.get('usuarioid') 
         if user_id:
+            datos = {"usuarioid":user_id}
+            respuesta_mascotas = requests.get(f'{BACKEND_LINK}/mascotaDeUsuario', json=datos)
+            respuesta_usuario = requests.get(f'{BACKEND_LINK}/datosDeUsuario', json=datos)
+        user_id = request.form.get('usuarioid') 
+        if user_id:
             datos = {"id":user_id}
             respuesta_mascotas = requests.get(f'{BACKEND_LINK}/mascotaDeUsuario', json=datos)
             respuesta_usuario = requests.get(f'{BACKEND_LINK}/datosDeUsuario', json=datos)
 
+            if respuesta_mascotas.status_code == 200:
+                lista_de_mascotas = respuesta_mascotas.json()
+                info_usuario = respuesta_usuario.json()
+                print(info_usuario)
+                return render_template('miperfil.html', infoUsuario=info_usuario ,listaDeMascotas=lista_de_mascotas)
             if respuesta_mascotas.status_code == 200:
                 lista_de_mascotas = respuesta_mascotas.json()
                 info_usuario = respuesta_usuario.json()
