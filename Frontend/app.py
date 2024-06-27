@@ -32,8 +32,7 @@ def registrar():
 
         usuarioid = request.form.get('fusuarioid')
         imagen_mascota=request.files.get("fimagen")
-        print("************IMAGEN**********************")
-        print(imagen_mascota)
+       
         #print("verifico token" + str(tokenDeUsuario))
         if usuarioid:
             especie = request.form.get('ftipo')
@@ -43,7 +42,6 @@ def registrar():
             zona = request.form.get('fzona')
             calle = request.form.get('fcalle')
             altura = request.form.get('faltura')
-            estado = request.form.get('festado')
 
             datos= {
                 'usuarioid': usuarioid,
@@ -53,10 +51,9 @@ def registrar():
                 'detalles': detalles,
                 'zona': zona,
                 'calle': calle,
-                'altura': altura,
-                'estado': estado
+                'altura': altura
             }
-            print('datos')
+
             # Imprimir la URL y los datos para depuración
             print(f'{BACKEND_LINK}/registrarmascota')
             print(datos)
@@ -68,7 +65,6 @@ def registrar():
                 # Realizar la solicitud POST
             response = requests.post(f'{BACKEND_LINK}/registrarMascota', json=datos)
             mascota_id = response.json().get("mascota_id")
-            print(mascota_id)
             
             if imagen_mascota and response.status_code == 201:
                 nombreArchivo = f"{mascota_id}_mascota.jpg"

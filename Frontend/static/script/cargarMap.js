@@ -88,17 +88,4 @@ async function initMap() {
 }
 
 
-async function loadScript() {
-    try {
-        let respuesta = await fetch('/script');
-        if (!respuesta.ok) {
-            throw new Error('Hubo un error');
-        }
-        let scriptContent = await respuesta.text();
-        eval(scriptContent);
-    } catch (error) {
-        console.error('Error al cargar el script:', error);
-    }
-}
-
-loadScript();
+    

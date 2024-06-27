@@ -3,16 +3,20 @@
     {% block title %}<title>Busca tu mascota</title>{% endblock %}
 
     {% block main %}
+
+    {% set tablaDeMascotas = listaDeMascotas %}
+    {% set miperfil = False %}
         <main>
         
             <section class="contenedor">
+                <h1>Busca tu mascota</h1>
                 <div class="tabla-de-mascotas">
                     <div class="contenido-tabla-de-mascotas">
                         <div class="buscador">
                             <!--Acá se va a encontrar la tabla de mascotas buscadas con un buscador-->
                             <form method="post" action="/buscadas" class="buscador">
                                 <div class="tipo">
-                                    <label for="tipo">Tu mascota es:</label>
+                                    <label for="tipo">Mascota:</label>
                                     <select name="mespecie" id="tipo">
                                         <option value="">Selecciona el tipo</option>
                                         <option value="Perro">Perro</option>
@@ -20,13 +24,13 @@
                                     </select>
                                 </div>
                                 <div class="raza">
-                                    <label for="tipo"> de Raza</label>
+                                    <label for="tipo">Raza:</label>
                                     <select name="mraza" id="razas" >
                                         <option value="">Selecciona la raza</option>
                                     </select>
                                 </div>
                                 <div class="tipo">
-                                    <label for="sexo">Su sexo es:</label>
+                                    <label for="sexo">Sexo:</label>
                                     <select name="msexo" id="sexo">
                                         <option value=""></option>
                                         <option value="Macho">macho</option>
@@ -34,7 +38,7 @@
                                     </select>
                                 </div> 
                                 <div class="input">
-                                    <label for="estado">Esta mascota esta...</label>
+                                    <label for="estado">Estado</label>
                                     <select name="mestado" id="estado" required> 
                                         <option value="">Selecciona el tipo</option> 
                                         <option value="perdido">Perdida</option>
@@ -44,6 +48,33 @@
                                 <button type="submit" class="btn-buscar">Buscar</button>
                             </form>
                         </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Especie</th>
+                                    <th>Raza</th>
+                                    <th>Sexo</th>
+                                    <th>Descripción</th>
+                                    <th>Estado</th>
+                                    <th>Informacion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mascota in tablaDeMascotas %}
+                                    <tr>
+                                        <td>{{ mascota.especie }} </td>
+                                        <td>{{ mascota.raza }}</td>
+                                        <td>{{ mascota.sexo }}</td>
+                                        <td>{{ mascota.descripcion }}</td>
+                                        <td>{{ mascota.estado }}</td>
+                                        <td><button><a href="/PerfilMascota/{{ mascota.mascotaid }}">Ver</a></button></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        
+                         <!--
                         <div id="" class="fila" data="">
                             <p class="estado">Estado <br> Encontrado(X)/Perdido(V)</p>
                             <p class="tipo">Tipo</p>
@@ -52,12 +83,9 @@
                             <p class="descripcion">Descripcion</p>
                             <p class="ver" style="visibility: hidden;">Ver</p>
                         </div>
-                        
-                        
                         {% set tablaDeMascotas = listaDeMascotas %}
                         {% set miperfil = False %}
                         {% include "tablaBase.html" %}
-                        <!--
                         {% for mascota in tablaDeMascotas %}
                             <div id="{{ mascota.mascotaid }}" class="fila" data="{{ mascota.calle }} {{ mascota.altura }}, {{ mascota.zona }}" onclick="irADireccion(this.getAttribute('data'))">
                                 <p class="tipo">{{ mascota.especie }}</p>
@@ -76,8 +104,7 @@
                 <div class="sec-map">
                     {% include "mapbasic.html" %}
                 </div>
-            </section>  
-        
+            </div>
         </main>
         
     {% endblock %}
