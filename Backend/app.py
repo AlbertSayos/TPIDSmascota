@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request
-import os
-from flask_sqlalchemy import SQLAlchemy 
-from sqlalchemy import create_engine, text,inspect
+#from flask_sqlalchemy import SQLAlchemy 
+from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 
 

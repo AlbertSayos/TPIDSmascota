@@ -12,9 +12,16 @@
 
                 <div class="info_mascota">
                     <p class="petdescr">{{ mascota.descripcion }}</p>
-                    <p class="petzone"><u>Me perdi en:</u> 
+                    {% if mascota.estado == "perdido" %}
+
+                        <p class="petzone"><u>Me perdi en:</u> 
+                            {{ mascota.zona }}, {{ mascota.calle }} {{ mascota.altura }}
+                        </p>
+                    {% else %}
+                    <p class="petzone"><u>Me encontraron en:</u> 
                         {{ mascota.zona }}, {{ mascota.calle }} {{ mascota.altura }}
                     </p>
+                    {% endif %}
                     <p class="petcontact"><u>Podes contactarme en:</u> <br>
                         {{ mascota.contacto }}
                     </p>
