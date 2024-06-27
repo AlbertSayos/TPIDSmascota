@@ -4,7 +4,7 @@ import os  # Se utiliza para interactuar con variables de entorno
 from dotenv import load_dotenv  # type: ignore # Se utiliza para cargar variables de entorno desde un archivo .env
 
 load_dotenv()  # Carga las variables de entorno desde el archivo .env si existe
-BACKEND_LINK = 'https://albertosayos.pythonanywhere.com'  # Obtiene el valor de la variable de entorno 'backend_link'
+BACKEND_LINK = os.getenv('BACKEND_LINK')  # Obtiene el valor de la variable de entorno 'backend_link'
 API_KEY = os.getenv('APIKEY') #api de google cloud
 BASE_URL = "https://maps.googleapis.com/maps/api/js"
 PORT = 8080
