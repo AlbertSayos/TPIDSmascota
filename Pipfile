@@ -5,6 +5,15 @@ name = "pypi"
 
 [packages]
 flask = "*"
+sqlalchemy = "*"
+flask-sqlalchemy = "*"
+mysql-connector-python = "*"
+pyjwt = "*"
+flask-jwt-extended = "*"
+requests = "*"
+pip = "*"
+install = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

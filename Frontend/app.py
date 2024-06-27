@@ -34,9 +34,11 @@ def registrar():
         imagen_mascota=request.files.get("fimagen")
        
         #print("verifico token" + str(tokenDeUsuario))
+        print(usuarioid, imagen_mascota)
         if usuarioid:
             especie = request.form.get('ftipo')
             sexo = request.form.get('fsexo')
+            estado = request.form.get('festado')
             raza = request.form.get('fraza')
             detalles = request.form.get('fdetalles')
             zona = request.form.get('fzona')
@@ -47,6 +49,7 @@ def registrar():
                 'usuarioid': usuarioid,
                 'especie': especie,
                 'sexo': sexo,
+                'estado':estado,
                 'raza': raza,
                 'detalles': detalles,
                 'zona': zona,
